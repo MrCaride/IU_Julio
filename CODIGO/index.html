@@ -108,6 +108,33 @@
                 <button class="button button-primary" onclick="document.getElementById('error-modal').style.display='none'">OK</button>
             </div>
         </div>
+    </div>    <!-- Test results modal -->
+    <div id="test-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="modal_contenidoTests">
+                    <h3>Resultado de definición de tests</h3>
+                    <div id="modal_resultadodef"></div>
+                    <div class="test-results-table">
+                        <table id="modal_tablaresultadostest"></table>
+                    </div>
+                </div>
+                <div id="modal_contenidoPruebas">
+                    <h3>Resultado de definición de pruebas</h3>
+                    <div id="modal_resultadoprueba"></div>
+                    <div class="test-results-table">
+                        <table id="modal_tablaresultadosprueba"></table>
+                    </div>
+                </div>
+                <div id="modal_resultadopruebas">
+                    <h3>Resultado de pruebas</h3>
+                    <div id="modal_resultadotest"></div>
+                    <div class="test-results-table">
+                        <table id="modal_salidaresultadosprueba"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Footer section -->
@@ -115,18 +142,17 @@
         <div class="container">
             <p>&copy; 2025 - Julio Antonio Caride Pernas</p>
         </div>
-    </footer>    <!-- JavaScript dependencies -->
-    <!-- Core files first -->
+    </footer>    <!-- JavaScript dependencies -->    <!-- Core files first -->
     <script src="./js/core/Textos_ES.js"></script>
     <script src="./js/core/Textos_EN.js"></script>
-    <script src="./js/core/menu.js"></script>
     <script src="./js/core/idioma.js"></script>
-    <script src="./js/core/Test_class.js"></script>
-    <script src="./js/core/DOM_class.js"></script>
-    <script src="./js/core/DOM_validations_class.js"></script>
+    <script src="./js/core/menu.js"></script>
     <script src="./js/core/Validaciones_class.js"></script>
-    <script src="./js/core/ExternalAccess_class.js"></script>
-    <script src="./js/core/Entidad_Abstract_class.js"></script>    <!-- Entity structure files -->
+    <script src="./js/core/DOM_class.js"></script>
+    <script src="./js/core/Entidad_Abstract_class.js"></script>
+    <script src="./js/core/Test_class.js"></script>
+    <script src="./js/core/DOM_validations_class.js"></script>
+    <script src="./js/core/ExternalAccess_class.js"></script><!-- Entity structure files -->
     <script src="./js/entities/characteristic_estructura.js"></script>
     
     <!-- Entity class files -->
@@ -180,9 +206,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             setLang();
             menuConfig.initialize();
-        });
-
-        // Load an entity
+        });        // Load an entity
         function loadEntity(entityName) {
             // Close any open form or tests
             if (validar) {
@@ -196,6 +220,9 @@
                 switch(entityName) {
                     case 'characteristic':
                         validar = new Characteristic();
+                        // Show title and test button
+                        document.getElementById('title_page').style.display = 'block';
+                        document.getElementById('boton_test').style.display = 'inline-block';
                         break;
                     case 'project':
                         // Ensure Project_class is loaded before instantiating

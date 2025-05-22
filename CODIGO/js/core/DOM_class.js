@@ -1,7 +1,10 @@
-class DOM_class extends Test_class {
+class DOM_class {
 
     constructor() {
-        super();
+        // Create validation instance if it doesn't exist
+        if (!window.validar) {
+            window.validar = new Validaciones_Atomicas();
+        }
     }
 
     mostrar_error_campo(id, codigoerror) {
@@ -197,61 +200,59 @@ class DOM_class extends Test_class {
         // Set language translations
         setLang();
     }
-    
-    cargar_formulario_dinamico(entidad, estructura) {
+      cargar_formulario_dinamico(entidad, estructura) {
         let formulario = '';
         
         // Create form fields based on structure
-        for (let campo of estructura.fields) {
+        for (let nombreCampo in estructura.attributes) {
+            const campo = estructura.attributes[nombreCampo];
+            campo.nombre = nombreCampo; // Add nombre to campo object
             // Create label
             formulario += `<label class="label_${campo.nombre}" id="label_${campo.nombre}" for="${campo.nombre}">${Textos[campo.nombre]}:</label>`;
             
             // Create input based on field type
-            switch (campo.tipo) {
-                case 'text':
-                    formulario += `<input type="text" name="${campo.nombre}" id="${campo.nombre}" `;
-                    if (campo.max_size) formulario += `maxlength="${campo.max_size}" `;
+            switch (campo.html.tag) {                case 'input':
+                    formulario += `<input type="${campo.html.type || 'text'}" name="${campo.nombre}" id="${campo.nombre}" `;
+                    if (campo.validation_rules && campo.validation_rules.ADD && campo.validation_rules.ADD.max_size) {
+                        formulario += `maxlength="${campo.validation_rules.ADD.max_size[0]}" `;
+                    }
                     formulario += `onblur="validar.comprobar_${campo.nombre}()">`;
                     break;
-                    
-                case 'number':
-                    formulario += `<input type="number" name="${campo.nombre}" id="${campo.nombre}" `;
-                    if (campo.max_size) formulario += `max="${campo.max_size}" `;
-                    formulario += `onblur="validar.comprobar_${campo.nombre}()">`;
-                    break;
-                    
-                case 'textarea':
+      
+                      case 'textarea':
                     formulario += `<textarea name="${campo.nombre}" id="${campo.nombre}" `;
-                    if (campo.max_size) formulario += `maxlength="${campo.max_size}" `;
+                    if (campo.html.rows) formulario += `rows="${campo.html.rows}" `;
+                    if (campo.html.cols) formulario += `cols="${campo.html.cols}" `;
+                    if (campo.validation_rules && campo.validation_rules.ADD && campo.validation_rules.ADD.max_size) {
+                        formulario += `maxlength="${campo.validation_rules.ADD.max_size[0]}" `;
+                    }
                     formulario += `onblur="validar.comprobar_${campo.nombre}()"></textarea>`;
                     break;
-                    
-                case 'select':
+                      case 'select':
                     formulario += `<select name="${campo.nombre}" id="${campo.nombre}" onchange="validar.comprobar_${campo.nombre}()">`;
                     formulario += `<option value="">${Textos['select_' + campo.nombre]}</option>`;
-                    for (let opcion of campo.opciones) {
-                        formulario += `<option value="${opcion}">${Textos[opcion]}</option>`;
+                    if (campo.html.options) {
+                        for (let opcion of campo.html.options) {
+                            formulario += `<option value="${opcion}">${Textos[opcion]}</option>`;
+                        }
                     }
                     formulario += '</select>';
                     break;
-                    
-                case 'file':
-                    // For file fields, we need both display and upload inputs
-                    formulario += `<input type="text" id="${campo.nombre}" name="${campo.nombre}">`;
-                    formulario += `<a id="link_${campo.nombre}" href="http://193.147.87.202/ET2/filesuploaded/files_${campo.nombre}/"><img src="./iconos/FILE.png" /></a><br>`;
-                    formulario += `<label class="label_nuevo_${campo.nombre}" id="label_nuevo_${campo.nombre}" for="nuevo_${campo.nombre}">${Textos.new_file}:</label>`;
+                      case 'file':
                     formulario += `<input type="file" id="nuevo_${campo.nombre}" name="nuevo_${campo.nombre}">`;
+                    formulario += `<span id="div_error_nuevo_${campo.nombre}"></span><br>`;
                     break;
                     
                 case 'date':
                     formulario += `<input type="date" name="${campo.nombre}" id="${campo.nombre}" onblur="validar.comprobar_${campo.nombre}()">`;
                     break;
-                
-                case 'enum':
+                  case 'enum':
                     formulario += `<select name="${campo.nombre}" id="${campo.nombre}" onchange="validar.comprobar_${campo.nombre}()">`;
                     formulario += `<option value="">${Textos['select_' + campo.nombre]}</option>`;
-                    for (let valor of campo.valores) {
-                        formulario += `<option value="${valor}">${Textos[valor]}</option>`;
+                    if (campo.html.valores) {
+                        for (let valor of campo.html.valores) {
+                            formulario += `<option value="${valor}">${Textos[valor]}</option>`;
+                        }
                     }
                     formulario += '</select>';
                     break;

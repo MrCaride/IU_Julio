@@ -1,51 +1,167 @@
 class Test_class {
     constructor() {
-        // Show test button once the entity class is created
-        this.mostrar_boton_test();
+        this.entidad = null;
+        this.parent = null;
+        this.array_def = null;
+        this.array_pruebas = null;
+        this.array_pruebas_file = null;
+        this.accion = null;
+        this.validaciones = new Validaciones_Atomicas();
     }
 
-    test_run() {
-        // Show test container and clear previous results
-        document.getElementById('div_IU_test').style.display = 'block';
-        document.getElementById('resultadodef').innerHTML = '';
-        document.getElementById('tablaresultadostest').innerHTML = '';
-        document.getElementById('resultadoprueba').innerHTML = '';
-        document.getElementById('tablaresultadosprueba').innerHTML = '';
-        document.getElementById('resultadotest').innerHTML = '';
-        document.getElementById('salidaresultadosprueba').innerHTML = '';
+    initialize(entidad, parent) {
+        this.entidad = entidad;
+        this.parent = parent;
+    }    showTestModal() {
+        const modal = document.getElementById('test-modal');
+        modal.style.display = 'block';
+        this.clearModalContent();
 
-        // Resolve test definitions and test structures
-        this.resolve_def_test();
-        this.resolve_pruebas();
+        // Crear botón de cerrar con icono
+        const closeBtn = document.createElement('img');
+        closeBtn.src = './iconos/BACK.png';
+        closeBtn.className = 'modal-close-icon';
+        closeBtn.onclick = () => {
+            modal.style.display = 'none';
+        };
+
+        // Añadir el botón al principio del modal-content
+        const modalContent = modal.querySelector('.modal-content');
+        modalContent.insertBefore(closeBtn, modalContent.firstChild);
+    }
+
+    clearModalContent() {
+        document.getElementById('modal_resultadodef').innerHTML = '';
+        document.getElementById('modal_tablaresultadostest').innerHTML = '';
+        document.getElementById('modal_resultadoprueba').innerHTML = '';
+        document.getElementById('modal_tablaresultadosprueba').innerHTML = '';
+        document.getElementById('modal_resultadotest').innerHTML = '';
+        document.getElementById('modal_salidaresultadosprueba').innerHTML = '';
+    }    test_run() {
+        // Show and clear the modal first
+        this.showTestModal();
 
         // Get test arrays for execution
         this.array_def = eval('def_tests_' + this.entidad);
         this.array_pruebas = eval('pruebas_' + this.entidad);
         this.array_pruebas_file = eval('pruebas_file_' + this.entidad);
 
-        // Run tests
+        // Show test definitions, test data definitions and run tests
+        this.mostrarDefTests();
+        this.mostrarDefPruebas();
         this.test_entidad();
         this.test_entidad_files();
     }
 
-    resolve_def_test() {
-        this.verificarDefTest();
+    mostrarDefTests() {
+        // Create table header for test definitions
+        let table = document.createElement('table');
+        table.border = '1';
+        table.style.width = '100%';
+        
+        // Add header row
+        let headerRow = table.insertRow();
+        ['Entidad', 'Atributo', 'ID Test', 'Descripción', 'Acción', 'Tipo', 'Código Error'].forEach(text => {
+            let th = document.createElement('th');
+            th.textContent = text;
+            headerRow.appendChild(th);
+        });
+
+        // Add data rows
+        for (let def of this.array_def) {
+            let row = table.insertRow();
+            def.forEach(value => {
+                let cell = row.insertCell();
+                cell.textContent = value;
+            });
+        }
+
+        // Update modal content - only add title to resultadodef
+        document.getElementById('modal_resultadodef').innerHTML = '<h3>Definición de Tests</h3>';
+        document.getElementById('modal_tablaresultadostest').innerHTML = '';
+        document.getElementById('modal_tablaresultadostest').appendChild(table);
     }
 
-    resolve_pruebas() {
-        this.verificarPruebas();
-        this.verificarPruebas_file();
+    mostrarDefPruebas() {
+        // Create table header for test data definitions
+        let table = document.createElement('table');
+        table.border = '1';
+        table.style.width = '100%';
+        
+        // Add header row
+        let headerRow = table.insertRow();
+        ['Entidad', 'Campo', 'NumDefTest', 'NumPrueba', 'Acción', 'Valor', 'Resultado Esperado'].forEach(text => {
+            let th = document.createElement('th');
+            th.textContent = text;
+            headerRow.appendChild(th);
+        });
+
+        // Add regular test data rows
+        for (let prueba of this.array_pruebas) {
+            let row = table.insertRow();
+            prueba.forEach(value => {
+                let cell = row.insertCell();
+                cell.textContent = value;
+            });
+        }
+
+        // Add file test data rows if they exist
+        if (this.array_pruebas_file && this.array_pruebas_file.length > 0) {
+            // Add a separator row
+            let separatorRow = table.insertRow();
+            let separatorCell = separatorRow.insertCell();
+            separatorCell.colSpan = 7;
+            separatorCell.textContent = '-- Pruebas de Archivos --';
+            separatorCell.style.backgroundColor = '#f0f0f0';
+            separatorCell.style.textAlign = 'center';
+            separatorCell.style.fontWeight = 'bold';
+
+            // Add file test rows
+            for (let prueba of this.array_pruebas_file) {
+                let row = table.insertRow();
+                // For file tests, handle the file info specially
+                for (let i = 0; i < prueba.length; i++) {
+                    let cell = row.insertCell();
+                    if (i === 6) { // File info position
+                        cell.textContent = prueba[i].length ? prueba[i][0] : ''; // Show filename
+                    } else {
+                        cell.textContent = prueba[i];
+                    }
+                }
+            }
+        }
+
+        // Update modal content
+        document.getElementById('modal_resultadoprueba').innerHTML = '<h3>Definición de Pruebas</h3>';
+        document.getElementById('modal_tablaresultadosprueba').innerHTML = '';
+        document.getElementById('modal_tablaresultadosprueba').appendChild(table);
     }
 
     test_entidad() {
-        // Build the title row for the test results table
-        let salidatest = `<tr><th>NumDefTest</th><th>NumPrueba</th><th>Campo</th><th>Prueba</th><th>Accion</th><th>Valor</th><th>Respuesta Test</th><th>Respuesta esperada</th><th>Resultado</th></tr>`;
+        // Create table for test results
+        let table = document.createElement('table');
+        table.border = '1';
+        table.style.width = '100%';
+        
+        // Add header row
+        let headerRow = table.insertRow();
+        ['NumDefTest', 'NumPrueba', 'Campo', 'Prueba', 'Accion', 'Valor', 'Respuesta Test', 'Respuesta esperada', 'Resultado'].forEach(text => {
+            let th = document.createElement('th');
+            th.textContent = text;
+            headerRow.appendChild(th);
+        });
 
+        // Clear previous results and set title
+        document.getElementById('modal_resultadotest').innerHTML = '<h3>Resultados de Tests</h3>';
+        document.getElementById('modal_salidaresultadosprueba').innerHTML = '';
+        document.getElementById('modal_salidaresultadosprueba').appendChild(table);
+
+        // Run each test
         for (let i = 0; i < this.array_pruebas.length; i++) {
             // Load clean form for each test
-            this.cargar_formulario_html();
+            this.parent.cargar_formulario();
 
-            // Add submit button for validation messages to work properly
+            // Add submit button for validation messages
             let botonSubmit = document.createElement('input');
             botonSubmit.id = 'submit_button';
             document.getElementById('IU_form').append(botonSubmit);
@@ -62,60 +178,61 @@ class Test_class {
             let def = this.devolver_def(numdeftest);
 
             // Set test value in the field
-            document.getElementById(campotest).value = valortest; 
-            
-            // Call validation function based on action
-            let resultadotest;
-            if (acciontest === 'SEARCH') {
-                resultadotest = eval('this.comprobar_' + campotest + '_SEARCH()');
-            } else {
-                // Set action in case needed by validations
-                this.accion = acciontest;
-                resultadotest = eval('this.comprobar_' + campotest + '()');
+            document.getElementById(campotest).value = valortest;
+
+            // Get validation rules from structure
+            const estructura = eval('estructura_' + this.entidad);
+            const validationRules = estructura.attributes[campotest].validation_rules[acciontest];
+
+            // Execute validations based on rules
+            let resultadotest = 'OK';
+            if (validationRules) {
+                for (let rule in validationRules) {
+                    if (this.validaciones[rule]) {
+                        const [value, errorMsg] = validationRules[rule];
+                        const isValid = this.validaciones[rule](campotest, value);
+                        if (!isValid) {
+                            resultadotest = errorMsg;
+                            break;
+                        }
+                    }
+                }
             }
 
-            // Check if test result matches expected result and include error code if it fails
-            let resultadoestetest;
-            if (respuestatest === resultadotest) {
-                resultadoestetest = 'CORRECTO';
-            } else {
-                resultadoestetest = resultadotest; // El código de error que será traducido
-            }
-            
-            // Build output row for this test
-            let lineasalida = `<tr>
-                <td>${numdeftest}</td>
-                <td>${numprueba}</td>
-                <td>${campotest}</td>
-                <td>${def[3]}</td>
-                <td>${acciontest}</td>
-                <td>${valortest}</td>
-                <td>${resultadotest}</td>
-                <td>${respuestatest} (${this.traduccion(respuestatest)})</td>
-                <td>${resultadoestetest === 'CORRECTO' ? resultadoestetest : this.traduccion(resultadoestetest)}</td>
-            </tr>`;
-            
-            salidatest += lineasalida;
+            // Check if test result matches expected result
+            let resultadoestetest = (respuestatest === resultadotest) ? 'CORRECTO' : resultadotest;
+
+            // Add result row to table
+            let row = table.insertRow();
+            [numdeftest, numprueba, campotest, def[3], acciontest, valortest, 
+             resultadotest, respuestatest, resultadoestetest].forEach(text => {
+                let cell = row.insertCell();
+                cell.textContent = text;
+            });
         }
-
-        // Display results
-        document.getElementById('salidaresultadosprueba').innerHTML += salidatest;
-        document.getElementById('resultadopruebas').style.display = 'block';
-    }
-
-    // Function to translate result codes to human-readable text
-    traduccion(codigo) {
-        if (codigo === true) return 'Correcto';
-        return Textos[codigo] || codigo;
     }
 
     test_entidad_files() {
-        let salidatest = `<tr><th>NumDefTest</th><th>NumPrueba</th><th>Campo</th><th>Prueba</th><th>Accion</th><th>Valor</th><th>Respuesta Test</th><th>Respuesta esperada</th><th>Resultado</th></tr>`;
+        // Create table for file test results
+        let table = document.createElement('table');
+        table.border = '1';
+        table.style.width = '100%';
+        
+        // Add header row
+        let headerRow = table.insertRow();
+        ['NumDefTest', 'NumPrueba', 'Campo', 'Prueba', 'Accion', 'Valor', 'Respuesta Test', 'Respuesta esperada', 'Resultado'].forEach(text => {
+            let th = document.createElement('th');
+            th.textContent = text;
+            headerRow.appendChild(th);
+        });
 
+        document.getElementById('modal_salidaresultadosprueba').appendChild(table);
+
+        // Run each file test
         for (let i = 0; i < this.array_pruebas_file.length; i++) {
             // Load clean form for each test
-            this.cargar_formulario_html();
-            
+            this.parent.cargar_formulario();
+
             // Add submit button
             let botonSubmit = document.createElement('input');
             botonSubmit.id = 'submit_button';
@@ -126,59 +243,55 @@ class Test_class {
             let numdeftest = this.array_pruebas_file[i][2];
             let numprueba = this.array_pruebas_file[i][3];
             let acciontest = this.array_pruebas_file[i][4];
-            let clasedetest = this.array_pruebas_file[i][5];
             let valortest = this.array_pruebas_file[i][6];
             let respuestatest = this.array_pruebas_file[i][7];
 
-            // Create file object and set it in the field
+            // Get test definition
+            let def = this.devolver_def(numdeftest);
+
+            // Create file object if needed
             if (valortest.length !== 0) {
                 let file = new File([new ArrayBuffer(valortest[2])], valortest[0], {
-                    type: valortest[1], 
+                    type: valortest[1],
                     webkitRelativePath: "C:\\fakepath\\" + valortest[0]
                 });
                 
-                // Create DataTransfer object to set the file in the input
                 const dataTransfer = new DataTransfer();
                 dataTransfer.items.add(file);
                 document.getElementById(campotest).files = dataTransfer.files;
             }
-            
-            // Call validation function based on action
-            let resultadotest;
-            if (acciontest === 'SEARCH') {
-                resultadotest = eval('this.comprobar_' + campotest + '_SEARCH()');
-            } else {
-                this.accion = acciontest;
-                resultadotest = eval('this.comprobar_' + campotest + '()');
+
+            // Get validation rules from structure
+            const estructura = eval('estructura_' + this.entidad);
+            const validationRules = estructura.attributes[campotest].validation_rules[acciontest];
+
+            // Execute validations based on rules
+            let resultadotest = 'OK';
+            if (validationRules) {
+                for (let rule in validationRules) {
+                    if (this.validaciones[rule]) {
+                        const [value, errorMsg] = validationRules[rule];
+                        const isValid = this.validaciones[rule](campotest, value);
+                        if (!isValid) {
+                            resultadotest = errorMsg;
+                            break;
+                        }
+                    }
+                }
             }
 
-            // Check if test result matches expected result and include error code if it fails
-            let resultadoestetest;
-            if (respuestatest === resultadotest) {
-                resultadoestetest = 'CORRECTO';
-            } else {
-                resultadoestetest = resultadotest; // El código de error que será traducido
-            }
-            
-            // Build output row for this test
-            let lineasalida = `<tr>
-                <td>${numdeftest}</td>
-                <td>${numprueba}</td>
-                <td>${campotest}</td>
-                <td>${clasedetest}</td>
-                <td>${acciontest}</td>
-                <td>${valortest}</td>
-                <td>${resultadotest}</td>
-                <td>${respuestatest} (${this.traduccion(respuestatest)})</td>
-                <td>${resultadoestetest === 'CORRECTO' ? resultadoestetest : this.traduccion(resultadoestetest)}</td>
-            </tr>`;
-            
-            salidatest += lineasalida;
+            // Check if test result matches expected result
+            let resultadoestetest = (respuestatest === resultadotest) ? 'CORRECTO' : resultadotest;
+
+            // Add result row to table
+            let row = table.insertRow();
+            [numdeftest, numprueba, campotest, def[3], acciontest, 
+             (valortest.length ? valortest[0] : ''), resultadotest, 
+             respuestatest, resultadoestetest].forEach(text => {
+                let cell = row.insertCell();
+                cell.textContent = text;
+            });
         }
-
-        // Display results
-        document.getElementById('salidaresultadosprueba').innerHTML += salidatest;
-        document.getElementById('resultadopruebas').style.display = 'block';
     }
 
     devolver_def(num_def) {
@@ -190,212 +303,8 @@ class Test_class {
         return null;
     }
 
-    verificarDefTest() {
-        let probe_def = eval("def_tests_" + this.entidad);
-        let filacorrecta = true;
-
-        let salidatabla = "<tr><th>Entidad</th><th>Campo</th><th>Num. DefTest</th><th>Descripción</th><th>Acción</th><th>Resultado</th><th>Mensaje</th><th>Estado</th></tr>";
-        let salidalinea = '';
-        
-        probe_def.forEach(element => {
-            salidalinea = "<tr>";
-            salidalinea += '<td>' + element[0] + '</td>';
-            salidalinea += '<td>' + element[1] + '</td>';
-            salidalinea += '<td>' + element[2] + '</td>';
-            salidalinea += '<td>' + element[3] + '</td>';
-            salidalinea += '<td>' + element[4] + '</td>';
-            salidalinea += '<td>' + element[5] + '</td>';
-            salidalinea += '<td>' + element[6] + '</td>';
-            
-            // Verify correct types for each element
-            if (
-                (typeof(element[0]) === 'string') &&
-                (typeof(element[1]) === 'string') &&
-                (typeof(element[2]) === 'number') &&
-                (typeof(element[3]) === 'string') &&
-                (typeof(element[4]) === 'string') &&
-                ((typeof(element[5]) === 'string') || (typeof(element[5]) === 'boolean')) &&
-                (typeof(element[6]) === 'string')
-            ) {
-                salidalinea += '<td>CORRECTA</td>';
-            } else {
-                salidalinea += '<td>ERROR</td>';
-                filacorrecta = false;
-            }
-            
-            salidalinea += "</tr>";
-            salidatabla += salidalinea;
-        });
-    
-        document.getElementById('tablaresultadostest').innerHTML += salidatabla;
-    
-        if (filacorrecta) {
-            document.getElementById('resultadodef').innerHTML = 'Formato correcto en las pruebas de test';
-        }
-    
-        document.getElementById('contenidoTests').style.display = 'block';
-    }
-
-    verificarPruebas() {
-        let probe_def = eval("pruebas_" + this.entidad);
-        let filacorrecta = true;
-
-        let salidatabla = "<tr><th>Entidad</th><th>Campo</th><th>Num.Def</th><th>Num.Prob</th><th>Acción</th><th>Valor</th><th>Resultado Test</th><th>Resultado Esperado</th><th>Verificación</th><th>Estado</th></tr>";
-        let salidalinea = '';
-        
-        probe_def.forEach(element => {
-            // Load clean form for test
-            this.cargar_formulario_html();
-            let botonSubmit = document.createElement('input');
-            botonSubmit.id = 'submit_button';
-            document.getElementById('IU_form').append(botonSubmit);
-
-            salidalinea = "<tr>";
-            salidalinea += '<td>' + element[0] + '</td>';
-            salidalinea += '<td>' + element[1] + '</td>';
-            salidalinea += '<td>' + element[2] + '</td>';
-            salidalinea += '<td>' + element[3] + '</td>';
-            salidalinea += '<td>' + element[4] + '</td>';
-            salidalinea += '<td>' + element[5] + '</td>';
-            
-            // Set test value and execute test
-            let campotest = element[1];
-            let acciontest = element[4];
-            let valortest = element[5];
-            let respuestatest = element[6];
-            
-            document.getElementById(campotest).value = valortest;
-            
-            let resultadotest;
-            if (acciontest === 'SEARCH') {
-                resultadotest = eval('this.comprobar_' + campotest + '_SEARCH()');
-            } else {
-                this.accion = acciontest;
-                resultadotest = eval('this.comprobar_' + campotest + '()');
-            }
-            
-            let resultadoestetest;
-            if (respuestatest === resultadotest) {
-                resultadoestetest = 'CORRECTO';
-            } else {
-                resultadoestetest = resultadotest; // Devolver el código de error para traducir
-            }
-            
-            salidalinea += '<td>' + resultadotest + '</td>';
-            salidalinea += '<td>' + respuestatest + ' (' + this.traduccion(respuestatest) + ')</td>';
-            salidalinea += '<td>' + (resultadoestetest === 'CORRECTO' ? resultadoestetest : this.traduccion(resultadoestetest)) + '</td>';
-            
-            // Verify correct types for each element
-            if (
-                (typeof(element[0]) === 'string') &&
-                (typeof(element[1]) === 'string') &&
-                (typeof(element[2]) === 'number') &&
-                (typeof(element[3]) === 'number') &&
-                (typeof(element[4]) === 'string') &&
-                (typeof(element[5]) === 'string') &&
-                ((typeof(element[6]) === 'string') || (typeof(element[6]) === 'boolean'))
-            ) {
-                salidalinea += '<td>CORRECTA</td>';
-            } else {
-                salidalinea += '<td>ERROR</td>';
-                filacorrecta = false;
-            }
-            
-            salidalinea += "</tr>";
-            salidatabla += salidalinea;
-        });
-
-        document.getElementById('tablaresultadosprueba').innerHTML += salidatabla;
-
-        if (filacorrecta) {
-            document.getElementById('resultadoprueba').innerHTML = 'Formato correcto en las pruebas';
-        }
-
-        document.getElementById('contenidoPruebas').style.display = 'block';
-    }
-
-    verificarPruebas_file() {
-        let probe_def = eval("pruebas_file_" + this.entidad);
-        let filacorrecta = true;
-
-        let salidatabla = "<tr><th>Entidad</th><th>Campo</th><th>Num.Def</th><th>Num.Prob</th><th>Acción</th><th>Tipo Test</th><th>Archivo</th><th>Resultado Test</th><th>Resultado Esperado</th><th>Verificación</th><th>Estado</th></tr>";
-        let salidalinea = '';
-        
-        probe_def.forEach(element => {
-            // Load clean form for test
-            this.cargar_formulario_html();
-            let botonSubmit = document.createElement('input');
-            botonSubmit.id = 'submit_button';
-            document.getElementById('IU_form').append(botonSubmit);
-
-            salidalinea = "<tr>";
-            salidalinea += '<td>' + element[0] + '</td>';
-            salidalinea += '<td>' + element[1] + '</td>';
-            salidalinea += '<td>' + element[2] + '</td>';
-            salidalinea += '<td>' + element[3] + '</td>';
-            salidalinea += '<td>' + element[4] + '</td>';
-            salidalinea += '<td>' + element[5] + '</td>';
-            salidalinea += '<td>' + (element[6].length ? element[6][0] : '') + '</td>';
-            
-            // Execute test
-            let campotest = element[1];
-            let acciontest = element[4];
-            let valortest = element[6];
-            let respuestatest = element[7];
-
-            // Create file object if there's a test file
-            if (valortest.length !== 0) {
-                let file = new File([new ArrayBuffer(valortest[2])], valortest[0], {
-                    type: valortest[1], 
-                    webkitRelativePath: "C:\\fakepath\\" + valortest[0]
-                });
-                
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(file);
-                document.getElementById(campotest).files = dataTransfer.files;
-            }
-            
-            let resultadotest;
-            if (acciontest === 'SEARCH') {
-                resultadotest = eval('this.comprobar_' + campotest + '_SEARCH()');
-            } else {
-                this.accion = acciontest;
-                resultadotest = eval('this.comprobar_' + campotest + '()');
-            }
-            
-            salidalinea += '<td>' + resultadotest + '</td>';
-            salidalinea += '<td>' + respuestatest + '</td>';
-            
-            let resultadoestetest = (respuestatest === resultadotest) ? 'CORRECTO' : 'INCORRECTO';
-            salidalinea += '<td>' + resultadoestetest + '</td>';
-            
-            // Verify correct types
-            if (
-                (typeof(element[0]) === 'string') &&
-                (typeof(element[1]) === 'string') &&
-                (typeof(element[2]) === 'number') &&
-                (typeof(element[3]) === 'number') &&
-                (typeof(element[4]) === 'string') &&
-                (typeof(element[5]) === 'string') &&
-                (typeof(element[6]) === 'object') &&
-                ((typeof(element[7]) === 'string') || (typeof(element[7]) === 'boolean'))
-            ) {
-                salidalinea += '<td>CORRECTA</td>';
-            } else {
-                salidalinea += '<td>ERROR</td>';
-                filacorrecta = false;
-            }
-            
-            salidalinea += "</tr>";
-            salidatabla += salidalinea;
-        });
-
-        document.getElementById('tablaresultadosprueba').innerHTML += salidatabla;
-
-        if (filacorrecta) {
-            document.getElementById('resultadoprueba').innerHTML = 'Formato correcto en las pruebas';
-        }
-
-        document.getElementById('contenidoPruebas').style.display = 'block';
+    traduccion(codigo) {
+        if (codigo === true) return 'Correcto';
+        return Textos[codigo] || codigo;
     }
 }

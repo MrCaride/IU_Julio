@@ -2,13 +2,20 @@ class Entidad_Abstract_class extends DOM_class {
 
     constructor() {
         super();
-    }
-
-    inicializar() {
-        if (eval(this.datosespecialestabla)) {}
-        else {
-            this.datosespecialestabla = Array();
+    }    inicializar() {
+        // Initialize entity structure
+        const estructura = eval('estructura_' + this.entidad);
+        if (!estructura) {
+            throw new Error(`Structure not found for entity: ${this.entidad}`);
         }
+
+        // Initialize special table data if exists
+        this.datosespecialestabla = Array();
+
+        // Get columns to show from structure
+        this.columnasamostrar = estructura.columnas_visibles_tabla || [];
+        this.columnasmodificadas = estructura.columnas_modificadas_tabla || [];
+        this.atributos = estructura.attributes_list || [];
 
         this.access_functions = new ExternalAccess();
         this.validaciones = new Validaciones_Atomicas();
@@ -29,19 +36,11 @@ class Entidad_Abstract_class extends DOM_class {
         if (this.datos != "") {
             this.mostrarocultarcolumnas();
         }
-    }
-
-    cargar_formulario() {
-        if (eval(this.cargar_formulario_html)) {
+    }    cargar_formulario() {
+        if (typeof this.cargar_formulario_html === 'function') {
             this.cargar_formulario_html();
-        }
-        else {
-            if (eval(this.cargar_formulario_dinamico)) {
-                this.cargar_formulario_dinamico();
-            }
-            else {
-                alert('No existe formulario');
-            }
+        } else {
+            this.cargar_formulario_dinamico(this.entidad, eval('estructura_' + this.entidad));
         }
     }
 
@@ -51,8 +50,8 @@ class Entidad_Abstract_class extends DOM_class {
     }    async SEARCH() {
         await this.access_functions.peticionBackGeneral('IU_form', this.entidad, 'SEARCH')
         .then((respuesta) => {
-            // Limpiar el formulario
-            this.cargar_formulario_html();
+            // Limpiar el formulario usando el método genérico
+            this.cargar_formulario();
             // Quito los class de la muestra de filas
             document.getElementById('muestradatostabla').removeAttribute('class');
 
