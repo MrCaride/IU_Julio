@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión</title>
+    <link rel="stylesheet" href="./css/IU.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <!-- Header section -->
+    <header>
+        <div class="container header-content">
+            <div class="app-title text_title">Sistema de Gestión</div>
+            <div class="language-toggle" onclick="changeLang()">
+                <span class="text_language">Idioma</span>
+                <img id="idioma_img" src="./iconos/United-Kingdom.png" alt="Idioma">
+            </div>
+        </div>
+    </header>
+
+    <!-- Menu section -->
+    <div class="menu-container">
+        <div class="container">            <button class="menu-button" onclick="toggleMenu()">
+                <img src="./iconos/MENU.png">
+                <span class="text_menu">Menú</span>
+            </button>            
+            <div id="menuDropdown" class="menu-dropdown">
+                <!-- Menu items will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Main content section -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Title for the current page -->
+            <div id="title_page" style="display: none;">
+                <h1 id="text_title_page" class="text_title_page">Gestión de Entidades</h1>
+                <button id="boton_test" class="button button-primary" style="display: none;" onclick="validar.test_run()">
+                    <img src="./iconos/TEST.png" alt="Test">
+                    <span class="text_test">Test</span>
+                </button>
+                <select id="seleccioncolumnas" multiple class="selectpicker" style="display: inline-block; margin-left: 20px;"></select>
+            </div>
+
+            <!-- Data table section -->
+            <div id="id_tabla_datos" style="display: none;">
+                <div id="addysearch">
+                    <img id="botonADD" src="./iconos/ADD.png" onclick="validar.createForm_ADD();" />
+                    <img id="botonSEARCH" src="./iconos/SEARCH.png" onclick="validar.createForm_SEARCH();" />
+                </div>
+                
+                <div class="table-container">
+                    <table>
+                        <thead id="titulostablacabecera"></thead>
+                        <tbody id="muestradatostabla"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Form container -->            <div id="div_IU_form" class="form-container" style="display: none;">
+                <h2 id="class_contenido_titulo_form" class="form-title"></h2>
+                <form id="IU_form" name="IU_form" method="POST" enctype="multipart/form-data"></form>
+                <br>
+                <img src="./iconos/BACK.png" onclick="validar.cerrar_formulario();" alt="Cerrar" style="cursor: pointer;" />
+            </div>
+
+            <!-- Test results container -->
+            <div id="div_IU_test" class="test-container" style="display: none;">
+                <div id="contenidoTests">
+                    <h3>Resultado de definición de tests</h3>
+                    <div id="resultadodef"></div>
+                    <div class="test-results-table">
+                        <table id="tablaresultadostest"></table>
+                    </div>
+                </div>
+                <div id="contenidoPruebas">
+                    <h3>Resultado de definición de pruebas</h3>
+                    <div id="resultadoprueba"></div>
+                    <div class="test-results-table">
+                        <table id="tablaresultadosprueba"></table>
+                    </div>
+                </div>
+                <div id="resultadopruebas">
+                    <h3>Resultado de pruebas</h3>
+                    <div id="resultadotest"></div>
+                    <div class="test-results-table">
+                        <table id="salidaresultadosprueba"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Error modal -->
+    <div id="error-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="document.getElementById('error-modal').style.display='none'">&times;</span>
+            <div class="modal-header">
+                <h2 id="error-modal-title" class="modal-title text_error_operation">Error</h2>
+            </div>
+            <div class="modal-body">
+                <p id="modal-error-message"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="button button-primary" onclick="document.getElementById('error-modal').style.display='none'">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer section -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 - Julio Antonio Caride Pernas</p>
+        </div>
+    </footer>    <!-- JavaScript dependencies -->
+    <!-- Core files first -->
+    <script src="./js/core/Textos_ES.js"></script>
+    <script src="./js/core/Textos_EN.js"></script>
+    <script src="./js/core/menu.js"></script>
+    <script src="./js/core/idioma.js"></script>
+    <script src="./js/core/Test_class.js"></script>
+    <script src="./js/core/DOM_class.js"></script>
+    <script src="./js/core/DOM_validations_class.js"></script>
+    <script src="./js/core/Validaciones_class.js"></script>
+    <script src="./js/core/ExternalAccess_class.js"></script>
+    <script src="./js/core/Entidad_Abstract_class.js"></script>    <!-- Entity structure files -->
+    <script src="./js/entities/characteristic_estructura.js"></script>
+    
+    <!-- Entity class files -->
+    <script src="./js/entities/Characteristic_class.js"></script>
+    
+    <!-- Test files -->
+    <script src="./js/tests/characteristic_tests.js"></script><!-- Main script -->
+    <script>
+        // Global variable to hold the current entity
+        let validar = null;        // Load an entity
+        function loadEntity(entityName) {
+            // Close any open form or tests
+            if (validar) {
+                validar.cerrar_formulario();
+                validar.cerrar_test();
+                validar.cerrar_tabla();
+            }
+            
+            try {
+                // Create the characteristic entity
+                if (entityName === 'characteristic') {
+                    validar = new Characteristic();
+                } else {
+                    console.error('Unknown entity:', entityName);
+                }
+            } catch (e) {
+                console.error('Error loading entity:', e);
+            }
+        }        // Toggle menu dropdown
+        function toggleMenu() {
+            document.getElementById("menuDropdown").classList.toggle("show");
+        }
+
+        // Toggle menu dropdown
+        function toggleMenu() {
+            document.getElementById("menuDropdown").classList.toggle("show");
+        }
+
+        // Close menu when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.menu-button') && !event.target.matches('.menu-button img')) {
+                let dropdowns = document.getElementsByClassName("menu-dropdown");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    let openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }        // Initialize language and menu when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            setLang();
+            menuConfig.initialize();
+        });
+
+        // Load an entity
+        function loadEntity(entityName) {
+            // Close any open form or tests
+            if (validar) {
+                validar.cerrar_formulario();
+                validar.cerrar_test();
+                validar.cerrar_tabla();
+            }
+            
+            try {
+                // Create the appropriate entity object
+                switch(entityName) {
+                    case 'characteristic':
+                        validar = new Characteristic();
+                        break;
+                    case 'project':
+                        // Ensure Project_class is loaded before instantiating
+                        if (typeof Project_class === 'undefined') {
+                            throw new Error('Project_class is not loaded yet');
+                        }
+                        validar = new Project_class();
+                        break;
+                    case 'analysis_preparation':
+                        validar = new AnalysisPreparation();
+                        break;
+                    default:
+                        console.error('Unknown entity:', entityName);
+                        return;
+                }
+            } catch (e) {
+                console.error('Error loading entity:', e);
+                return;
+            }
+            
+            // Close the menu dropdown
+            document.getElementById("menuDropdown").classList.remove("show");
+        }
+    </script>
+</body>
+</html>

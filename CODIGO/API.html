@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación de la API</title>
+    <link rel="stylesheet" href="./css/IU.css">
+    <style>
+        .api-documentation {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .api-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .class-name {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .method {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: white;
+            border-left: 4px solid #28a745;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .method-name {
+            color: #28a745;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .method-description {
+            margin-bottom: 15px;
+        }
+        
+        .parameters {
+            margin-top: 10px;
+        }
+        
+        .parameter {
+            margin-bottom: 5px;
+            padding-left: 15px;
+        }
+        
+        .parameter-name {
+            font-weight: bold;
+            color: #6c757d;
+        }
+        
+        .parameter-type {
+            font-style: italic;
+            color: #17a2b8;
+        }
+        
+        .return-value {
+            margin-top: 10px;
+            padding-left: 15px;
+        }
+        
+        .return-type {
+            font-weight: bold;
+            color: #dc3545;
+        }
+        
+        .navigation {
+            position: sticky;
+            top: 0;
+            background-color: #fff;
+            padding: 10px 0;
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 20px;
+        }
+        
+        .nav-categories {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-link:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .back-to-app {
+            display: block;
+            text-align: center;
+            margin: 20px 0;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="app-title">Documentación de la API</div>
+        </div>
+    </header>
+    
+    <div class="api-documentation">
+        <a href="./index.html" class="back-to-app">← Volver a la Aplicación</a>
+        
+        <div class="navigation">
+            <div class="nav-categories">
+                <a href="#core-classes" class="nav-link">Clases Base</a>
+                <a href="#entity-classes" class="nav-link">Clases de Entidad</a>
+                <a href="#test-classes" class="nav-link">Clases de Prueba</a>
+                <a href="#validation-classes" class="nav-link">Clases de Validación</a>
+            </div>
+        </div>
+        
+        <h1>Documentación de la API</h1>
+        <p>Esta documentación describe las clases y métodos utilizados en la aplicación.</p>
+        
+        <!-- Sección de Clases Base -->
+        <section id="core-classes" class="api-section">
+            <h2>Clases Base</h2>
+            
+            <div class="class">
+                <h3 class="class-name">Entidad_Abstracta</h3>
+                <p>Clase base abstracta para todas las entidades de la aplicación. Proporciona métodos comunes para operaciones de entidades.</p>
+                
+                <div class="method">
+                    <h4 class="method-name">inicializar()</h4>
+                    <p class="method-description">Inicializa la entidad y carga los datos principales.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">crearTablaDatos()</h4>
+                    <p class="method-description">Crea la tabla de datos para la entidad.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">cargar_formulario()</h4>
+                    <p class="method-description">Carga el formulario para la entidad, ya sea usando un método HTML predefinido o dinámicamente.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">change_value_IU(atributo, valor)</h4>
+                    <p class="method-description">Permite cambiar el valor de visualización de un atributo en la interfaz. Puede ser sobrescrito por entidades específicas.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">atributo</span> <span class="parameter-type">(string)</span>: Nombre del atributo.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">valor</span> <span class="parameter-type">(cualquiera)</span>: Valor actual del atributo.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">cualquiera</span> - Valor modificado para mostrar.</p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">SEARCH()</h4>
+                    <p class="method-description">Realiza una operación de búsqueda en el back-end para los datos de la entidad.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">Promise</span> - Promesa que se resuelve cuando la búsqueda está completa.</p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">ADD()</h4>
+                    <p class="method-description">Envía una operación de agregar al back-end con los datos del formulario.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">Promise</span> - Promesa que se resuelve cuando la operación de agregar está completa.</p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">DELETE()</h4>
+                    <p class="method-description">Envía una operación de eliminar al back-end con los datos del formulario.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">Promise</span> - Promesa que se resuelve cuando la operación de eliminar está completa.</p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">EDIT()</h4>
+                    <p class="method-description">Envía una operación de editar al back-end con los datos del formulario.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">Promise</span> - Promesa que se resuelve cuando la operación de editar está completa.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="class">
+                <h3 class="class-name">DOM_class</h3>
+                <p>Clase responsable de las operaciones de UI y manipulación del DOM.</p>
+                
+                <div class="method">
+                    <h4 class="method-name">mostrar_error_campo(id, codigoerror)</h4>
+                    <p class="method-description">Muestra un mensaje de error para un campo del formulario.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">id</span> <span class="parameter-type">(string)</span>: ID del campo.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">codigoerror</span> <span class="parameter-type">(string)</span>: Código de error a mostrar.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">mostrar_exito_campo(id)</h4>
+                    <p class="method-description">Oculta mensajes de error para un campo cuando es válido.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">id</span> <span class="parameter-type">(string)</span>: ID del campo.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">createForm(entidad, accion, parametros)</h4>
+                    <p class="method-description">Crea un formulario basado en la estructura de la entidad y la acción.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">entidad</span> <span class="parameter-type">(string)</span>: Nombre de la entidad.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">accion</span> <span class="parameter-type">(string)</span>: Tipo de acción (ADD, EDIT, DELETE, SEARCH, SHOWCURRENT).
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">parametros</span> <span class="parameter-type">(object, opcional)</span>: Datos para poblar el formulario.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">cargar_formulario_dinamico(entidad, estructura)</h4>
+                    <p class="method-description">Crea campos de formulario dinámicamente basados en la estructura de la entidad.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">entidad</span> <span class="parameter-type">(string)</span>: Nombre de la entidad.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">estructura</span> <span class="parameter-type">(object)</span>: Definición de la estructura de la entidad.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">load_data(parametros)</h4>
+                    <p class="method-description">Carga datos en los campos del formulario.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">parametros</span> <span class="parameter-type">(object)</span>: Datos a cargar en el formulario.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">load_validations(accion)</h4>
+                    <p class="method-description">Configura los event listeners de validación para los campos del formulario.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">accion</span> <span class="parameter-type">(string)</span>: Tipo de acción para validación.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">cerrar_formulario()</h4>
+                    <p class="method-description">Cierra y limpia el formulario actual.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">cerrar_tabla()</h4>
+                    <p class="method-description">Cierra y limpia la tabla de datos actual.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">getFormData(formId)</h4>
+                    <p class="method-description">Recolecta los datos de un formulario y los convierte en un objeto.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">formId</span> <span class="parameter-type">(string)</span>: ID del formulario del cual recolectar datos.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">object</span> - Objeto con los datos del formulario.</p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">colocarvalidaciones(accion)</h4>
+                    <p class="method-description">Configura los eventos de validación para todos los campos del formulario.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">accion</span> <span class="parameter-type">(string)</span>: Tipo de acción (ADD, EDIT, DELETE, SEARCH).
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">validate_date_format(dateStr)</h4>
+                    <p class="method-description">Valida si una fecha tiene el formato correcto (dd/mm/yyyy).</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">dateStr</span> <span class="parameter-type">(string)</span>: Cadena de fecha a validar.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - True si el formato es válido.</p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">is_numeric(value)</h4>
+                    <p class="method-description">Valida si un valor es numérico.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">value</span> <span class="parameter-type">(any)</span>: Valor a validar.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - True si el valor es numérico.</p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">check_special_tests(fieldId)</h4>
+                    <p class="method-description">Verifica si existen validaciones especiales definidas en la clase de entidad y las ejecuta.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">fieldId</span> <span class="parameter-type">(string)</span>: ID del campo a validar.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - True si pasa todas las validaciones especiales.</p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">abrirModalError(errorMsg)</h4>
+                    <p class="method-description">Muestra un modal con un mensaje de error.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">errorMsg</span> <span class="parameter-type">(string)</span>: Código del mensaje de error a mostrar.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">cerrarModalError()</h4>
+                    <p class="method-description">Cierra el modal de error.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección de Clases de Entidad -->
+        <section id="entity-classes" class="api-section">
+            <h2>Clases de Entidad</h2>
+            
+            <div class="class">
+                <h3 class="class-name">Characteristic</h3>
+                <p>Clase que representa la entidad Característica.</p>
+                
+                <div class="method">
+                    <h4 class="method-name">constructor()</h4>
+                    <p class="method-description">Inicializa una instancia de Característica.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">Characteristic</span></p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">comprobar_[nombre_campo]()</h4>
+                    <p class="method-description">Valida un campo específico.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean/string</span> - True si es válido, código de error si no lo es.</p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">comprobar_submit()</h4>
+                    <p class="method-description">Valida todos los campos del formulario antes de enviarlo.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - True si todos los campos son válidos.</p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">change_value_IU(atributo, valor)</h4>
+                    <p class="method-description">Sobrescritura del método abstracto para modificar valores de visualización para campos específicos.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">atributo</span> <span class="parameter-type">(string)</span>: Nombre del atributo.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">valor</span> <span class="parameter-type">(cualquiera)</span>: Valor actual del atributo.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">cualquiera</span> - Valor modificado para mostrar.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección de Clases de Prueba -->
+        <section id="test-classes" class="api-section">
+            <h2>Clases de Prueba</h2>
+            
+            <div class="class">
+                <h3 class="class-name">Test_class</h3>
+                <p>Clase para manejar la ejecución de pruebas y mostrar resultados de pruebas.</p>
+                
+                <div class="method">
+                    <h4 class="method-name">test_run()</h4>
+                    <p class="method-description">Ejecuta todas las pruebas para la entidad actual.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">test_entidad()</h4>
+                    <p class="method-description">Ejecuta pruebas para campos regulares en la entidad.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">test_entidad_files()</h4>
+                    <p class="method-description">Ejecuta pruebas para campos de archivo en la entidad.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">verificarDefTest()</h4>
+                    <p class="method-description">Verifica la corrección de las definiciones de prueba.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">verificarPruebas()</h4>
+                    <p class="method-description">Verifica la corrección de los casos de prueba.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">verificarPruebas_file()</h4>
+                    <p class="method-description">Verifica la corrección de los casos de prueba de archivos.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección de Clases de Validación -->
+        <section id="validation-classes" class="api-section">
+            <h2>Clases de Validación</h2>
+            
+            <div class="class">
+                <h3 class="class-name">DOM_validations</h3>
+                <p>Clase para validaciones de formulario y comprobaciones de campos.</p>
+                
+                <div class="method">
+                    <h4 class="method-name">submit_test(form, entity, action)</h4>
+                    <p class="method-description">Prueba todos los campos del formulario para asegurar que pasan la validación.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">form</span> <span class="parameter-type">(string)</span>: ID del formulario.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">entity</span> <span class="parameter-type">(string)</span>: Nombre de la entidad.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">action</span> <span class="parameter-type">(string)</span>: Tipo de acción.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - True si todos los campos son válidos.</p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">check_special_tests(fieldId)</h4>
+                    <p class="method-description">Verifica si existen métodos de validación especiales para un campo y los ejecuta.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">fieldId</span> <span class="parameter-type">(string)</span>: ID del campo a validar.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean/string</span> - True si es válido, código de error si no lo es.</p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">validate_field(fieldId, entity, action)</h4>
+                    <p class="method-description">Método de validación genérico para campos de formulario basado en las reglas de validación de la entidad.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">fieldId</span> <span class="parameter-type">(string)</span>: ID del campo a validar.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">entity</span> <span class="parameter-type">(string)</span>: Nombre de la entidad.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">action</span> <span class="parameter-type">(string)</span>: Tipo de acción.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean/string</span> - True si es válido, código de error si no lo es.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="class">
+                <h3 class="class-name">Validaciones_Atomicas</h3>
+                <p>Clase que contiene métodos de validación atómicos que comprueban criterios específicos.</p>
+                
+                <div class="method">
+                    <h4 class="method-name">min_size(id, minsize)</h4>
+                    <p class="method-description">Valida el tamaño/longitud mínima de un campo.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">id</span> <span class="parameter-type">(string)</span>: ID del campo a validar.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">minsize</span> <span class="parameter-type">(number)</span>: Tamaño mínimo permitido.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - True si es válido.</p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">max_size(id, maxsize)</h4>
+                    <p class="method-description">Valida el tamaño/longitud máxima de un campo.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">id</span> <span class="parameter-type">(string)</span>: ID del campo a validar.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">maxsize</span> <span class="parameter-type">(number)</span>: Tamaño máximo permitido.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - True si es válido.</p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">format(id, exprreg)</h4>
+                    <p class="method-description">Valida si un campo coincide con un patrón regex.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">id</span> <span class="parameter-type">(string)</span>: ID del campo a validar.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">exprreg</span> <span class="parameter-type">(string/RegExp)</span>: Expresión regular a comparar.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - True si es válido.</p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">max_size_file(objfile, maxsize)</h4>
+                    <p class="method-description">Valida el tamaño máximo de un archivo.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">objfile</span> <span class="parameter-type">(File object)</span>: Archivo a validar.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">maxsize</span> <span class="parameter-type">(number)</span>: Tamaño máximo permitido en bytes.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - True si es válido.</p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">type_file(objfile, array_tipos)</h4>
+                    <p class="method-description">Valida el tipo de archivo contra tipos permitidos.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">objfile</span> <span class="parameter-type">(File object)</span>: Archivo a validar.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">array_tipos</span> <span class="parameter-type">(Array)</span>: Array de tipos MIME permitidos.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - True si es válido.</p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">format_name_file(objfile, exprreg)</h4>
+                    <p class="method-description">Valida el formato del nombre de archivo contra un patrón regex.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">objfile</span> <span class="parameter-type">(File object)</span>: Archivo a validar.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">exprreg</span> <span class="parameter-type">(string/RegExp)</span>: Expresión regular a comparar.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - True si es válido.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 - Julio Antonio Caride Pernas</p>
+        </div>
+    </footer>
+</body>
+</html>
