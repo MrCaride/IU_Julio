@@ -199,6 +199,42 @@ table tr:hover {
     margin-bottom: 1rem;
 }
 
+/* File handling styles */
+.campo-container {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.file-container {
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.file-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--primary-text);
+    padding: 0.5rem;
+    background: var(--light-color);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.file-link:hover {
+    background: var(--primary-color);
+    color: var(--light-text);
+}
+
+.file-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 0.5rem;
+}
+
 label {
     display: block;
     margin-bottom: 0.5rem;
@@ -254,11 +290,10 @@ input.exitocampo, textarea.exitocampo, select.exitocampo {
 }
 
 .error-message {
+    display: block;
     color: var(--danger-color);
     font-size: 0.875rem;
     margin-top: 0.25rem;
-    display: flex;
-    align-items: center;
 }
 
 .error-message img {

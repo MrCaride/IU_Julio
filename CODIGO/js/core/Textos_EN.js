@@ -192,11 +192,20 @@ const Textos_EN = {
     'category_characteristic': 'Category',
     'bibref_characteristic': 'Bibliographic Reference',
     'file_characteristic': 'File',
+    'nuevo_file_characteristic': 'Upload File',
 
     'id_characteristic_required_KO': 'ID is required',
     'id_characteristic_format_KO': 'ID must be numeric',
     'id_characteristic_min_size_KO': 'ID must have at least 1 digit',
     'id_characteristic_max_size_KO': 'ID cannot have more than 11 digits',
+
+    // Messages for nuevo_file_characteristic
+    'nuevo_file_characteristic_name_min_size_KO': 'File name must be at least 7 characters long',
+    'nuevo_file_characteristic_name_max_size_KO': 'File name cannot exceed 100 characters',
+    'nuevo_file_characteristic_no_file_KO': 'You must select a file',
+    'nuevo_file_characteristic_file_type_KO': 'File must be PDF or DOC/DOCX',
+    'nuevo_file_characteristic_max_size_KO': 'File cannot exceed 2MB',
+    'nuevo_file_characteristic_name_format_KO': 'File name can only contain letters and dot',
 
     'name_characteristic_required_KO': 'Name is required',
     'name_characteristic_format_KO': 'Name can only contain letters and spaces',

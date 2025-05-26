@@ -53,6 +53,7 @@ const Textos_ES = {
     'category_characteristic': 'Categoría',
     'bibref_characteristic': 'Referencia Bibliográfica',
     'file_characteristic': 'Archivo',
+    'nuevo_file_characteristic': 'Subir Archivo',
 
     'id_characteristic_required_KO': 'El ID es obligatorio',
     'id_characteristic_format_KO': 'El ID debe ser numérico',
@@ -95,6 +96,14 @@ const Textos_ES = {
     'category_characteristic_OK': 'Categoría válida',
     'bibref_characteristic_OK': 'Referencia bibliográfica válida',
     'file_characteristic_OK': 'Archivo válido',
+
+    // Mensajes de nuevo_file_characteristic
+    'nuevo_file_characteristic_name_min_size_KO': 'El nombre del archivo debe tener al menos 7 caracteres',
+    'nuevo_file_characteristic_name_max_size_KO': 'El nombre del archivo no puede tener más de 100 caracteres',
+    'nuevo_file_characteristic_no_file_KO': 'Debe seleccionar un archivo',
+    'nuevo_file_characteristic_file_type_KO': 'El archivo debe ser PDF o DOC/DOCX',
+    'nuevo_file_characteristic_max_size_KO': 'El archivo no puede superar los 2MB',
+    'nuevo_file_characteristic_name_format_KO': 'El nombre del archivo solo puede contener letras y punto',
 
     // Data types
     'number': 'Número',

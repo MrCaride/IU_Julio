@@ -1,16 +1,25 @@
 class ExternalAccess {
     constructor() {
-    }
-
-    peticionBackGeneral(formulario, controlador, action, datosextra = null) {
+    }    peticionBackGeneral(formulario, controlador, action, datosextra = null) {
         var datos;
         
         if (formulario === '') {
             datos = new FormData();
         }
         else {
-            formulario = document.getElementById(formulario);
-            datos = new FormData(formulario);
+            let formElement = document.getElementById(formulario);
+            datos = new FormData(formElement);
+            
+            // Asegurarse de que los archivos se incluyan correctamente
+            let fileInputs = formElement.querySelectorAll('input[type="file"]');
+            fileInputs.forEach(input => {
+                if (input.files && input.files[0]) {
+                    // Eliminar cualquier valor anterior
+                    datos.delete(input.name);
+                    // Añadir el archivo
+                    datos.append(input.name, input.files[0]);
+                }
+            });
         }
     
         datos.append('controlador', controlador);

@@ -1,5 +1,5 @@
 const estructura_characteristic = {
-    attributes_list: ['id_characteristic', 'name_characteristic', 'description_characteristic', 'data_type_characteristic', 'category_characteristic', 'bibref_characteristic', 'file_characteristic'],
+    attributes_list: ['id_characteristic', 'name_characteristic', 'description_characteristic', 'data_type_characteristic', 'category_characteristic', 'bibref_characteristic', 'file_characteristic', 'nuevo_file_characteristic'],
     columnas_visibles_tabla : ['id_characteristic', 'name_characteristic','data_type_characteristic','category_characteristic'],
     columnas_modificadas_tabla: ['file_characteristic'],
     attributes: {
@@ -60,7 +60,7 @@ const estructura_characteristic = {
                 },
                 SEARCH:{
 				    max_size: [5000,'description_characteristic_max_size_KO'],
-                    reg_exp : ['^[A-Za-z\\s]*$', 'description_characteristic_format_KO'],
+                    reg_exp : ['^[A-Za-z\\s]*$', 'description_characteristic_format_KO  '],
                 }
             }
         },
@@ -106,30 +106,45 @@ const estructura_characteristic = {
                     reg_exp : ['^[A-Za-zÀ-ÿñÑ\\s.,;:!¡¿?"\'-]*$', 'bibref_characteristic_format_KO'],
                 }
             }
-        },
+        },    
         file_characteristic: {
+            html: {
+                tag: 'input',
+                type: 'text',
+            },
+            is_not_null: true,
+            validation_rules: {
+                SEARCH:{
+				    max_size: [100,'file_characteristic_name_max_size_KO'],
+                    reg_exp : ['(^$)|(^[A-Za-z]*\.(pdf|doc|docx)$)', 'file_characteristic_name_format_KO'],
+                }
+            }
+        },
+        nuevo_file_characteristic: {
             html: {
                 tag: 'input',
                 type: 'file',
             },
-            is_not_null: true,            validation_rules: {                ADD:{
-                    min_size: [7, 'file_characteristic_min_size_KO'],
-                    max_size: [100, 'file_characteristic_max_size_KO'],
-                    file_type: [["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"],"file_characteristic_type_KO"],
-                    max_size_file: [2000000, "file_characteristic_size_KO"],
-                    format_name_file: ["^[A-Za-z.]+$","file_characteristic_format_KO"],
-                    no_file: "file_characteristic_required_KO"                },                EDIT:{
-                    min_size: [7, 'file_characteristic_min_size_KO'],
-                    max_size: [100, 'file_characteristic_max_size_KO'],
-                    file_type: [["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"],"file_characteristic_type_KO"],
-                    max_size_file: [2000000, "file_characteristic_size_KO"],
-                    format_name_file: ["^[A-Za-z.]+$","file_characteristic_format_KO"] 
+            is_not_null: true,
+            validation_rules: {
+                ADD:{
+                    min_size : [7, 'nuevo_file_characteristic_name_min_size_KO'],
+				    max_size: [100,'nuevo_file_characteristic_name_max_size_KO'],
+                    no_file: "nuevo_file_characteristic_no_file_KO",
+                    file_type :[["application/pdf", "application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document"],"nuevo_file_characteristic_file_type_KO"],
+                    max_size_file: [ 2000000, "nuevo_file_characteristic_max_size_KO"],
+                    format_name_file: ["^[A-Za-z.]+$","nuevo_file_characteristic_name_format_KO"]
                 },
-                SEARCH:{
-                    max_size: [100,'file_characteristic_max_size_KO'],
-                    reg_exp: ['(^$)|(^[A-Za-z]*\.(pdf|doc|docx)$)', 'file_characteristic_format_KO'],
+                EDIT:{
+                    min_size : [7, 'nuevo_file_characteristic_name_min_size_KO'],
+				    max_size: [100,'nuevo_file_characteristic_name_max_size_KO'],
+                    no_file: "nuevo_file_characteristic_no_file_KO",
+                    file_type :[["application/pdf", "application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document"],"nuevo_file_characteristic_file_type_KO"],
+                    max_size_file: [ 2000000, "nuevo_file_characteristic_max_size_KO"],
+                    format_name_file: ["^[A-Za-z.]*$","nuevo_file_characteristic_name_format_KO"]
                 }
             }
         }
-    }
+    },
+
 };
