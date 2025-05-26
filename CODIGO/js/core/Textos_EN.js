@@ -245,5 +245,6 @@ const Textos_EN = {
     'ERROR_AUTH': 'Authentication error',
 
     // File messages
-    'no_file': 'No file'
+    'no_file': 'No file',
+    'admin_no_te_lo_deja_borrar_KO': 'The administrator does not allow deleting this item'
 };

@@ -147,7 +147,8 @@ class DOM_class {
         columna.appendChild(opcion);
         return columna.outerHTML;
     }
-      createForm(entidad, accion, parametros = null) {
+
+    createForm(entidad, accion, parametros = null) {
         // Get the entity structure data
         let estructura = eval('estructura_' + entidad);
         
@@ -169,8 +170,10 @@ class DOM_class {
             validar.cargar_formulario_html();
         } else {
             this.cargar_formulario_dinamico(entidad, estructura);
-        }        // Set necessary attributes based on action
-        if (accion === 'ADD' || accion === 'EDIT' || accion === 'SEARCH') {
+        }
+
+        // Set necessary attributes based on action
+        if (accion === 'ADD' || accion === 'EDIT' || accion === 'SEARCH' || accion === 'DELETE') {
             form.onsubmit = (e) => {
                 e.preventDefault();
                 if (accion === 'ADD') {
@@ -185,6 +188,8 @@ class DOM_class {
                     if (validar.validaciones.comprobar_submit_SEARCH()) {
                         validar.SEARCH();
                     }
+                } else if (accion === 'DELETE') {
+                    validar.DELETE();
                 }
                 return false;
             };
@@ -195,7 +200,8 @@ class DOM_class {
             // Set validations
             this.load_validations(accion);
         }
-          // Fill form with data if provided
+        
+        // Fill form with data if provided
         if (parametros) {
             this.load_data(parametros);
         }
@@ -211,17 +217,20 @@ class DOM_class {
         // Set language translations
         setLang();
     }
-      cargar_formulario_dinamico(entidad, estructura) {
+    
+    cargar_formulario_dinamico(entidad, estructura) {
         let formulario = '';
         
         // Create form fields based on structure
         for (let nombreCampo in estructura.attributes) {
             const campo = estructura.attributes[nombreCampo];
             campo.nombre = nombreCampo; // Add nombre to campo object
-              if (campo.html.tag === 'file') {
+            
+            if (campo.html.tag === 'file') {
                 // Handle file inputs with rename feature
                 const fileId = campo.html.rename_to || campo.nombre;
-                formulario += `<label class="label_${campo.nombre}" id="label_${campo.nombre}" for="${fileId}">${Textos[campo.nombre]}:</label>`;                formulario += `<input type="file" name="${fileId}" id="${fileId}" `;
+                formulario += `<label class="label_${campo.nombre}" id="label_${campo.nombre}" for="${fileId}">${Textos[campo.nombre]}:</label>`;
+                formulario += `<input type="file" name="${fileId}" id="${fileId}" `;
                 formulario += `accept=".pdf,.doc,.docx">`;
                 formulario += `<span id="div_error_${campo.nombre}"></span><br>`;
                 continue;
@@ -237,17 +246,19 @@ class DOM_class {
                     if (campo.validation_rules && campo.validation_rules.ADD && campo.validation_rules.ADD.max_size) {
                         formulario += `maxlength="${campo.validation_rules.ADD.max_size[0]}" `;
                     }
-                formulario += `>`;
+                    formulario += `>`;
                     break;
                 case 'textarea':
                     formulario += `<textarea name="${campo.nombre}" id="${campo.nombre}" `;
                     if (campo.html.rows) formulario += `rows="${campo.html.rows}" `;
                     if (campo.html.cols) formulario += `cols="${campo.html.cols}" `;
                     if (campo.validation_rules && campo.validation_rules.ADD && campo.validation_rules.ADD.max_size) {
-                        formulario += `maxlength="${campo.validation_rules.ADD.max_size[0]}" `;                    }
+                        formulario += `maxlength="${campo.validation_rules.ADD.max_size[0]}" `;
+                    }
                     formulario += `></textarea>`;
                     break;
-                case 'select':                    formulario += `<select name="${campo.nombre}" id="${campo.nombre}">`;
+                case 'select':
+                    formulario += `<select name="${campo.nombre}" id="${campo.nombre}">`;
                     if (campo.html.options) {
                         for (let i = 0; i < campo.html.options.length; i++) {
                             let opcion = campo.html.options[i];
@@ -257,9 +268,11 @@ class DOM_class {
                     }
                     formulario += '</select>';
                     break;
-                case 'date':                    formulario += `<input type="date" name="${campo.nombre}" id="${campo.nombre}">`;
+                case 'date':
+                    formulario += `<input type="date" name="${campo.nombre}" id="${campo.nombre}">`;
                     break;
-                case 'enum':                    formulario += `<select name="${campo.nombre}" id="${campo.nombre}">`;
+                case 'enum':
+                    formulario += `<select name="${campo.nombre}" id="${campo.nombre}">`;
                     formulario += `<option value="">${Textos['select_' + campo.nombre]}</option>`;
                     if (campo.html.valores) {
                         for (let valor of campo.html.valores) {
@@ -286,8 +299,9 @@ class DOM_class {
             if (document.getElementById(campos[i].id).type !== 'file') {
                 document.getElementById(campos[i].id).value = parametros[campos[i].id] || '';
             }
-        }
-    }      load_validations(accion) {
+        }    }
+
+    load_validations(accion) {
         let campos = document.forms['IU_form'].elements;
         
         for (let i = 0; i < campos.length; i++) {
@@ -298,7 +312,9 @@ class DOM_class {
 
             campo.setAttribute(evento, 'validar.comprobarCampo("' + campos[i].id + '", "' + accion + '");');
         }
-    }    colocarboton(accion) {
+    }
+
+    colocarboton(accion) {
         let divboton = document.createElement('div');
         divboton.id = 'div_boton';
         document.getElementById('IU_form').appendChild(divboton);

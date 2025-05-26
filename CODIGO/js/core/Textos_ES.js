@@ -128,4 +128,7 @@ const Textos_ES = {
     'soil_site': 'Sitio del suelo',
     'soil_chem': 'Química del suelo',
     'soil_bio': 'Biología del suelo',
+
+    // Admin messages
+    'admin_no_te_lo_deja_borrar_KO': 'El administrador no permite eliminar este elemento',
 };
