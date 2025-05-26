@@ -200,7 +200,7 @@ const Textos_EN = {
 
     'name_characteristic_required_KO': 'Name is required',
     'name_characteristic_format_KO': 'Name can only contain letters and spaces',
-    'name_characteristic_min_size_KO': 'Name must be at least 3 characters',
+    'name_characteristic_min_size_KO': 'Name must be at least 8 characters',
     'name_characteristic_max_size_KO': 'Name cannot be longer than 100 characters',
 
     'description_characteristic_required_KO': 'Description is required',

@@ -61,7 +61,7 @@ const Textos_ES = {
 
     'name_characteristic_required_KO': 'El nombre es obligatorio',
     'name_characteristic_format_KO': 'El nombre solo puede contener letras y espacios',
-    'name_characteristic_min_size_KO': 'El nombre debe tener al menos 3 caracteres',
+    'name_characteristic_min_size_KO': 'El nombre debe tener al menos 8 caracteres',
     'name_characteristic_max_size_KO': 'El nombre no puede tener más de 100 caracteres',
 
     'description_characteristic_required_KO': 'La descripción es obligatoria',

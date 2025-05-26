@@ -78,17 +78,32 @@ class Entidad_Abstract_class extends DOM_class {
         await this.access_functions.peticionBackGeneral('IU_form', this.entidad, 'ADD')
         .then((respuesta) => {
             if (respuesta['ok']) {
-                // Limpiar el formulario
-                this.cargar_formulario();
-
-                // Poner el div del formulario no visible
-                document.getElementById("div_IU_form").style.display = 'none';
+                if (respuesta['datos']) {
+                    // Actualizar el formulario con los datos devueltos
+                    this.load_data(respuesta['datos']);
+                } else {
+                    // Si no hay datos, limpiar el formulario
+                    this.cargar_formulario();
+                    // Poner el div del formulario no visible
+                    document.getElementById("div_IU_form").style.display = 'none';
+                }
 
                 this.SEARCH();
             }
             else {
-                // Usando modal
-                this.abrirModalError(respuesta['code']);
+                // Check if it's a field validation error (like required fields)
+                if (respuesta['code'].includes('_required_KO')) {
+                    const field = respuesta['code'].replace('_required_KO', '');
+                    this.validaciones.mostrar_error_campo(field, respuesta['code']);
+                }
+                else if (respuesta['code'].includes('_es_nulo_KO')) {
+                    const field = respuesta['code'].replace('_es_nulo_KO', '');
+                    this.validaciones.mostrar_error_campo(field, field + '_required_KO');
+                }
+                else {
+                    // For other errors, use modal
+                    this.abrirModalError(respuesta['code']);
+                }
             }
         });
     }    async DELETE() {
@@ -121,8 +136,19 @@ class Entidad_Abstract_class extends DOM_class {
                 this.SEARCH();
             }
             else {
-                // Usando modal
-                this.abrirModalError(respuesta['code']);
+                // Check if it's a field validation error (like required fields)
+                if (respuesta['code'].includes('_required_KO')) {
+                    const field = respuesta['code'].replace('_required_KO', '');
+                    this.validaciones.mostrar_error_campo(field, respuesta['code']);
+                }
+                else if (respuesta['code'].includes('_es_nulo_KO')) {
+                    const field = respuesta['code'].replace('_es_nulo_KO', '');
+                    this.validaciones.mostrar_error_campo(field, field + '_required_KO');
+                }
+                else {
+                    // For other errors, use modal
+                    this.abrirModalError(respuesta['code']);
+                }
             }
         });
     }

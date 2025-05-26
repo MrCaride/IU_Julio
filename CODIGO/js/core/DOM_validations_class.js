@@ -22,9 +22,7 @@ class DOM_validations extends DOM_class {
             // Add the event listener
             campo.addEventListener(eventType, this._validateField);
         }
-    }
-
-    comprobarCampo(campo, accion) {
+    }    comprobarCampo(campo, accion) {
         const estructura = eval('estructura_' + this.entidad);
         if (!estructura || !estructura.attributes[campo]) {
             return true;
@@ -33,11 +31,18 @@ class DOM_validations extends DOM_class {
         const validacionesCampo = estructura.attributes[campo].validation_rules?.[accion];
         if (!validacionesCampo) {
             return true;
-        }
-
-        // Special handling for file inputs
+        }        // Special handling for file inputs
         if (document.getElementById(campo).type === 'file') {
             return this.comprobar_file_characteristic(campo, validacionesCampo);
+        }        // Check if field is required
+        if (estructura.attributes[campo].is_not_null) {
+            const elem = document.getElementById(campo);
+            const value = elem.value;
+            if (!value || value === '') {
+                this.mostrar_error_campo(campo, campo + '_required_KO');
+                elem.style.borderColor = 'red';
+                return false;
+            }
         }
 
         // Regular field validation
