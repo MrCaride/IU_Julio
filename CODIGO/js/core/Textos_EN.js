@@ -218,7 +218,7 @@ const Textos_EN = {
 
     'bibref_characteristic_required_KO': 'Bibliographic reference is required',
     'bibref_characteristic_format_KO': 'Bibliographic reference contains invalid characters',
-    'bibref_characteristic_min_size_KO': 'Reference must be at least 6 characters',
+    'bibref_characteristic_min_size_KO': 'Reference must be at least 16 characters',
     'bibref_characteristic_max_size_KO': 'Reference cannot be longer than 200 characters',
 
     'file_characteristic_required_KO': 'File is required',

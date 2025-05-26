@@ -16,8 +16,7 @@ class ExternalAccess {
         datos.append('controlador', controlador);
         datos.append('action', action);
     
-        if (datosextra == null) {}
-        else {
+        if (datosextra != null) {
             for(var clave in datosextra) {
                 datos.append(clave, datosextra[clave]);
             }
@@ -28,8 +27,7 @@ class ExternalAccess {
                 type: "POST",
                 url: "http://193.147.87.202/ET2/index.php",
                 data: datos,
-                processData: false,
-                contentType: false,
+                processData: false,                contentType: false
             })
             .done(res => {
                 resolve(res);

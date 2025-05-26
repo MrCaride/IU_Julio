@@ -1,21 +1,19 @@
 class Characteristic extends Entidad_Abstract_class {
     constructor() {
-        super();
-        this.entidad = 'characteristic';
-        this.inicializar();
-        
-        // Ensure columnas_visibles_tabla is initialized from the structure
-        const estructura = eval('estructura_' + this.entidad);
-        this.columnasamostrar = estructura.columnas_visibles_tabla || [];
+        super("characteristic", estructura_characteristic);
     }
 
-    test_run() {
-        // Create and run tests using Test_class
-        let tester = new Test_class();
-        tester.initialize(this.entidad, this);
-        tester.test_run();
+    change_value_IU(atributo, valoratributo) {
+        if (atributo === 'file_characteristic') {
+            if (valoratributo === '') {
+                return "no hay fichero";
+            }
+            let baseUrl = "http://193.147.87.202/ET2/filesuploaded/files_file_characteristic/";
+            let texto = `<a href="${baseUrl}${encodeURIComponent(valoratributo)}" target="_blank">`;
+            texto += `<img src="./iconos/FILE.png" alt="Fichero"/>${valoratributo}</a>`;
+            return texto;
+        }
+        return valoratributo;
     }
 
-    // No necesitamos change_value_IU o check_special_test para esta entidad
-    // ya que no hay validaciones especiales o transformaciones de valores
 }

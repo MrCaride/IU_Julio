@@ -1,27 +1,36 @@
 class Entidad_Abstract_class extends DOM_class {
 
-    constructor() {
+    constructor(entidad, estructura) {
         super();
-    }    inicializar() {
-        // Initialize entity structure
-        const estructura = eval('estructura_' + this.entidad);
-        if (!estructura) {
-            throw new Error(`Structure not found for entity: ${this.entidad}`);
-        }
-
+        this.entidad = entidad;
+        this.estructura = estructura;
+        
         // Initialize special table data if exists
         this.datosespecialestabla = Array();
-
+        
         // Get columns to show from structure
-        this.columnasamostrar = estructura.columnas_visibles_tabla || [];
-        this.columnasmodificadas = estructura.columnas_modificadas_tabla || [];
-        this.atributos = estructura.attributes_list || [];
+        this.columnasamostrar = this.estructura.columnas_visibles_tabla || [];
+        this.columnasmodificadas = this.estructura.columnas_modificadas_tabla || [];
+        this.atributos = this.estructura.attributes_list || [];
 
         this.access_functions = new ExternalAccess();
-        this.validaciones = new Validaciones_Atomicas();
+        this.validaciones = new DOM_validations();
+        this.validaciones.entidad = this.entidad;
 
         this.cerrar_test();
         this.SEARCH();
+    }
+
+    comprobarCampo(campo, accion) {
+        return this.validaciones.comprobarCampo(campo, accion);
+    }
+
+    comprobar_submit() {
+        return this.validaciones.comprobar_submit();
+    }
+
+    comprobar_submit_SEARCH() {
+        return this.validaciones.comprobar_submit_SEARCH();
     }
 
     crearTablaDatos() {
@@ -120,5 +129,25 @@ class Entidad_Abstract_class extends DOM_class {
 
     cambiacolumnastabla(atributo) {
         document.querySelector("th[class='"+atributo+"']").style.display = 'none';
+    }
+
+    createForm_ADD() {
+        this.createForm(this.entidad, 'ADD');
+    }
+
+    createForm_EDIT(datos) {
+        this.createForm(this.entidad, 'EDIT', datos);
+    }
+
+    createForm_DELETE(datos) {
+        this.createForm(this.entidad, 'DELETE', datos);
+    }
+
+    createForm_SEARCH() {
+        this.createForm(this.entidad, 'SEARCH');
+    }
+
+    createForm_SHOWCURRENT(datos) {
+        this.createForm(this.entidad, 'SHOWCURRENT', datos);
     }
 }

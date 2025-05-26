@@ -147,15 +147,18 @@ class DOM_class {
         columna.appendChild(opcion);
         return columna.outerHTML;
     }
-    
-    createForm(entidad, accion, parametros = null) {
+      createForm(entidad, accion, parametros = null) {
         // Get the entity structure data
         let estructura = eval('estructura_' + entidad);
         
         // Create a form based on the entity structure
-        let form = document.createElement('form');
-        form.id = 'IU_form';
-        form.name = 'IU_form';
+        let form = document.getElementById('IU_form');
+        if (!form) {
+            form = document.createElement('form');
+            form.id = 'IU_form';
+            form.name = 'IU_form';
+            document.getElementById('div_IU_form').appendChild(form);
+        }
         
         // Set title based on action
         let title = document.getElementById('class_contenido_titulo_form');
@@ -166,16 +169,25 @@ class DOM_class {
             validar.cargar_formulario_html();
         } else {
             this.cargar_formulario_dinamico(entidad, estructura);
-        }
-        
-        // Set necessary attributes based on action
+        }        // Set necessary attributes based on action
         if (accion === 'ADD' || accion === 'EDIT' || accion === 'SEARCH') {
-            let submitMethod = accion === 'SEARCH' ? 
-                "return validar.comprobar_submit_SEARCH();" : 
-                "return validar.comprobar_submit();";
-                
-            form.setAttribute('onsubmit', submitMethod);
-            form.setAttribute('action', "javascript:validar." + accion + "();");
+            form.onsubmit = (e) => {
+                e.preventDefault();
+                if (accion === 'ADD') {
+                    if (validar.validaciones.comprobar_submit()) {
+                        validar.ADD();
+                    }
+                } else if (accion === 'EDIT') {
+                    if (validar.validaciones.comprobar_submit()) {
+                        validar.EDIT();
+                    }
+                } else if (accion === 'SEARCH') {
+                    if (validar.validaciones.comprobar_submit_SEARCH()) {
+                        validar.SEARCH();
+                    }
+                }
+                return false;
+            };
             
             // Add button for the action
             this.colocarboton(accion);
@@ -183,15 +195,14 @@ class DOM_class {
             // Set validations
             this.load_validations(accion);
         }
-        
-        // Fill form with data if provided
+          // Fill form with data if provided
         if (parametros) {
             this.load_data(parametros);
-            
-            // For EDIT and DELETE, make the primary key fields readonly
-            if (accion === 'EDIT' || accion === 'DELETE' || accion === 'SHOWCURRENT') {
-                this.ponernoactivoform(entidad, estructura, accion);
-            }
+        }
+        
+        // Handle readonly and hidden fields based on action
+        if (accion === 'ADD' || accion === 'EDIT' || accion === 'DELETE' || accion === 'SHOWCURRENT') {
+            this.ponernoactivoform(entidad, estructura, accion);
         }
         
         // Display the form
@@ -207,47 +218,48 @@ class DOM_class {
         for (let nombreCampo in estructura.attributes) {
             const campo = estructura.attributes[nombreCampo];
             campo.nombre = nombreCampo; // Add nombre to campo object
-            // Create label
+              if (campo.html.tag === 'file') {
+                // Handle file inputs with rename feature
+                const fileId = campo.html.rename_to || campo.nombre;
+                formulario += `<label class="label_${campo.nombre}" id="label_${campo.nombre}" for="${fileId}">${Textos[campo.nombre]}:</label>`;                formulario += `<input type="file" name="${fileId}" id="${fileId}" `;
+                formulario += `accept=".pdf,.doc,.docx">`;
+                formulario += `<span id="div_error_${campo.nombre}"></span><br>`;
+                continue;
+            }
+            
+            // Create label for non-file inputs
             formulario += `<label class="label_${campo.nombre}" id="label_${campo.nombre}" for="${campo.nombre}">${Textos[campo.nombre]}:</label>`;
             
             // Create input based on field type
-            switch (campo.html.tag) {                case 'input':
+            switch (campo.html.tag) {
+                case 'input':
                     formulario += `<input type="${campo.html.type || 'text'}" name="${campo.nombre}" id="${campo.nombre}" `;
                     if (campo.validation_rules && campo.validation_rules.ADD && campo.validation_rules.ADD.max_size) {
                         formulario += `maxlength="${campo.validation_rules.ADD.max_size[0]}" `;
                     }
-                    formulario += `onblur="validar.comprobar_${campo.nombre}()">`;
+                formulario += `>`;
                     break;
-      
-                      case 'textarea':
+                case 'textarea':
                     formulario += `<textarea name="${campo.nombre}" id="${campo.nombre}" `;
                     if (campo.html.rows) formulario += `rows="${campo.html.rows}" `;
                     if (campo.html.cols) formulario += `cols="${campo.html.cols}" `;
                     if (campo.validation_rules && campo.validation_rules.ADD && campo.validation_rules.ADD.max_size) {
-                        formulario += `maxlength="${campo.validation_rules.ADD.max_size[0]}" `;
-                    }
-                    formulario += `onblur="validar.comprobar_${campo.nombre}()"></textarea>`;
+                        formulario += `maxlength="${campo.validation_rules.ADD.max_size[0]}" `;                    }
+                    formulario += `></textarea>`;
                     break;
-                      case 'select':
-                    formulario += `<select name="${campo.nombre}" id="${campo.nombre}" onchange="validar.comprobar_${campo.nombre}()">`;
-                    formulario += `<option value="">${Textos['select_' + campo.nombre]}</option>`;
+                case 'select':                    formulario += `<select name="${campo.nombre}" id="${campo.nombre}">`;
                     if (campo.html.options) {
-                        for (let opcion of campo.html.options) {
-                            formulario += `<option value="${opcion}">${Textos[opcion]}</option>`;
+                        for (let i = 0; i < campo.html.options.length; i++) {
+                            let opcion = campo.html.options[i];
+                            let textoOpcion = i === 0 ? Textos['select_' + campo.nombre] : Textos[opcion];
+                            formulario += `<option value="${opcion}">${textoOpcion}</option>`;
                         }
                     }
                     formulario += '</select>';
                     break;
-                      case 'file':
-                    formulario += `<input type="file" id="nuevo_${campo.nombre}" name="nuevo_${campo.nombre}">`;
-                    formulario += `<span id="div_error_nuevo_${campo.nombre}"></span><br>`;
+                case 'date':                    formulario += `<input type="date" name="${campo.nombre}" id="${campo.nombre}">`;
                     break;
-                    
-                case 'date':
-                    formulario += `<input type="date" name="${campo.nombre}" id="${campo.nombre}" onblur="validar.comprobar_${campo.nombre}()">`;
-                    break;
-                  case 'enum':
-                    formulario += `<select name="${campo.nombre}" id="${campo.nombre}" onchange="validar.comprobar_${campo.nombre}()">`;
+                case 'enum':                    formulario += `<select name="${campo.nombre}" id="${campo.nombre}">`;
                     formulario += `<option value="">${Textos['select_' + campo.nombre]}</option>`;
                     if (campo.html.valores) {
                         for (let valor of campo.html.valores) {
@@ -258,7 +270,7 @@ class DOM_class {
                     break;
             }
             
-            // Add error div
+            // Add error div for non-file inputs
             formulario += `<span id="div_error_${campo.nombre}"></span><br>`;
         }
         
@@ -275,29 +287,18 @@ class DOM_class {
                 document.getElementById(campos[i].id).value = parametros[campos[i].id] || '';
             }
         }
-    }
-    
-    load_validations(accion) {
-        let evento;
+    }      load_validations(accion) {
         let campos = document.forms['IU_form'].elements;
         
         for (let i = 0; i < campos.length; i++) {
-            if ((document.getElementById(campos[i].id).tagName === 'INPUT') && 
-                (document.getElementById(campos[i].id).type !== 'file')) {
-                evento = 'onblur';
-            } else {
-                evento = 'onchange';
-            }
+            if (campos[i].id === 'submit_button') continue;
             
-            if (accion === 'SEARCH') {
-                document.getElementById(campos[i].id).setAttribute(evento, 'validar.comprobar_' + campos[i].id + '_' + accion + '();');
-            } else {
-                document.getElementById(campos[i].id).setAttribute(evento, 'validar.comprobar_' + campos[i].id + '();');
-            }
+            const campo = document.getElementById(campos[i].id);
+            const evento = (campo.tagName === 'INPUT' && campo.type !== 'file') ? 'onblur' : 'onchange';
+
+            campo.setAttribute(evento, 'validar.comprobarCampo("' + campos[i].id + '", "' + accion + '");');
         }
-    }
-    
-    colocarboton(accion) {
+    }    colocarboton(accion) {
         let divboton = document.createElement('div');
         divboton.id = 'div_boton';
         document.getElementById('IU_form').appendChild(divboton);
@@ -308,24 +309,40 @@ class DOM_class {
         
         let img = document.createElement('img');
         img.src = './iconos/' + accion + '.png';
+        img.alt = accion;
         
         boton.appendChild(img);
         document.getElementById('div_boton').appendChild(boton);
     }
-    
-    ponernoactivoform(entidad, estructura, accion) {
+      ponernoactivoform(entidad, estructura, accion) {
         let campos = document.forms['IU_form'].elements;
         
-        // For showcurrent, make all fields readonly
         if (accion === 'SHOWCURRENT' || accion === 'DELETE') {
+            // For showcurrent and delete, make all fields readonly
             for (let i = 0; i < campos.length; i++) {
                 document.getElementById(campos[i].id).setAttribute('readonly', true);
             }
         } else if (accion === 'EDIT') {
-            // For edit, make only primary key fields readonly
+            // For edit, make PK fields readonly
             for (let attr in estructura.attributes) {
                 if (estructura.attributes[attr].is_pk) {
                     document.getElementById(attr).setAttribute('readonly', true);
+                }
+            }
+        } else if (accion === 'ADD') {
+            // For add, make autoincrement fields readonly and hidden
+            for (let attr in estructura.attributes) {
+                if (estructura.attributes[attr].is_autoincrement) {
+                    const field = document.getElementById(attr);
+                    if (field) {
+                        field.setAttribute('readonly', true);
+                        field.style.display = 'none';
+                        // Also hide the label
+                        const label = document.getElementById('label_' + attr);
+                        if (label) {
+                            label.style.display = 'none';
+                        }
+                    }
                 }
             }
         }

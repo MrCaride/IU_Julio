@@ -79,7 +79,7 @@ const Textos_ES = {
 
     'bibref_characteristic_required_KO': 'La referencia bibliográfica es obligatoria',
     'bibref_characteristic_format_KO': 'La referencia bibliográfica contiene caracteres inválidos',
-    'bibref_characteristic_min_size_KO': 'La referencia debe tener al menos 6 caracteres',
+    'bibref_characteristic_min_size_KO': 'La referencia debe tener al menos 16 caracteres',
     'bibref_characteristic_max_size_KO': 'La referencia no puede tener más de 200 caracteres',
 
     'file_characteristic_required_KO': 'El archivo es obligatorio',
@@ -115,5 +115,17 @@ const Textos_ES = {
     'ERROR_AUTH': 'Error de autenticación',
 
     // File messages
-    'no_file': 'Sin archivo'
+    'no_file': 'Sin archivo',
+
+    // Data type options
+    'select_data_type_characteristic': 'Seleccione tipo de dato',
+    'number': 'Número',
+    'text': 'Texto',
+    'set': 'Conjunto',
+
+    // Category options
+    'select_category_characteristic': 'Seleccione categoría',
+    'soil_site': 'Sitio del suelo',
+    'soil_chem': 'Química del suelo',
+    'soil_bio': 'Biología del suelo',
 };

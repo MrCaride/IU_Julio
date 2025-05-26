@@ -1,156 +1,142 @@
 class DOM_validations extends DOM_class {
     constructor() {
         super();
-    }
-    
-    // Method to check if a field passes all validation rules
-    submit_test(form, entity, action) {
-        let isValid = true;
+        this.validacionesatomicas = new Validaciones_Atomicas();
+    }    load_validations(accion) {
+        let campos = document.forms['IU_form'].elements;
         
-        // Get entity structure
-        let estructura = eval('estructura_' + entity);
-        
-        // Get form fields
-        let campos = document.forms[form].elements;
-        
-        // Check each field validation
         for (let i = 0; i < campos.length; i++) {
-            let fieldId = campos[i].id;
+            if (campos[i].id === 'submit_button') continue;
             
-            // Skip submit button and other non-data fields
-            if (fieldId === 'submit_button' || !estructura.attributes[fieldId]) {
-                continue;
-            }
+            const campo = document.getElementById(campos[i].id);
+            const eventType = (campo.tagName === 'INPUT' && campo.type !== 'file') ? 'blur' : 'change';
             
-            let validationRules = estructura.attributes[fieldId].validation_rules;
+            // Remove any existing event listeners
+            campo.removeEventListener(eventType, this._validateField);
             
-            // Skip if there are no validation rules for this action
-            if (!validationRules || !validationRules[action]) {
-                continue;
-            }
+            // Create a new handler function for this field
+            this._validateField = (event) => {
+                this.comprobarCampo(campos[i].id, accion);
+            };
             
-            // Check if the field has a specific validation method
-            if (action === 'SEARCH') {
-                if (typeof window['validar']['comprobar_' + fieldId + '_SEARCH'] === 'function') {
-                    let result = validar['comprobar_' + fieldId + '_SEARCH']();
-                    if (result !== true) {
-                        isValid = false;
-                    }
+            // Add the event listener
+            campo.addEventListener(eventType, this._validateField);
+        }
+    }
+
+    comprobarCampo(campo, accion) {
+        const estructura = eval('estructura_' + this.entidad);
+        if (!estructura || !estructura.attributes[campo]) {
+            return true;
+        }
+
+        const validacionesCampo = estructura.attributes[campo].validation_rules?.[accion];
+        if (!validacionesCampo) {
+            return true;
+        }
+
+        // Special handling for file inputs
+        if (document.getElementById(campo).type === 'file') {
+            return this.comprobar_file_characteristic(campo, validacionesCampo);
+        }
+
+        // Regular field validation
+        for (let regla in validacionesCampo) {
+            if (typeof this.validacionesatomicas[regla] === 'function') {
+                const [valor, mensajeError] = validacionesCampo[regla];
+                if (!this.validacionesatomicas[regla](campo, valor)) {
+                    this.mostrar_error_campo(campo, mensajeError);
+                    return false;
                 }
-            } else {
-                if (typeof window['validar']['comprobar_' + fieldId] === 'function') {
-                    let result = validar['comprobar_' + fieldId]();
-                    if (result !== true) {
-                        isValid = false;
-                    }
-                }
-            }
-            
-            // Check special validations if they exist
-            let specialResult = this.check_special_tests(fieldId);
-            if (specialResult !== true) {
-                isValid = false;
             }
         }
+
+        this.mostrar_exito_campo(campo);
+        return true;
+    }    comprobar_file_characteristic(campo, validacionesCampo) {
+        const fileInput = document.getElementById(campo);
+        const file = fileInput.files[0];
         
-        return isValid;
+        // Check if file is required
+        if (!file && validacionesCampo.no_file) {
+            this.mostrar_error_campo(campo, validacionesCampo.no_file);
+            return false;
+        }
+
+        // If no file is selected and it's not required, validation passes
+        if (!file) {
+            this.mostrar_exito_campo(campo);
+            return true;
+        }
+
+        if (file) {
+            // Check file type
+            if (validacionesCampo.file_type) {
+                const [allowedTypes, errorMsg] = validacionesCampo.file_type;
+                if (!this.validacionesatomicas.file_type(file, allowedTypes)) {
+                    this.mostrar_error_campo(campo, errorMsg);
+                    return false;
+                }
+            }
+
+            // Check file size
+            if (validacionesCampo.max_size_file) {
+                const [maxSize, errorMsg] = validacionesCampo.max_size_file;
+                if (!this.validacionesatomicas.max_size_file(file, maxSize)) {
+                    this.mostrar_error_campo(campo, errorMsg);
+                    return false;
+                }
+            }
+
+            // Check file name format
+            if (validacionesCampo.format_name_file) {
+                const [formatRegex, errorMsg] = validacionesCampo.format_name_file;
+                if (!this.validacionesatomicas.format_name_file(file, formatRegex)) {
+                    this.mostrar_error_campo(campo, errorMsg);
+                    return false;
+                }
+            }
+        }
+
+        this.mostrar_exito_campo(campo);
+        return true;
     }
-    
+
     // Method to handle special validations defined in the entity class
     check_special_tests(fieldId) {
-        // Check if there's a special validation method for this field
         if (typeof window['validar']['check_special_' + fieldId] === 'function') {
             return validar['check_special_' + fieldId]();
         }
-        
         return true;
     }
-    
-    // Generic field validation method based on validation rules
+
+    // Método genérico para validar un campo
     validate_field(fieldId, entity, action) {
-        // Get entity structure
-        let estructura = eval('estructura_' + entity);
-        
-        // Get field validation rules
-        let validationRules = estructura.attributes[fieldId].validation_rules[action];
-        
-        // If no rules, field is valid
-        if (!validationRules) {
-            return true;
-        }
-        
-        // Get field value
-        let value = document.getElementById(fieldId).value;
-        
-        // Check required
-        if (validationRules.required && !value) {
-            this.mostrar_error_campo(fieldId, validationRules.required);
-            return validationRules.required;
-        }
-        
-        // If empty and not required, it's valid
-        if (!value && !validationRules.required) {
-            this.mostrar_exito_campo(fieldId);
-            return true;
-        }
-        
-        // Check min length
-        if (validationRules.min_length && value.length < validationRules.min_length.value) {
-            this.mostrar_error_campo(fieldId, validationRules.min_length.message);
-            return validationRules.min_length.message;
-        }
-        
-        // Check max length
-        if (validationRules.max_length && value.length > validationRules.max_length.value) {
-            this.mostrar_error_campo(fieldId, validationRules.max_length.message);
-            return validationRules.max_length.message;
-        }
-        
-        // Check format (regex)
-        if (validationRules.format) {
-            let regex = new RegExp(validationRules.format.value);
-            if (!regex.test(value)) {
-                this.mostrar_error_campo(fieldId, validationRules.format.message);
-                return validationRules.format.message;
-            }
-        }
-        
-        // Check file size
-        if (validationRules.max_size_file && document.getElementById(fieldId).files.length > 0) {
-            let file = document.getElementById(fieldId).files[0];
-            if (file.size > validationRules.max_size_file.value) {
-                this.mostrar_error_campo(fieldId, validationRules.max_size_file.message);
-                return validationRules.max_size_file.message;
-            }
-        }
-        
-        // Check file type
-        if (validationRules.type_file && document.getElementById(fieldId).files.length > 0) {
-            let file = document.getElementById(fieldId).files[0];
-            if (!validationRules.type_file.value.includes(file.type)) {
-                this.mostrar_error_campo(fieldId, validationRules.type_file.message);
-                return validationRules.type_file.message;
-            }
-        }
-        
-        // Check personalized validation
-        if (validationRules.personalized) {
-            // Extract function name and parameters
-            const functionText = validationRules.personalized;
-            const functionName = functionText.substring(0, functionText.indexOf('('));
+        this.entidad = entity;
+        return this.comprobarCampo(fieldId, action);
+    }    comprobar_submit() {
+        try {
+            const campos = document.forms['IU_form'].elements;
+            let resultadoValidacion = true;
             
-            // Check if the function exists in the current object
-            if (typeof window['validar'][functionName] === 'function') {
-                const result = window['validar'][functionName](value);
-                if (result !== true) {
-                    this.mostrar_error_campo(fieldId, result);
-                    return result;
+            // Validar todos los campos
+            for (let i = 0; i < campos.length; i++) {
+                const campo = campos[i];
+                if (campo.type === 'submit') continue;
+                
+                if (!this.comprobarCampo(campo.id, 'ADD')) {
+                    resultadoValidacion = false;
                 }
             }
+            
+            return resultadoValidacion;
+        } catch (error) {
+            console.error('Error en comprobar_submit:', error);
+            return false;
         }
-        
-        // All validations passed
-        this.mostrar_exito_campo(fieldId);
-        return true;
+    }
+
+    comprobar_submit_SEARCH() {
+        return true; // La búsqueda no necesita validación estricta
     }
 }

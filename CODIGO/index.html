@@ -173,17 +173,21 @@
             
             try {
                 // Create the characteristic entity
-                if (entityName === 'characteristic') {
-                    validar = new Characteristic();
-                } else {
-                    console.error('Unknown entity:', entityName);
+                switch(entityName) {
+                    case 'characteristic':
+                        validar = new Characteristic();
+                        // Show title and test button
+                        document.getElementById('title_page').style.display = 'block';
+                        document.getElementById('boton_test').style.display = 'inline-block';
+                        break;
+                    default:
+                        console.error('Unknown entity:', entityName);
+                        return;
                 }
             } catch (e) {
                 console.error('Error loading entity:', e);
+                return;
             }
-        }        // Toggle menu dropdown
-        function toggleMenu() {
-            document.getElementById("menuDropdown").classList.toggle("show");
         }
 
         // Toggle menu dropdown
