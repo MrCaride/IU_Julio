@@ -206,6 +206,8 @@ const Textos_EN = {
     'nuevo_file_characteristic_file_type_KO': 'File must be PDF or DOC/DOCX',
     'nuevo_file_characteristic_max_size_KO': 'File cannot exceed 2MB',
     'nuevo_file_characteristic_name_format_KO': 'File name can only contain letters and dot',
+    'nuevo_file_characteristic_OK': 'File is valid',
+
 
     'name_characteristic_required_KO': 'Name is required',
     'name_characteristic_format_KO': 'Name can only contain letters and spaces',

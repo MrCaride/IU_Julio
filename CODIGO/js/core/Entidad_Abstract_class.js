@@ -15,10 +15,15 @@ class Entidad_Abstract_class extends DOM_class {
 
         this.access_functions = new ExternalAccess();
         this.validaciones = new DOM_validations();
-        this.validaciones.entidad = this.entidad;
+        this.validaciones.entidad = this.entidad;        // Initialize test functionality
+        this.test = new Test_class();
+        this.test.initialize(this.entidad, this);
 
-        this.cerrar_test();
-        this.SEARCH();
+        // Delay initialization until DOM is ready
+        setTimeout(() => {
+            this.cerrar_test();
+            this.SEARCH();
+        }, 0);
     }
 
     comprobarCampo(campo, accion) {
@@ -175,5 +180,22 @@ class Entidad_Abstract_class extends DOM_class {
 
     createForm_SHOWCURRENT(datos) {
         this.createForm(this.entidad, 'SHOWCURRENT', datos);
+    }    // Method for running tests
+    test_run() {
+        // Initialize test modal
+        this.test.showTestModal();
+
+        // Get the test arrays based on entity name
+        this.test.array_def = eval(`${this.entidad}_def_tests`);
+        this.test.array_pruebas = eval(`${this.entidad}_tests`);
+        this.test.array_pruebas_file = eval(`${this.entidad}_tests_files`);
+
+        // Display test definitions and run tests
+        this.test.mostrarDefTests();
+        this.test.mostrarDefPruebas();
+        this.test.test_entidad();
+        if (this.test.array_pruebas_file) {
+            this.test.test_entidad_files();
+        }
     }
 }

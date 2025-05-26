@@ -104,6 +104,7 @@ const Textos_ES = {
     'nuevo_file_characteristic_file_type_KO': 'El archivo debe ser PDF o DOC/DOCX',
     'nuevo_file_characteristic_max_size_KO': 'El archivo no puede superar los 2MB',
     'nuevo_file_characteristic_name_format_KO': 'El nombre del archivo solo puede contener letras y punto',
+    'nuevo_file_characteristic_OK': 'Archivo subido correctamente',
 
     // Data types
     'number': 'Número',

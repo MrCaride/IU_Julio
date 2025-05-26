@@ -12,20 +12,45 @@ class Test_class {
     initialize(entidad, parent) {
         this.entidad = entidad;
         this.parent = parent;
-    }    showTestModal() {
+    }
+
+    showTestModal() {
         const modal = document.getElementById('test-modal');
-        modal.style.display = 'block';
+        if (!modal) {
+            console.error('Test modal not found');
+            return;
+        }
+
+        // Clear existing content
         this.clearModalContent();
 
-        // Crear botón de cerrar con icono
-        const closeBtn = document.createElement('img');
-        closeBtn.src = './iconos/BACK.png';
-        closeBtn.className = 'modal-close-icon';
-        closeBtn.onclick = () => {
-            modal.style.display = 'none';
+        // Show the modal
+        modal.style.display = 'block';
+
+        // Add close functionality
+        const closeModal = (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
         };
 
-        // Añadir el botón al principio del modal-content
+        // Close on clicking outside
+        modal.onclick = closeModal;
+
+        // Don't close when clicking inside
+        modal.querySelector('.modal-content').onclick = (e) => e.stopPropagation();
+
+        // Add close button
+        const closeBtn = document.createElement('img');
+        closeBtn.src = './iconos/BACK.png';
+        closeBtn.alt = 'Cerrar';
+        closeBtn.className = 'modal-close-icon';
+        closeBtn.onclick = () => modal.style.display = 'none';
+        closeBtn.style.cursor = 'pointer';
+        closeBtn.style.position = 'absolute';
+        closeBtn.style.top = '10px';
+        closeBtn.style.right = '10px';
+
         const modalContent = modal.querySelector('.modal-content');
         modalContent.insertBefore(closeBtn, modalContent.firstChild);
     }
@@ -87,22 +112,27 @@ class Test_class {
         let table = document.createElement('table');
         table.border = '1';
         table.style.width = '100%';
-        
-        // Add header row
+          // Add header row
         let headerRow = table.insertRow();
-        ['Entidad', 'Campo', 'NumDefTest', 'NumPrueba', 'Acción', 'Valor', 'Resultado Esperado'].forEach(text => {
+        ['Entidad', 'Campo', 'NumDefTest', 'NumPrueba', 'Acción', 'Valor', 'Resultado Esperado', 'Resultado Real'].forEach(text => {
             let th = document.createElement('th');
             th.textContent = text;
             headerRow.appendChild(th);
-        });
-
-        // Add regular test data rows
+        });        // Add regular test data rows
         for (let prueba of this.array_pruebas) {
             let row = table.insertRow();
-            prueba.forEach(value => {
+            prueba.forEach((value, index) => {
                 let cell = row.insertCell();
-                cell.textContent = value;
+                if (index === 7) { // Resultado Esperado
+                    cell.textContent = value === '' ? '' : (value === true ? 'Correcto' : this.traduccion(value));
+                } else {
+                    cell.textContent = value;
+                }
             });
+            // Add empty cell for Resultado Real (will be filled when test runs)
+            let resultadoCell = row.insertCell();
+            resultadoCell.textContent = ''; // Inicialmente vacío
+            resultadoCell.classList.add('resultado-real');
         }
 
         // Add file test data rows if they exist
@@ -135,26 +165,12 @@ class Test_class {
         document.getElementById('modal_resultadoprueba').innerHTML = '<h3>Definición de Pruebas</h3>';
         document.getElementById('modal_tablaresultadosprueba').innerHTML = '';
         document.getElementById('modal_tablaresultadosprueba').appendChild(table);
-    }
-
-    test_entidad() {
-        // Create table for test results
-        let table = document.createElement('table');
-        table.border = '1';
-        table.style.width = '100%';
-        
-        // Add header row
-        let headerRow = table.insertRow();
-        ['NumDefTest', 'NumPrueba', 'Campo', 'Prueba', 'Accion', 'Valor', 'Respuesta Test', 'Respuesta esperada', 'Resultado'].forEach(text => {
-            let th = document.createElement('th');
-            th.textContent = text;
-            headerRow.appendChild(th);
-        });
-
-        // Clear previous results and set title
-        document.getElementById('modal_resultadotest').innerHTML = '<h3>Resultados de Tests</h3>';
-        document.getElementById('modal_salidaresultadosprueba').innerHTML = '';
-        document.getElementById('modal_salidaresultadosprueba').appendChild(table);
+    }    test_entidad() {
+        let table = document.querySelector('#modal_tablaresultadosprueba table');
+        if (!table) {
+            console.error('No se encontró la tabla de pruebas');
+            return;
+        }        // No need to create new table or clear results as we're using the existing table
 
         // Run each test
         for (let i = 0; i < this.array_pruebas.length; i++) {
@@ -197,18 +213,22 @@ class Test_class {
                         }
                     }
                 }
-            }
-
-            // Check if test result matches expected result
+            }            // Check if test result matches expected result
             let resultadoestetest = (respuestatest === resultadotest) ? 'CORRECTO' : resultadotest;
 
-            // Add result row to table
-            let row = table.insertRow();
-            [numdeftest, numprueba, campotest, def[3], acciontest, valortest, 
-             resultadotest, respuestatest, resultadoestetest].forEach(text => {
-                let cell = row.insertCell();
-                cell.textContent = text;
+            // Find the corresponding row in the table
+            const rows = Array.from(table.rows);
+            const testRow = rows.find(row => {
+                return row.cells[2].textContent === numdeftest.toString() && 
+                       row.cells[3].textContent === numprueba.toString();
             });
+
+            if (testRow) {
+                // Update the Resultado Real column
+                const resultadoCell = testRow.cells[testRow.cells.length - 1];
+                resultadoCell.textContent = resultadoestetest;
+                resultadoCell.style.backgroundColor = resultadoestetest === 'CORRECTO' ? '#90EE90' : '#FFB6C1';
+            }
         }
     }
 

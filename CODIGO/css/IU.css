@@ -167,6 +167,48 @@ table tr:hover {
     margin: 0 0.25rem;
 }
 
+/* Action buttons styles */
+.boton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    margin: 2px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.boton:hover {
+    background-color: var(--secondary-color);
+}
+
+.img--boton {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+/* Table cell styles */
+td.acciones {
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* File link styles */
+td a {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--primary-color);
+    padding: 2px 5px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+td a:hover {
+    background-color: var(--light-color);
+}
+
 /* Form styles */
 .form-container {
     background-color: white;
@@ -357,15 +399,16 @@ input.exitocampo, textarea.exitocampo, select.exitocampo {
 
 .modal-content {
     background-color: #fefefe;
-    margin: 5% auto;
-    padding: 20px;
+    margin: 2% auto;
+    padding: 30px;
     border: 1px solid #888;
-    width: 90%;
-    max-width: 1200px;
-    max-height: 80vh;
+    width: 95%;
+    max-width: 1400px;
+    max-height: 90vh;
     overflow-y: auto;
     border-radius: 8px;
     position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .modal-close-icon {
@@ -443,7 +486,8 @@ input.exitocampo, textarea.exitocampo, select.exitocampo {
 .test-results-table table {
     width: 100%;
     border-collapse: collapse;
-    margin: 15px 0;
+    margin: 10px 0;
+    background-color: #fff;
 }
 
 .test-results-table th,
@@ -456,14 +500,23 @@ input.exitocampo, textarea.exitocampo, select.exitocampo {
 .test-results-table th {
     background-color: var(--primary-color);
     color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 0.95em;
+}
+
+.test-results-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
 }
 
 .test-results-table tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #f8f9fa;
 }
 
 .test-results-table tr:hover {
-    background-color: #f2f2f2;
+    background-color: #f5f5f5;
 }
 
 .success {
@@ -571,6 +624,55 @@ footer {
 #div_IU_form.active,
 .overlay.active {
     display: block;
+}
+
+/* Test Modal Styles */
+.test-section {
+    margin: 30px 0;
+    padding: 25px;
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.test-section h4 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 1.4em;
+    font-weight: bold;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.test-results-table {
+    overflow-x: auto;
+    margin: 1rem 0;
+    width: 100%;
+}
+
+.test-results-table table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.test-results-table th,
+.test-results-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+    word-wrap: break-word;
+    min-width: 150px;
+}
+
+.test-results-table th {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    position: sticky;
+    top: 0;
 }
 
 /* Responsive design */

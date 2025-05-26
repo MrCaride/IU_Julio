@@ -67,29 +67,9 @@
                 <img src="./iconos/BACK.png" onclick="validar.cerrar_formulario();" alt="Cerrar" style="cursor: pointer;" />
             </div>
 
-            <!-- Test results container -->
+                <!-- Results/tests container when not in modal -->
             <div id="div_IU_test" class="test-container" style="display: none;">
-                <div id="contenidoTests">
-                    <h3>Resultado de definición de tests</h3>
-                    <div id="resultadodef"></div>
-                    <div class="test-results-table">
-                        <table id="tablaresultadostest"></table>
-                    </div>
-                </div>
-                <div id="contenidoPruebas">
-                    <h3>Resultado de definición de pruebas</h3>
-                    <div id="resultadoprueba"></div>
-                    <div class="test-results-table">
-                        <table id="tablaresultadosprueba"></table>
-                    </div>
-                </div>
-                <div id="resultadopruebas">
-                    <h3>Resultado de pruebas</h3>
-                    <div id="resultadotest"></div>
-                    <div class="test-results-table">
-                        <table id="salidaresultadosprueba"></table>
-                    </div>
-                </div>
+                <!-- We'll use this for non-modal test display if needed -->
             </div>
         </div>
     </main>
@@ -113,24 +93,29 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div id="modal_contenidoTests">
-                    <h3>Resultado de definición de tests</h3>
-                    <div id="modal_resultadodef"></div>
-                    <div class="test-results-table">
-                        <table id="modal_tablaresultadostest"></table>
+                    <h3>Resultados de Tests</h3>
+                    <div class="test-section">
+                        <h4>Definición de Tests</h4>
+                        <div id="modal_resultadodef"></div>
+                        <div class="test-results-table">
+                            <table id="modal_tablaresultadostest" border="1"></table>
+                        </div>
                     </div>
-                </div>
-                <div id="modal_contenidoPruebas">
-                    <h3>Resultado de definición de pruebas</h3>
-                    <div id="modal_resultadoprueba"></div>
-                    <div class="test-results-table">
-                        <table id="modal_tablaresultadosprueba"></table>
+                    
+                    <div class="test-section">
+                        <h4>Definición de Pruebas</h4>
+                        <div id="modal_resultadoprueba"></div>
+                        <div class="test-results-table">
+                            <table id="modal_tablaresultadosprueba" border="1"></table>
+                        </div>
                     </div>
-                </div>
-                <div id="modal_resultadopruebas">
-                    <h3>Resultado de pruebas</h3>
-                    <div id="modal_resultadotest"></div>
-                    <div class="test-results-table">
-                        <table id="modal_salidaresultadosprueba"></table>
+                    
+                    <div class="test-section">
+                        <h4>Resultados de Pruebas</h4>
+                        <div id="modal_resultadotest"></div>
+                        <div class="test-results-table">
+                            <table id="modal_salidaresultadosprueba" border="1"></table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -159,7 +144,7 @@
     <script src="./js/entities/Characteristic_class.js"></script>
     
     <!-- Test files -->
-    <script src="./js/tests/characteristic_tests.js"></script><!-- Main script -->
+    <script src="./js/tests/test_definitions.js"></script><!-- Main script -->
     <script>
         // Global variable to hold the current entity
         let validar = null;        // Load an entity

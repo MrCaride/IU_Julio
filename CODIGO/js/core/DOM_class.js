@@ -8,18 +8,61 @@ class DOM_class {
     }
 
     mostrar_error_campo(id, codigoerror) {
-        document.getElementById('div_error_' + id).style.display = 'block';
-        document.getElementById('div_error_' + id).innerHTML = Textos[codigoerror];
-        document.getElementById('div_error_' + id).style.color = 'red';
-        document.getElementById(id).style.borderColor = 'red';
+        try {
+            // Find the elements
+            let errorDiv = document.getElementById('div_error_' + id);
+            let campo = document.getElementById(id);
+
+            // Create error div if it doesn't exist
+            if (!errorDiv && campo) {
+                errorDiv = document.createElement('span');
+                errorDiv.id = 'div_error_' + id;
+                errorDiv.className = 'error-message';
+                // Insert after the field
+                campo.parentNode.insertBefore(errorDiv, campo.nextSibling);
+            }
+
+            // Update the error message
+            if (errorDiv) {
+                errorDiv.style.display = 'block';
+                errorDiv.innerHTML = Textos[codigoerror] || codigoerror;
+                errorDiv.style.color = 'red';
+            }
+            
+            // Update field styling
+            if (campo) {
+                campo.style.borderColor = 'red';
+                campo.classList.add('errorcampo');
+            } 
+        } catch (error) {
+            console.warn(`Error displaying error for field ${id}:`, error);
+        }
     }
 
     mostrar_exito_campo(id) {
-        let codigoexito = id + '_OK';
-        document.getElementById('div_error_' + id).style.display = 'block';
-        document.getElementById('div_error_' + id).innerHTML = Textos[codigoexito];
-        document.getElementById('div_error_' + id).style.color = 'green';
-        document.getElementById(id).style.borderColor = 'green';
+        try {
+            let errorDiv = document.getElementById('div_error_' + id);
+            let campo = document.getElementById(id);
+
+            if (errorDiv) {
+                if (Textos[id + '_OK']) {
+                    errorDiv.style.display = 'block';
+                    errorDiv.innerHTML = Textos[id + '_OK'];
+                    errorDiv.style.color = 'green';
+                } else {
+                    errorDiv.style.display = 'none';
+                    errorDiv.innerHTML = '';
+                }
+            }
+
+            if (campo) {
+                campo.style.borderColor = 'green';
+                campo.classList.remove('errorcampo');
+                campo.classList.add('exitocampo');
+            }
+        } catch (error) {
+            console.warn(`Error displaying success for field ${id}:`, error);
+        }
     }
 
     modificarcolumnasamostrar(atributo) {
@@ -149,9 +192,12 @@ class DOM_class {
             
             for (let atributo of this.atributos) {
                 let display = this.columnasamostrar.includes(atributo) ? '' : 'display:none;';
-                
-                if (this.datosespecialestabla && this.datosespecialestabla.includes(atributo)) {
-                    let valorcolumna = this.change_value_IU(atributo, this.datos[i][atributo]);
+                let valor = this.datos[i][atributo];                if (this.estructura.columnas_modificadas_tabla && this.estructura.columnas_modificadas_tabla.includes(atributo)) {
+                    // Usamos change_value_IU del validar (que es la instancia de la entidad)
+                    let valorcolumna = valor;
+                    if (window.validar && typeof window.validar.change_value_IU === 'function') {
+                        valorcolumna = window.validar.change_value_IU(atributo, valor);
+                    }
                     textolineadatos += `<td class="tabla-td-${atributo}" style="${display}">${valorcolumna}</td>`;
                 } else {
                     let san = (obj) => {
@@ -165,7 +211,7 @@ class DOM_class {
                             '`': '&#x60;'
                         })[match]);
                     };
-                    let valorE = san(this.datos[i][atributo]);
+                    let valorE = san(valor);
                     textolineadatos += `<td class="tabla-td-${atributo}" style="${display}">${valorE}</td>`;
                 }
             }
@@ -189,17 +235,20 @@ class DOM_class {
         if (typeof setLang === 'function') {
             setLang();
         }
-    }
-
-    crearboton(entidad, accion, parametros) {
+    }    crearboton(entidad, accion, parametros) {
         let columna = document.createElement('td');
+        let boton = document.createElement('button');
+        boton.className = 'boton';
         let opcion = document.createElement('img');
         opcion.src = "./iconos/" + accion + '.png';
-        let textoonclick = "validar.createForm_" + accion + "(" + parametros + ");"
-        opcion.setAttribute('onclick', textoonclick);
-        columna.appendChild(opcion);
+        opcion.alt = accion;
+        opcion.className = 'img--boton';
+        let textoonclick = `validar.createForm('${entidad}', '${accion}', ${parametros});`
+        boton.setAttribute('onclick', textoonclick);
+        boton.appendChild(opcion);
+        columna.appendChild(boton);
         return columna.outerHTML;
-    }    createForm(entidad, accion, parametros = null) {
+    }createForm(entidad, accion, parametros = null) {
         // Store current action globally
         window.accionActual = accion;
         
@@ -212,7 +261,7 @@ class DOM_class {
             form = document.createElement('form');
             form.id = 'IU_form';
             form.name = 'IU_form';
-            form.enctype = 'multipart/form-data'; // Importante para archivos
+            form.enctype = 'multipart/form-data';
             document.getElementById('div_IU_form').appendChild(form);
         }
         
@@ -226,6 +275,9 @@ class DOM_class {
         } else {
             this.cargar_formulario_dinamico(entidad, estructura);
         }
+
+        // Display the form first to ensure elements are in DOM
+        document.getElementById("div_IU_form").style.display = 'block';
 
         // Set necessary attributes based on action
         if (accion === 'ADD' || accion === 'EDIT' || accion === 'SEARCH' || accion === 'DELETE') {
@@ -252,25 +304,26 @@ class DOM_class {
             // Add button for the action
             this.colocarboton(accion);
             
-            // Set validations
-            this.load_validations(accion);
+            // Set validations with a small delay to ensure elements exist
+            setTimeout(() => {
+                this.load_validations(accion);
+                
+                // Fill form with data if provided
+                if (parametros) {
+                    this.load_data(parametros);
+                }
+                
+                // Handle readonly and hidden fields based on action
+                if (accion === 'ADD' || accion === 'EDIT' || accion === 'DELETE' || accion === 'SHOWCURRENT') {
+                    this.ponernoactivoform(entidad, estructura, accion);
+                }
+                
+                // Set language translations
+                if (typeof setLang === 'function') {
+                    setLang();
+                }
+            }, 0);
         }
-        
-        // Fill form with data if provided
-        if (parametros) {
-            this.load_data(parametros);
-        }
-        
-        // Handle readonly and hidden fields based on action
-        if (accion === 'ADD' || accion === 'EDIT' || accion === 'DELETE' || accion === 'SHOWCURRENT') {
-            this.ponernoactivoform(entidad, estructura, accion);
-        }
-        
-        // Display the form
-        document.getElementById("div_IU_form").style.display = 'block';
-        
-        // Set language translations
-        setLang();
     }
       cargar_formulario_dinamico(entidad, estructura) {
         let formulario = '';
@@ -437,37 +490,56 @@ class DOM_class {
         document.getElementById('div_boton').appendChild(boton);
     }
       ponernoactivoform(entidad, estructura, accion) {
-        let campos = document.forms['IU_form'].elements;
-        
-        if (accion === 'SHOWCURRENT' || accion === 'DELETE') {
-            // For showcurrent and delete, make all fields readonly
-            for (let i = 0; i < campos.length; i++) {
-                document.getElementById(campos[i].id).setAttribute('readonly', true);
+        // Add small delay to ensure DOM elements are created
+        setTimeout(() => {
+            const form = document.getElementById('IU_form');
+            if (!form) {
+                console.error('Form not found');
+                return;
             }
-        } else if (accion === 'EDIT') {
-            // For edit, make PK fields readonly
-            for (let attr in estructura.attributes) {
-                if (estructura.attributes[attr].is_pk) {
-                    document.getElementById(attr).setAttribute('readonly', true);
-                }
+
+            const campos = form.elements;
+            if (!campos || campos.length === 0) {
+                console.error('No form elements found');
+                return;
             }
-        } else if (accion === 'ADD') {
-            // For add, make autoincrement fields readonly and hidden
-            for (let attr in estructura.attributes) {
-                if (estructura.attributes[attr].is_autoincrement) {
-                    const field = document.getElementById(attr);
+
+            if (accion === 'SHOWCURRENT' || accion === 'DELETE') {
+                // For showcurrent and delete, make all fields readonly
+                for (let i = 0; i < campos.length; i++) {
+                    const field = document.getElementById(campos[i].id);
                     if (field) {
                         field.setAttribute('readonly', true);
-                        field.style.display = 'none';
-                        // Also hide the label
-                        const label = document.getElementById('label_' + attr);
-                        if (label) {
-                            label.style.display = 'none';
+                    }
+                }
+            } else if (accion === 'EDIT') {
+                // For edit, make PK fields readonly
+                for (let attr in estructura.attributes) {
+                    if (estructura.attributes[attr].is_pk) {
+                        const field = document.getElementById(attr);
+                        if (field) {
+                            field.setAttribute('readonly', true);
+                        }
+                    }
+                }
+            } else if (accion === 'ADD') {
+                // For add, make autoincrement fields readonly and hidden
+                for (let attr in estructura.attributes) {
+                    if (estructura.attributes[attr].is_autoincrement) {
+                        const field = document.getElementById(attr);
+                        if (field) {
+                            field.setAttribute('readonly', true);
+                            field.style.display = 'none';
+                            // Also hide the label
+                            const label = document.getElementById('label_' + attr);
+                            if (label) {
+                                label.style.display = 'none';
+                            }
                         }
                     }
                 }
             }
-        }
+        }, 0);
     }
     
     colocarvalidaciones(accion) {
@@ -497,16 +569,27 @@ class DOM_class {
         document.getElementById("IU_form").setAttribute('onsubmit', "");
         document.getElementById("IU_form").setAttribute('action', "");
         document.getElementById("div_IU_form").style.display = 'none';
-    }
-
-    cerrar_test() {
-        document.getElementById('div_IU_test').style.display = 'none';
-        document.getElementById('resultadodef').innerHTML = '';
-        document.getElementById('tablaresultadostest').innerHTML = '';
-        document.getElementById('resultadoprueba').innerHTML = '';
-        document.getElementById('tablaresultadosprueba').innerHTML = '';
-        document.getElementById('resultadotest').innerHTML = '';
-        document.getElementById('salidaresultadosprueba').innerHTML = '';
+    }    cerrar_test() {
+        const elements = [
+            'div_IU_test',
+            'resultadodef',
+            'tablaresultadostest',
+            'resultadoprueba',
+            'tablaresultadosprueba',
+            'resultadotest',
+            'salidaresultadosprueba'
+        ];
+        
+        elements.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                if (id === 'div_IU_test') {
+                    element.style.display = 'none';
+                } else {
+                    element.innerHTML = '';
+                }
+            }
+        });
     }
 
     cerrar_tabla() {
