@@ -124,12 +124,15 @@ class DOM_validations extends DOM_class {
             const campos = document.forms['IU_form'].elements;
             let resultadoValidacion = true;
             
+            // Obtener la acción actual
+            const accion = window.accionActual || 'ADD';
+            
             // Validar todos los campos
             for (let i = 0; i < campos.length; i++) {
                 const campo = campos[i];
-                if (campo.type === 'submit') continue;
+                if (campo.type === 'submit' || !campo.id) continue;
                 
-                if (!this.comprobarCampo(campo.id, 'ADD')) {
+                if (!this.comprobarCampo(campo.id, accion)) {
                     resultadoValidacion = false;
                 }
             }

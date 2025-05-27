@@ -273,6 +273,7 @@ class DOM_class {
         if (typeof window['validar']['cargar_formulario_html'] === 'function') {
             validar.cargar_formulario_html();
         } else {
+            // Fallback to dynamic form creation
             this.cargar_formulario_dinamico(entidad, estructura);
         }
 
@@ -280,50 +281,52 @@ class DOM_class {
         document.getElementById("div_IU_form").style.display = 'block';
 
         // Set necessary attributes based on action
-        if (accion === 'ADD' || accion === 'EDIT' || accion === 'SEARCH' || accion === 'DELETE') {
-            form.onsubmit = (e) => {
-                e.preventDefault();
-                if (accion === 'ADD') {
-                    if (validar.validaciones.comprobar_submit()) {
+        form.onsubmit = (e) => {
+            e.preventDefault();
+            
+            switch(accion) {
+                case 'ADD':
+                    if (validar.comprobar_submit()) {
                         validar.ADD();
                     }
-                } else if (accion === 'EDIT') {
-                    if (validar.validaciones.comprobar_submit()) {
+                    break;
+                case 'EDIT':
+                    if (validar.comprobar_submit()) {
                         validar.EDIT();
                     }
-                } else if (accion === 'SEARCH') {
-                    if (validar.validaciones.comprobar_submit_SEARCH()) {
+                    break;
+                case 'SEARCH':
+                    if (validar.comprobar_submit_SEARCH()) {
                         validar.SEARCH();
                     }
-                } else if (accion === 'DELETE') {
+                    break;
+                case 'DELETE':
                     validar.DELETE();
-                }
-                return false;
-            };
+                    break;
+            }
+            return false;
+        };
+        
+        // Add button for the action
+        this.colocarboton(accion);
+        
+        // Set validations with a small delay to ensure elements exist
+        setTimeout(() => {
+            this.load_validations(accion);
             
-            // Add button for the action
-            this.colocarboton(accion);
+            // Fill form with data if provided
+            if (parametros) {
+                this.load_data(parametros);
+            }
             
-            // Set validations with a small delay to ensure elements exist
-            setTimeout(() => {
-                this.load_validations(accion);
-                
-                // Fill form with data if provided
-                if (parametros) {
-                    this.load_data(parametros);
-                }
-                
-                // Handle readonly and hidden fields based on action
-                if (accion === 'ADD' || accion === 'EDIT' || accion === 'DELETE' || accion === 'SHOWCURRENT') {
-                    this.ponernoactivoform(entidad, estructura, accion);
-                }
-                
-                // Set language translations
-                if (typeof setLang === 'function') {
-                    setLang();
-                }
-            }, 0);
-        }
+            // Handle readonly and hidden fields based on action
+            this.ponernoactivoform(entidad, estructura, accion);
+            
+            // Set language translations
+            if (typeof setLang === 'function') {
+                setLang();
+            }
+        }, 0);
     }
       cargar_formulario_dinamico(entidad, estructura) {
         let formulario = '';
@@ -336,18 +339,14 @@ class DOM_class {
 
             // Excluir campos según la acción
             if (accion === 'ADD') {
-                if (campo.is_autoincrement || nombreCampo.startsWith('file_')) {
+                if ((campo.is_pk && campo.is_autoincrement) || nombreCampo.startsWith('file_')) {
                     continue;
                 }
             } else if (accion === 'EDIT') {
-                if (campo.is_pk || nombreCampo.startsWith('file_')) {
-                    continue;
-                }
-            } else if (accion === 'SEARCH') {
                 if (nombreCampo.startsWith('nuevo_file_')) {
                     continue;
                 }
-            } else if (accion === 'DELETE' || accion === 'SHOWCURRENT') {
+            } else if (accion === 'SEARCH' || accion === 'DELETE' || accion === 'SHOWCURRENT') {
                 if (nombreCampo.startsWith('nuevo_file_')) {
                     continue;
                 }
@@ -356,15 +355,22 @@ class DOM_class {
             // Create label first
             formulario += `<div class="campo-container">`;
             formulario += `<label class="label_${campo.nombre}" id="label_${campo.nombre}" for="${campo.nombre}">${Textos[campo.nombre] || campo.nombre}:</label>`;
-            
-            // Manejar campos de archivo
+              // Manejar campos de archivo
             if (campo.html.type === 'file' || campo.html.tag === 'file') {
                 formulario += `<div class="file-container" id="${campo.nombre}_container">`;
+                
+                // Para archivos existentes en EDIT
                 if (accion === 'EDIT') {
                     formulario += `<div id="${campo.nombre}_link"></div>`;
+                    // Solo mostrar input para nuevo_file en EDIT
+                    if (nombreCampo.startsWith('nuevo_file_')) {
+                        formulario += `<input type="file" name="${campo.nombre}" id="${campo.nombre}" `;
+                        formulario += `accept=".pdf,.doc,.docx">`;
+                    }
+                } else {
+                    formulario += `<input type="file" name="${campo.nombre}" id="${campo.nombre}" `;
+                    formulario += `accept=".pdf,.doc,.docx">`;
                 }
-                formulario += `<input type="file" name="${campo.nombre}" id="${campo.nombre}" `;
-                formulario += `accept=".pdf,.doc,.docx">`;
                 formulario += `</div>`;
             } else {
                 // Crear input basado en el tipo de campo
@@ -408,6 +414,8 @@ class DOM_class {
         
         document.getElementById("IU_form").innerHTML = formulario;
     }      load_data(parametros) {
+        if (!parametros) return;
+    
         // Get form fields
         let campos = document.forms['IU_form'].elements;
         
@@ -417,25 +425,31 @@ class DOM_class {
             const elemento = document.getElementById(campo.id);
             
             if (!elemento) continue;
+            
+            // Obtain the value, possibly transformed
+            let valor = parametros[campo.id];
+            if (window.accionActual === 'SHOWCURRENT' && typeof window.validar?.change_value_IU === 'function') {
+                valor = window.validar.change_value_IU(campo.id, valor) || valor;
+            }
 
-            // Manejo especial para archivos
+            // Special handling for files
             if (elemento.type === 'file') {
                 const linkContainer = document.getElementById(campo.id + '_link');
-                if (linkContainer && parametros[campo.id]) {
-                    // Crear enlace para ver el archivo actual
+                if (linkContainer && valor) {
+                    // Create link to view current file
                     let link = document.createElement('a');
-                    link.href = `http://193.147.87.202/ET2/filesuploaded/files_${campo.id}/${parametros[campo.id]}`;
+                    link.href = `http://193.147.87.202/ET2/filesuploaded/files_${campo.id}/${valor}`;
                     link.target = '_blank';
                     link.className = 'file-link';
                     
-                    // Agregar icono de archivo
+                    // Add file icon
                     let img = document.createElement('img');
                     img.src = './iconos/FILE.png';
                     img.alt = 'Ver archivo';
                     img.className = 'file-icon';
                     
                     link.appendChild(img);
-                    link.appendChild(document.createTextNode(parametros[campo.id]));
+                    link.appendChild(document.createTextNode(valor));
                     
                     linkContainer.innerHTML = '';
                     linkContainer.appendChild(link);
@@ -443,19 +457,26 @@ class DOM_class {
                 continue;
             }
             
-            // Para otros tipos de campos
+            // For other types of fields
             if (window.accionActual === 'SHOWCURRENT') {
-                const valorTransformado = this.change_value_IU ? 
-                    this.change_value_IU(campo.id, parametros[campo.id]) : 
-                    parametros[campo.id];
-                    
-                if (elemento.tagName === 'DIV') {
-                    elemento.innerHTML = valorTransformado || '';
+                // For select elements, find and select the correct option
+                if (elemento.tagName === 'SELECT') {
+                    for (let i = 0; i < elemento.options.length; i++) {
+                        if (elemento.options[i].value === valor) {
+                            elemento.selectedIndex = i;
+                            break;
+                        }
+                    }
                 } else {
-                    elemento.value = parametros[campo.id] || '';
+                    elemento.value = valor || '';
+                }
+                // Make all fields readonly in SHOWCURRENT
+                elemento.setAttribute('readonly', 'readonly');
+                if (elemento.tagName === 'SELECT') {
+                    elemento.disabled = true;
                 }
             } else {
-                elemento.value = parametros[campo.id] || '';
+                elemento.value = valor || '';
             }
         }
     }
@@ -507,71 +528,68 @@ class DOM_class {
             if (accion === 'SHOWCURRENT' || accion === 'DELETE') {
                 // For showcurrent and delete, make all fields readonly
                 for (let i = 0; i < campos.length; i++) {
-                    const field = document.getElementById(campos[i].id);
-                    if (field) {
-                        field.setAttribute('readonly', true);
+                    const campo = document.getElementById(campos[i].id);
+                    if (!campo) continue;
+                    
+                    if (campo.type === 'file') {
+                        campo.style.display = 'none';
+                        continue;
                     }
-                }
-            } else if (accion === 'EDIT') {
-                // For edit, make PK fields readonly
+                    
+                    campo.setAttribute('readonly', true);
+                    if (campo.tagName === 'SELECT') {
+                        campo.disabled = true;
+                    }
+                }            } else if (accion === 'EDIT') {
+                // For edit, make PK fields readonly but visible
                 for (let attr in estructura.attributes) {
                     if (estructura.attributes[attr].is_pk) {
-                        const field = document.getElementById(attr);
-                        if (field) {
-                            field.setAttribute('readonly', true);
+                        const campo = document.getElementById(attr);
+                        if (campo) {
+                            campo.setAttribute('readonly', true);
+                            campo.classList.add('readonly-field');
                         }
                     }
-                }
-            } else if (accion === 'ADD') {
-                // For add, make autoincrement fields readonly and hidden
+                }            } else if (accion === 'ADD') {
+                // For add, only handle autoincrement primary keys
                 for (let attr in estructura.attributes) {
-                    if (estructura.attributes[attr].is_autoincrement) {
-                        const field = document.getElementById(attr);
-                        if (field) {
-                            field.setAttribute('readonly', true);
-                            field.style.display = 'none';
-                            // Also hide the label
-                            const label = document.getElementById('label_' + attr);
-                            if (label) {
-                                label.style.display = 'none';
-                            }
+                    const campo = document.getElementById(attr);
+                    if (!campo) continue;
+                    
+                    if (estructura.attributes[attr].is_pk && estructura.attributes[attr].is_autoincrement) {
+                        campo.setAttribute('readonly', true);
+                        campo.style.display = 'none';
+                        // Also hide the label
+                        const label = document.getElementById('label_' + attr);
+                        if (label) {
+                            label.style.display = 'none';
                         }
+                    } else if (estructura.attributes[attr].is_pk) {
+                        // Primary keys that are not autoincrement should be editable in ADD
+                        campo.removeAttribute('readonly');
+                        campo.style.display = '';
+                        campo.classList.remove('readonly-field');
                     }
                 }
             }
         }, 0);
     }
-    
-    colocarvalidaciones(accion) {
-        let evento;
-        // Get form fields
-        let campos = document.forms['IU_form'].elements;
+
+    cerrar_test() {
+        // Get required elements
+        const divIUTest = document.getElementById('div_IU_test');
+        const modal = document.getElementById('test-modal');
         
-        // Iterate through all fields
-        for (let i = 0; i < campos.length; i++) {
-            if ((document.getElementById(campos[i].id).tagName === 'INPUT') && 
-                (document.getElementById(campos[i].id).type !== 'file')) {
-                evento = 'onblur';
-            } else {
-                evento = 'onchange';
-            }
-            
-            if (accion === 'SEARCH') {
-                document.getElementById(campos[i].id).setAttribute(evento, 'validar.comprobar_' + campos[i].id + '_' + accion + '();');
-            } else {
-                document.getElementById(campos[i].id).setAttribute(evento, 'validar.comprobar_' + campos[i].id + '();');
-            }
+        // Hide test div and modal if they exist
+        if (divIUTest) {
+            divIUTest.style.display = 'none';
         }
-    }
-    
-    cerrar_formulario() {
-        document.getElementById("IU_form").innerHTML = '';
-        document.getElementById("IU_form").setAttribute('onsubmit', "");
-        document.getElementById("IU_form").setAttribute('action', "");
-        document.getElementById("div_IU_form").style.display = 'none';
-    }    cerrar_test() {
-        const elements = [
-            'div_IU_test',
+        if (modal) {
+            modal.style.display = 'none';
+        }
+
+        // Clear test content
+        const testElements = [
             'resultadodef',
             'tablaresultadostest',
             'resultadoprueba',
@@ -580,110 +598,30 @@ class DOM_class {
             'salidaresultadosprueba'
         ];
         
-        elements.forEach(id => {
+        testElements.forEach(id => {
             const element = document.getElementById(id);
             if (element) {
-                if (id === 'div_IU_test') {
-                    element.style.display = 'none';
-                } else {
-                    element.innerHTML = '';
-                }
+                element.innerHTML = '';
             }
         });
     }
 
-    cerrar_tabla() {
-        document.getElementById("titulostablacabecera").innerHTML = '';
-        document.getElementById("muestradatostabla").innerHTML = '';
-        document.getElementById("id_tabla_datos").style.display = 'none';
-        document.getElementById("title_page").style.display = 'none';
-
-        this.ocultar_boton_test();
-        this.cerrar_test();
-    }
-
-    ocultar_boton_test() {
-        document.getElementById('boton_test').style.display = 'none';
-    }
-
-    mostrar_boton_test() {
-        document.getElementById('boton_test').style.display = 'inline';
-    }
-
-    abrirModalError(errorMsg) {
-        document.getElementById('modal-error-message').textContent = Textos[errorMsg] || errorMsg;
-        document.getElementById('error-modal').style.display = 'block';
-    }
-
-    cerrarModalError() {
-        document.getElementById('error-modal').style.display = 'none';
-    }
-
-    crearTablaDatos() {
-        if (!this.datos || !this.atributos) {
-            console.error('No data or attributes available');
-            return;
+    cerrar_formulario() {
+        // Get the form elements
+        const form = document.getElementById("IU_form");
+        if (form) {
+            form.innerHTML = '';
+            form.onsubmit = null;
+            form.action = '';
         }
 
-        document.getElementById('id_tabla_datos').style.display = 'block';
-        
-        // Create header
-        let textolineatitulos = '<tr>';
-        for (let atributo of this.atributos) {
-            let display = this.columnasamostrar.includes(atributo) ? '' : 'display:none;';
-            textolineatitulos += `<th class="${atributo}" style="${display}">${Textos[atributo] || atributo}</th>`;
+        // Hide the form container
+        const formContainer = document.getElementById("div_IU_form");
+        if (formContainer) {
+            formContainer.style.display = 'none';
         }
-        textolineatitulos += '<th class="acciones">' + (Textos['acciones'] || 'Acciones') + '</th>';
-        textolineatitulos += '</tr>';
-        
-        document.getElementById('titulostablacabecera').innerHTML = textolineatitulos;
-        
-        // Create data rows
-        let textolineadatos = '';
-        for (let i = 0; i < this.datos.length; i++) {
-            textolineadatos += '<tr>';
-            
-            for (let atributo of this.atributos) {
-                let display = this.columnasamostrar.includes(atributo) ? '' : 'display:none;';
-                
-                if (this.datosespecialestabla && this.datosespecialestabla.includes(atributo)) {
-                    let valorcolumna = this.change_value_IU(atributo, this.datos[i][atributo]);
-                    textolineadatos += `<td class="tabla-td-${atributo}" style="${display}">${valorcolumna}</td>`;
-                } else {
-                    let san = (obj) => {
-                        let value = obj?.toString() || '';
-                        return value.replace(/[&<>"'`]/g, match => ({
-                            '&': '&amp;',
-                            '<': '&lt;',
-                            '>': '&gt;',
-                            '"': '&quot;',
-                            "'": '&#039;',
-                            '`': '&#x60;'
-                        })[match]);
-                    };
-                    let valorE = san(this.datos[i][atributo]);
-                    textolineadatos += `<td class="tabla-td-${atributo}" style="${display}">${valorE}</td>`;
-                }
-            }
-            
-            // Add action buttons
-            let acciones = '';
-            try {
-                acciones += this.crearboton(this.entidad, 'EDIT', JSON.stringify(this.datos[i]));
-                acciones += this.crearboton(this.entidad, 'DELETE', JSON.stringify(this.datos[i]));
-                acciones += this.crearboton(this.entidad, 'SHOWCURRENT', JSON.stringify(this.datos[i]));
-            } catch (error) {
-                console.error('Error creating action buttons:', error);
-            }
-            
-            textolineadatos += '<td class="acciones">' + acciones + '</td>';
-            textolineadatos += '</tr>';
-        }
-        
-        document.getElementById('muestradatostabla').innerHTML = textolineadatos;
 
-        if (typeof setLang === 'function') {
-            setLang();
-        }
+        // Remove current action
+        window.accionActual = null;
     }
 }

@@ -200,9 +200,10 @@ const Textos_EN = {
     'id_characteristic_max_size_KO': 'ID cannot have more than 11 digits',
 
     // Messages for nuevo_file_characteristic
+        'nuevo_file_characteristic_required_KO': 'You must attach a file',
     'nuevo_file_characteristic_name_min_size_KO': 'File name must be at least 7 characters long',
     'nuevo_file_characteristic_name_max_size_KO': 'File name cannot exceed 100 characters',
-    'nuevo_file_characteristic_no_file_KO': 'You must select a file',
+    'nuevo_file_characteristic_no_file_KO': 'You must select an existing file',
     'nuevo_file_characteristic_file_type_KO': 'File must be PDF or DOC/DOCX',
     'nuevo_file_characteristic_max_size_KO': 'File cannot exceed 2MB',
     'nuevo_file_characteristic_name_format_KO': 'File name can only contain letters and dot',

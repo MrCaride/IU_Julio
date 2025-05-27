@@ -98,9 +98,10 @@ const Textos_ES = {
     'file_characteristic_OK': 'Archivo válido',
 
     // Mensajes de nuevo_file_characteristic
+    'nuevo_file_characteristic_required_KO': 'Tienes que adjuntar un archivo',
     'nuevo_file_characteristic_name_min_size_KO': 'El nombre del archivo debe tener al menos 7 caracteres',
     'nuevo_file_characteristic_name_max_size_KO': 'El nombre del archivo no puede tener más de 100 caracteres',
-    'nuevo_file_characteristic_no_file_KO': 'Debe seleccionar un archivo',
+    'nuevo_file_characteristic_no_file_KO': 'Debe seleccionar un archivo real',
     'nuevo_file_characteristic_file_type_KO': 'El archivo debe ser PDF o DOC/DOCX',
     'nuevo_file_characteristic_max_size_KO': 'El archivo no puede superar los 2MB',
     'nuevo_file_characteristic_name_format_KO': 'El nombre del archivo solo puede contener letras y punto',
