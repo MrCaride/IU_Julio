@@ -1,6 +1,6 @@
-// Spanish texts
+// Textos en español
 const Textos_ES = {
-    // Common elements
+    // Elementos comunes
     'title': 'Sistema de Gestión',
     'welcome': 'Bienvenido al sistema de gestión',
     'menu': 'Menú',
@@ -19,15 +19,15 @@ const Textos_ES = {
     'logout': 'Cerrar sesión',
     'test': 'Test',
 
-    // Menu dropdown
+    // Menú desplegable
     'menu_api': 'Documentación API',
 
-    // Common form elements
+    // Elementos comunes de formularios
     'select_data_type': '--Seleccionar Tipo de Dato--',
     'select_category': '--Seleccionar Categoría--',
     'new_file': 'Nuevo Archivo',
 
-    // Form labels and validation messages
+    // Etiquetas de formulario y mensajes de validación
     'required_field': 'Este campo es obligatorio',
     'min_length': 'No alcanza la longitud mínima',
     'max_length': 'Excede la longitud máxima',
@@ -42,15 +42,17 @@ const Textos_ES = {
     'error_operation': 'Error en la operación',
     'confirm_delete': '¿Está seguro de que desea eliminar este registro?',
 
-    // Entity specific - Characteristic
+    // Específico de la entidad - Característica
     'characteristic': 'Característica',
     'characteristics': 'Características',
     'menu_characteristic': 'Gestión de Características',
-    'id_characteristic': 'ID de Característica',
+    'id_characteristic': 'ID',
     'name_characteristic': 'Nombre',
     'description_characteristic': 'Descripción',
     'data_type_characteristic': 'Tipo de Dato',
     'category_characteristic': 'Categoría',
+    'file_characteristic': 'Archivo',
+    'acciones': 'Acciones',
     'bibref_characteristic': 'Referencia Bibliográfica',
     'file_characteristic': 'Archivo',
     'nuevo_file_characteristic': 'Subir Archivo',
@@ -88,7 +90,7 @@ const Textos_ES = {
     'file_characteristic_size_KO': 'El archivo es demasiado grande (máx 2MB)',
     'file_characteristic_format_KO': 'Formato de archivo inválido',
 
-    // Success messages for Characteristic
+    // Mensajes de éxito para Característica
     'id_characteristic_OK': 'ID válido',
     'name_characteristic_OK': 'Nombre válido',
     'description_characteristic_OK': 'Descripción válida',
@@ -107,17 +109,17 @@ const Textos_ES = {
     'nuevo_file_characteristic_name_format_KO': 'El nombre del archivo solo puede contener letras y punto',
     'nuevo_file_characteristic_OK': 'Archivo subido correctamente',
 
-    // Data types
+    // Tipos de datos
     'number': 'Número',
     'text': 'Texto', 
     'set': 'Conjunto',
 
-    // Categories
+    // Categorías
     'soil_site': 'Sitio de Suelo',
     'soil_chem': 'Química del Suelo',
     'soil_bio': 'Biología del Suelo',
 
-    // Error messages
+    // Mensajes de error
     'ERROR_CONNECTION': 'Error de conexión con el servidor',
     'ERROR_DB': 'Error de base de datos',
     'ERROR_VALIDATION': 'Error de validación de datos',
@@ -125,21 +127,21 @@ const Textos_ES = {
     'ERROR_UPLOAD': 'Error al subir el archivo',
     'ERROR_AUTH': 'Error de autenticación',
 
-    // File messages
+    // Mensajes de archivo
     'no_file': 'Sin archivo',
 
-    // Data type options
+    // Opciones de tipo de dato
     'select_data_type_characteristic': 'Seleccione tipo de dato',
     'number': 'Número',
     'text': 'Texto',
     'set': 'Conjunto',
 
-    // Category options
+    // Opciones de categoría
     'select_category_characteristic': 'Seleccione categoría',
     'soil_site': 'Sitio del suelo',
     'soil_chem': 'Química del suelo',
     'soil_bio': 'Biología del suelo',
 
-    // Admin messages
+    // Mensajes de administrador
     'admin_no_te_lo_deja_borrar_KO': 'El administrador no permite eliminar este elemento',
 };

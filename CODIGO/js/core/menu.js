@@ -1,4 +1,4 @@
-// Menu configuration and handling
+// Configuración y manejo del menú
 const menuConfig = {
     entities: [
         {
@@ -13,7 +13,7 @@ const menuConfig = {
         
         menuDropdown.innerHTML = '';
         
-        // Add entity links
+        // Agregar enlaces de entidades
         this.entities.forEach(entity => {
             const link = document.createElement('a');
             link.href = 'javascript:void(0)';
@@ -23,7 +23,7 @@ const menuConfig = {
             menuDropdown.appendChild(link);
         });
         
-        // Add API documentation link
+        // Agregar enlace a documentación API
         const apiLink = document.createElement('a');
         apiLink.href = './API.html';
         apiLink.className = 'menu-item menu_api';

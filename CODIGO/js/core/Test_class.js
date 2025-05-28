@@ -1,5 +1,6 @@
 class Test_class {
     constructor() {
+        // Inicialización de variables de la clase
         this.entidad = null;
         this.parent = null;
         this.array_def = null;
@@ -17,30 +18,30 @@ class Test_class {
     showTestModal() {
         const modal = document.getElementById('test-modal');
         if (!modal) {
-            console.error('Test modal not found');
+            console.error('Modal de pruebas no encontrado');
             return;
         }
 
-        // Clear existing content
+        // Limpiar contenido existente
         this.clearModalContent();
 
-        // Show the modal
+        // Mostrar el modal
         modal.style.display = 'block';
 
-        // Add close functionality
+        // Agregar funcionalidad de cierre
         const closeModal = (e) => {
             if (e.target === modal) {
                 modal.style.display = 'none';
             }
         };
 
-        // Close on clicking outside
+        // Cerrar al hacer clic fuera
         modal.onclick = closeModal;
 
-        // Don't close when clicking inside
+        // No cerrar al hacer clic dentro
         modal.querySelector('.modal-content').onclick = (e) => e.stopPropagation();
 
-        // Add close button
+        // Agregar botón de cierre
         const closeBtn = document.createElement('img');
         closeBtn.src = './iconos/BACK.png';
         closeBtn.alt = 'Cerrar';
@@ -63,28 +64,27 @@ class Test_class {
         document.getElementById('modal_resultadotest').innerHTML = '';
         document.getElementById('modal_salidaresultadosprueba').innerHTML = '';
     }    test_run() {
-        // Show and clear the modal first
+        // Mostrar y limpiar el modal primero
         this.showTestModal();
 
-        // Get test arrays for execution
+        // Obtener arreglos de pruebas para ejecución
         this.array_def = eval('def_tests_' + this.entidad);
         this.array_pruebas = eval('pruebas_' + this.entidad);
         this.array_pruebas_file = eval('pruebas_file_' + this.entidad);
 
-        // Show test definitions, test data definitions and run tests
+        // Mostrar definiciones de pruebas, definiciones de datos de prueba y ejecutar pruebas
         this.mostrarDefTests();
         this.mostrarDefPruebas();
         this.test_entidad();
         this.test_entidad_files();
     }
 
-    mostrarDefTests() {
-        // Create table header for test definitions
+    mostrarDefTests() {        // Crear tabla para definiciones de pruebas
         let table = document.createElement('table');
         table.border = '1';
         table.style.width = '100%';
         
-        // Add header row
+        // Agregar fila de encabezados
         let headerRow = table.insertRow();
         ['Entidad', 'Atributo', 'ID Test', 'Descripción', 'Acción', 'Tipo', 'Código Error'].forEach(text => {
             let th = document.createElement('th');
@@ -92,7 +92,7 @@ class Test_class {
             headerRow.appendChild(th);
         });
 
-        // Add data rows
+        // Agregar filas de datos
         for (let def of this.array_def) {
             let row = table.insertRow();
             def.forEach(value => {
@@ -101,24 +101,24 @@ class Test_class {
             });
         }
 
-        // Update modal content - only add title to resultadodef
+        // Actualizar contenido del modal - solo agregar título a resultadodef
         document.getElementById('modal_resultadodef').innerHTML = '<h3>Definición de Tests</h3>';
         document.getElementById('modal_tablaresultadostest').innerHTML = '';
         document.getElementById('modal_tablaresultadostest').appendChild(table);
     }
 
     mostrarDefPruebas() {
-        // Create table header for test data definitions
+        // Crear encabezado de tabla para definiciones de datos de prueba
         let table = document.createElement('table');
         table.border = '1';
         table.style.width = '100%';
-          // Add header row
+          // Agregar fila de encabezado
         let headerRow = table.insertRow();
         ['Entidad', 'Campo', 'NumDefTest', 'NumPrueba', 'Acción', 'Valor', 'Resultado Esperado', 'Resultado Real'].forEach(text => {
             let th = document.createElement('th');
             th.textContent = text;
             headerRow.appendChild(th);
-        });        // Add regular test data rows
+        });        // Agregar filas de datos de prueba regulares
         for (let prueba of this.array_pruebas) {
             let row = table.insertRow();
             prueba.forEach((value, index) => {
@@ -129,15 +129,15 @@ class Test_class {
                     cell.textContent = value;
                 }
             });
-            // Add empty cell for Resultado Real (will be filled when test runs)
+            // Agregar celda vacía para Resultado Real (se llenará cuando se ejecute la prueba)
             let resultadoCell = row.insertCell();
             resultadoCell.textContent = ''; // Inicialmente vacío
             resultadoCell.classList.add('resultado-real');
         }
 
-        // Add file test data rows if they exist
+        // Agregar filas de datos de prueba de archivos si existen
         if (this.array_pruebas_file && this.array_pruebas_file.length > 0) {
-            // Add a separator row
+            // Agregar una fila separadora
             let separatorRow = table.insertRow();
             let separatorCell = separatorRow.insertCell();
             separatorCell.colSpan = 7;
@@ -146,14 +146,14 @@ class Test_class {
             separatorCell.style.textAlign = 'center';
             separatorCell.style.fontWeight = 'bold';
 
-            // Add file test rows
+            // Agregar filas de pruebas de archivos
             for (let prueba of this.array_pruebas_file) {
                 let row = table.insertRow();
-                // For file tests, handle the file info specially
+                // Para pruebas de archivos, manejar la información del archivo de manera especial
                 for (let i = 0; i < prueba.length; i++) {
                     let cell = row.insertCell();
-                    if (i === 6) { // File info position
-                        cell.textContent = prueba[i].length ? prueba[i][0] : ''; // Show filename
+                    if (i === 6) { // Posición de la información del archivo
+                        cell.textContent = prueba[i].length ? prueba[i][0] : ''; // Mostrar nombre del archivo
                     } else {
                         cell.textContent = prueba[i];
                     }
@@ -161,7 +161,7 @@ class Test_class {
             }
         }
 
-        // Update modal content
+        // Actualizar contenido del modal
         document.getElementById('modal_resultadoprueba').innerHTML = '<h3>Definición de Pruebas</h3>';
         document.getElementById('modal_tablaresultadosprueba').innerHTML = '';
         document.getElementById('modal_tablaresultadosprueba').appendChild(table);
@@ -170,19 +170,20 @@ class Test_class {
         if (!table) {
             console.error('No se encontró la tabla de pruebas');
             return;
-        }        // No need to create new table or clear results as we're using the existing table
+        }
+        // No es necesario crear una nueva tabla o limpiar resultados ya que estamos usando la tabla existente
 
-        // Run each test
+        // Ejecutar cada prueba
         for (let i = 0; i < this.array_pruebas.length; i++) {
-            // Load clean form for each test
+            // Cargar formulario limpio para cada prueba
             this.parent.cargar_formulario();
 
-            // Add submit button for validation messages
+            // Agregar botón de enviar para mensajes de validación
             let botonSubmit = document.createElement('input');
             botonSubmit.id = 'submit_button';
             document.getElementById('IU_form').append(botonSubmit);
     
-            // Extract test details
+            // Extraer detalles de la prueba
             let campotest = this.array_pruebas[i][1];
             let numdeftest = this.array_pruebas[i][2];
             let numprueba = this.array_pruebas[i][3];
@@ -190,17 +191,17 @@ class Test_class {
             let valortest = this.array_pruebas[i][5];
             let respuestatest = this.array_pruebas[i][6];
 
-            // Get test definition
+            // Obtener definición de prueba
             let def = this.devolver_def(numdeftest);
 
-            // Set test value in the field
+            // Establecer valor de prueba en el campo
             document.getElementById(campotest).value = valortest;
 
-            // Get validation rules from structure
+            // Obtener reglas de validación de la estructura
             const estructura = eval('estructura_' + this.entidad);
             const validationRules = estructura.attributes[campotest].validation_rules[acciontest];
 
-            // Execute validations based on rules
+            // Ejecutar validaciones según las reglas
             let resultadotest = 'OK';
             if (validationRules) {
                 for (let rule in validationRules) {
@@ -213,10 +214,10 @@ class Test_class {
                         }
                     }
                 }
-            }            // Check if test result matches expected result
+            }            // Verificar si el resultado de la prueba coincide con el resultado esperado
             let resultadoestetest = (respuestatest === resultadotest) ? 'CORRECTO' : resultadotest;
 
-            // Find the corresponding row in the table
+            // Encontrar la fila correspondiente en la tabla
             const rows = Array.from(table.rows);
             const testRow = rows.find(row => {
                 return row.cells[2].textContent === numdeftest.toString() && 
@@ -224,7 +225,7 @@ class Test_class {
             });
 
             if (testRow) {
-                // Update the Resultado Real column
+                // Actualizar la columna Resultado Real
                 const resultadoCell = testRow.cells[testRow.cells.length - 1];
                 resultadoCell.textContent = resultadoestetest;
                 resultadoCell.style.backgroundColor = resultadoestetest === 'CORRECTO' ? '#90EE90' : '#FFB6C1';
@@ -233,12 +234,12 @@ class Test_class {
     }
 
     test_entidad_files() {
-        // Create table for file test results
+        // Crear tabla para resultados de pruebas de archivos
         let table = document.createElement('table');
         table.border = '1';
         table.style.width = '100%';
         
-        // Add header row
+        // Agregar fila de encabezado
         let headerRow = table.insertRow();
         ['NumDefTest', 'NumPrueba', 'Campo', 'Prueba', 'Accion', 'Valor', 'Respuesta Test', 'Respuesta esperada', 'Resultado'].forEach(text => {
             let th = document.createElement('th');
@@ -248,17 +249,17 @@ class Test_class {
 
         document.getElementById('modal_salidaresultadosprueba').appendChild(table);
 
-        // Run each file test
+        // Ejecutar cada prueba de archivo
         for (let i = 0; i < this.array_pruebas_file.length; i++) {
-            // Load clean form for each test
+            // Cargar formulario limpio para cada prueba
             this.parent.cargar_formulario();
 
-            // Add submit button
+            // Agregar botón de enviar
             let botonSubmit = document.createElement('input');
             botonSubmit.id = 'submit_button';
             document.getElementById('IU_form').append(botonSubmit);
     
-            // Extract test details
+            // Extraer detalles de la prueba
             let campotest = this.array_pruebas_file[i][1];
             let numdeftest = this.array_pruebas_file[i][2];
             let numprueba = this.array_pruebas_file[i][3];
@@ -266,10 +267,10 @@ class Test_class {
             let valortest = this.array_pruebas_file[i][6];
             let respuestatest = this.array_pruebas_file[i][7];
 
-            // Get test definition
+            // Obtener definición de prueba
             let def = this.devolver_def(numdeftest);
 
-            // Create file object if needed
+            // Crear objeto de archivo si es necesario
             if (valortest.length !== 0) {
                 let file = new File([new ArrayBuffer(valortest[2])], valortest[0], {
                     type: valortest[1],
@@ -281,11 +282,11 @@ class Test_class {
                 document.getElementById(campotest).files = dataTransfer.files;
             }
 
-            // Get validation rules from structure
+            // Obtener reglas de validación de la estructura
             const estructura = eval('estructura_' + this.entidad);
             const validationRules = estructura.attributes[campotest].validation_rules[acciontest];
 
-            // Execute validations based on rules
+            // Ejecutar validaciones según las reglas
             let resultadotest = 'OK';
             if (validationRules) {
                 for (let rule in validationRules) {
@@ -300,10 +301,10 @@ class Test_class {
                 }
             }
 
-            // Check if test result matches expected result
+            // Verificar si el resultado de la prueba coincide con el resultado esperado
             let resultadoestetest = (respuestatest === resultadotest) ? 'CORRECTO' : resultadotest;
 
-            // Add result row to table
+            // Agregar fila de resultado a la tabla
             let row = table.insertRow();
             [numdeftest, numprueba, campotest, def[3], acciontest, 
              (valortest.length ? valortest[0] : ''), resultadotest, 

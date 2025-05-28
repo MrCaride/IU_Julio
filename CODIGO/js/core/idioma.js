@@ -1,20 +1,20 @@
-// Language management module
+// Módulo de gestión de idiomas
 let current_lang = 'ES';
 
-// Initialize global texts with Spanish by default
+// Inicializar textos globales con español por defecto
 if (typeof Textos_ES !== 'undefined') {
     window.Textos = Textos_ES;
 } else {
-    console.error('Error: Textos_ES not loaded');
+    console.error('Error: Textos_ES no está cargado');
     window.Textos = {};
 }
 
-// Function to toggle between languages
+// Función para alternar entre idiomas
 function changeLang() {
     try {
         if (current_lang === 'ES') {
             if (typeof Textos_EN === 'undefined') {
-                console.error('Error: Textos_EN not loaded');
+                console.error('Error: Textos_EN no está cargado');
                 return;
             }
             current_lang = 'EN';
@@ -22,7 +22,7 @@ function changeLang() {
             document.getElementById('idioma_img').src = './iconos/Spain.png';
         } else {
             if (typeof Textos_ES === 'undefined') {
-                console.error('Error: Textos_ES not loaded');
+                console.error('Error: Textos_ES no está cargado');
                 return;
             }
             current_lang = 'ES';
@@ -30,37 +30,37 @@ function changeLang() {
             document.getElementById('idioma_img').src = './iconos/United-Kingdom.png';
         }
         
-        // Update all text elements with the new language
+        // Actualizar todos los elementos de texto con el nuevo idioma
         setLang();
         
-        // Update menu text if menu configuration exists
+        // Actualizar el texto del menú si existe la configuración del menú
         if (typeof menuConfig !== 'undefined') {
             menuConfig.updateText();
         }
     } catch (e) {
-        console.error('Error changing language:', e);
+        console.error('Error al cambiar el idioma:', e);
     }
 }
 
-// Function to set all text elements to the current language
+// Función para establecer todos los elementos de texto en el idioma actual
 function setLang() {
     try {
         if (!window.Textos) {
-            console.error('Error: window.Textos is not defined');
+            console.error('Error: window.Textos no está definido');
             return;
         }
 
-        // Update all elements that have translation classes
+        // Actualizar todos los elementos que tienen clases de traducción
         document.querySelectorAll('[class*="text_"], [class*="menu_"]').forEach(element => {
             try {
-                // Extract the key from the class
+                // Extraer la clave de la clase
                 let classes = element.className.split(' ');
                 let langClass = classes.find(cls => cls.startsWith('text_') || cls.startsWith('menu_'));
                 
                 if (langClass) {
                     let key = langClass;
                     if (langClass.startsWith('text_')) {
-                        key = langClass.substring(5); // Remove 'text_' prefix
+                        key = langClass.substring(5); // Eliminar el prefijo 'text_'
                     }
                     
                     if (window.Textos[key]) {
@@ -68,41 +68,41 @@ function setLang() {
                     }
                 }
             } catch (err) {
-                console.error('Error updating element:', element, err);
+                console.error('Error al actualizar el elemento:', element, err);
             }
         });
         
-        // Update form labels
+        // Actualizar etiquetas de formulario
         document.querySelectorAll('label[id*="label_"]').forEach(label => {
             try {
-                let fieldId = label.id.substring(6); // Remove 'label_' prefix
+                let fieldId = label.id.substring(6); // Eliminar el prefijo 'label_'
                 if (window.Textos[fieldId]) {
                     label.innerHTML = window.Textos[fieldId] + ':';
                 }
             } catch (err) {
-                console.error('Error updating label:', label, err);
+                console.error('Error al actualizar la etiqueta:', label, err);
             }
         });
         
-        // Update select options
+        // Actualizar opciones de selección
         document.querySelectorAll('option').forEach(option => {
             try {
                 if (option.value && window.Textos[option.value]) {
                     option.innerHTML = window.Textos[option.value];
                 }
             } catch (err) {
-                console.error('Error updating option:', option, err);
+                console.error('Error al actualizar la opción:', option, err);
             }
         });
         
-        // Update modal texts
+        // Actualizar textos de modales
         updateModalTexts();
     } catch (e) {
-        console.error('Error in setLang:', e);
+        console.error('Error en setLang:', e);
     }
 }
 
-// Function to update texts in modal windows
+// Función para actualizar textos en ventanas modales
 function updateModalTexts() {
     try {
         const errorModalTitle = document.getElementById('error-modal-title');
@@ -116,20 +116,20 @@ function updateModalTexts() {
                     button.innerHTML = window.Textos[button.dataset.textKey];
                 }
             } catch (err) {
-                console.error('Error updating modal button:', button, err);
+                console.error('Error al actualizar el botón del modal:', button, err);
             }
         });
     } catch (e) {
-        console.error('Error in updateModalTexts:', e);
+        console.error('Error en updateModalTexts:', e);
     }
 }
 
-// Initialize language when the page loads
+// Inicializar idioma cuando la página se carga
 document.addEventListener('DOMContentLoaded', () => {
     try {
-        // Set initial texts
+        // Establecer textos iniciales
         setLang();
     } catch (e) {
-        console.error('Error in DOMContentLoaded:', e);
+        console.error('Error en DOMContentLoaded:', e);
     }
 });

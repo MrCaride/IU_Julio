@@ -60,11 +60,15 @@
                 </div>
             </div>
 
-            <!-- Form container -->            <div id="div_IU_form" class="form-container" style="display: none;">
+            <!-- Form overlay -->
+            <div id="modal-form-overlay" class="modal-form-overlay"></div>
+
+            <!-- Form container -->
+            <div id="div_IU_form" class="form-container" style="display: none;">
                 <h2 id="class_contenido_titulo_form" class="form-title"></h2>
                 <form id="IU_form" name="IU_form" method="POST" enctype="multipart/form-data"></form>
                 <br>
-                <img src="./iconos/BACK.png" onclick="validar.cerrar_formulario();" alt="Cerrar" style="cursor: pointer;" />
+                <img class="back-button" src="./iconos/BACK.png" onclick="validar.cerrar_formulario();" alt="Cerrar" />
             </div>
 
                 <!-- Results/tests container when not in modal -->

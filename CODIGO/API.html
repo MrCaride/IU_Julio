@@ -6,109 +6,262 @@
     <title>Documentación de la API</title>
     <link rel="stylesheet" href="./css/IU.css">
     <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #3b82f6;
+            --accent-color: #60a5fa;
+            --text-color: #1f2937;
+            --background-color: #f8fafc;
+            --section-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --heading-color: #1e40af;
+            --method-bg: #f1f5f9;
+            --hover-color: #dbeafe;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+        }
+
         .api-documentation {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 2rem;
         }
-        
+
         .api-section {
-            margin-bottom: 40px;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: var(--section-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-bottom: 2rem;
+            padding: 2rem;
+            transition: transform 0.2s ease;
         }
-        
+
+        .api-section:hover {
+            transform: translateY(-2px);
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--heading-color);
+            margin-top: 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 2rem;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .class {
+            margin-bottom: 3rem;
+        }
+
         .class-name {
-            color: #007bff;
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
         }
-        
+
         .method {
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: white;
-            border-left: 4px solid #28a745;
-            border-radius: 0 5px 5px 0;
+            background-color: var(--method-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent-color);
         }
-        
+
+        .method:hover {
+            background-color: var(--hover-color);
+        }
+
         .method-name {
-            color: #28a745;
-            font-weight: bold;
-            margin-bottom: 10px;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-family: 'Fira Code', 'Consolas', monospace;
         }
-        
+
         .method-description {
-            margin-bottom: 15px;
+            margin-bottom: 1rem;
+            color: var(--text-color);
         }
-        
+
         .parameters {
-            margin-top: 10px;
+            background-color: var(--section-bg);
+            border-radius: 6px;
+            padding: 1rem;
         }
-        
+
         .parameter {
-            margin-bottom: 5px;
-            padding-left: 15px;
+            margin: 0.5rem 0;
+            padding-left: 1rem;
+            border-left: 2px solid var(--accent-color);
         }
-        
+
         .parameter-name {
-            font-weight: bold;
-            color: #6c757d;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-family: 'Fira Code', 'Consolas', monospace;
         }
-        
+
         .parameter-type {
+            color: var(--secondary-color);
             font-style: italic;
-            color: #17a2b8;
         }
-        
+
         .return-value {
-            margin-top: 10px;
-            padding-left: 15px;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: var(--section-bg);
+            border-radius: 6px;
         }
-        
+
         .return-type {
-            font-weight: bold;
-            color: #dc3545;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-family: 'Fira Code', 'Consolas', monospace;
         }
-        
+
         .navigation {
             position: sticky;
             top: 0;
-            background-color: #fff;
-            padding: 10px 0;
-            border-bottom: 1px solid #dee2e6;
-            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+            z-index: 1000;
         }
-        
+
         .nav-categories {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 1.5rem;
+            flex-wrap: wrap;
         }
-        
+
         .nav-link {
             text-decoration: none;
-            color: #007bff;
-            font-weight: bold;
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            color: var(--primary-color);
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
         }
-        
+
         .nav-link:hover {
-            background-color: #f8f9fa;
+            background-color: var(--hover-color);
+            transform: translateY(-1px);
         }
-        
+
         .back-to-app {
-            display: block;
+            display: inline-block;
             text-align: center;
-            margin: 20px 0;
+            margin: 2rem 0;
             text-decoration: none;
-            color: #007bff;
+            color: var(--primary-color);
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            background-color: var(--hover-color);
+            transition: all 0.2s ease;
+        }
+
+        .back-to-app:hover {
+            background-color: var(--accent-color);
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        .estructura {
+            background-color: var(--method-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .estructura-name {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .atributos, .validaciones {
+            margin-top: 1.5rem;
+        }
+
+        .atributos h5, .validaciones h5 {
+            color: var(--heading-color);
+            margin-bottom: 1rem;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        ul li::before {
+            content: "•";
+            color: var(--accent-color);
             font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        ul ul {
+            margin-top: 0.5rem;
+            padding-left: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .api-documentation {
+                padding: 1rem;
+            }
+
+            .nav-categories {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .nav-link {
+                text-align: center;
+            }
+
+            .method {
+                padding: 1rem;
+            }
+        }
+
+        footer {
+            background-color: var(--section-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            color: var(--text-color);
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -462,11 +615,11 @@
             
             <div class="class">
                 <h3 class="class-name">Characteristic</h3>
-                <p>Clase que representa la entidad Característica.</p>
+                <p>Clase que representa una característica en el sistema. Extiende de Entidad_Abstract_class y proporciona funcionalidad específica para manejar características.</p>
                 
                 <div class="method">
                     <h4 class="method-name">constructor()</h4>
-                    <p class="method-description">Inicializa una instancia de Característica.</p>
+                    <p class="method-description">Inicializa una nueva instancia de la clase Characteristic. Configura la entidad con su estructura predefinida.</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong> Ninguno</p>
                     </div>
@@ -476,41 +629,65 @@
                 </div>
                 
                 <div class="method">
-                    <h4 class="method-name">comprobar_[nombre_campo]()</h4>
-                    <p class="method-description">Valida un campo específico.</p>
-                    <div class="parameters">
-                        <p><strong>Parámetros:</strong> Ninguno</p>
-                    </div>
-                    <div class="return-value">
-                        <p><strong>Devuelve:</strong> <span class="return-type">boolean/string</span> - True si es válido, código de error si no lo es.</p>
-                    </div>
-                </div>
-                
-                <div class="method">
-                    <h4 class="method-name">comprobar_submit()</h4>
-                    <p class="method-description">Valida todos los campos del formulario antes de enviarlo.</p>
-                    <div class="parameters">
-                        <p><strong>Parámetros:</strong> Ninguno</p>
-                    </div>
-                    <div class="return-value">
-                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - True si todos los campos son válidos.</p>
-                    </div>
-                </div>
-                
-                <div class="method">
-                    <h4 class="method-name">change_value_IU(atributo, valor)</h4>
-                    <p class="method-description">Sobrescritura del método abstracto para modificar valores de visualización para campos específicos.</p>
+                    <h4 class="method-name">change_value_IU(atributo, valoratributo)</h4>
+                    <p class="method-description">Modifica el valor de visualización de un atributo. Especialmente útil para el manejo de archivos.</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong></p>
                         <div class="parameter">
-                            <span class="parameter-name">atributo</span> <span class="parameter-type">(string)</span>: Nombre del atributo.
+                            <span class="parameter-name">atributo</span> <span class="parameter-type">(string)</span>: Nombre del atributo a modificar.
                         </div>
                         <div class="parameter">
-                            <span class="parameter-name">valor</span> <span class="parameter-type">(cualquiera)</span>: Valor actual del atributo.
+                            <span class="parameter-name">valoratributo</span> <span class="parameter-type">(string|object)</span>: Valor del atributo a transformar.
                         </div>
                     </div>
                     <div class="return-value">
-                        <p><strong>Devuelve:</strong> <span class="return-type">cualquiera</span> - Valor modificado para mostrar.</p>
+                        <p><strong>Devuelve:</strong> <span class="return-type">string</span> - Valor transformado para mostrar en la UI.</p>
+                    </div>
+                </div>
+
+                <div class="estructura">
+                    <h4 class="estructura-name">Estructura (estructura_characteristic)</h4>
+                    <p class="estructura-description">Define la estructura de datos y validaciones para la entidad Characteristic.</p>
+                    
+                    <div class="atributos">
+                        <h5>Atributos:</h5>
+                        <ul>
+                            <li><strong>id_characteristic:</strong> Identificador único (PK, autoincremental)</li>
+                            <li><strong>name_characteristic:</strong> Nombre de la característica</li>
+                            <li><strong>description_characteristic:</strong> Descripción detallada</li>
+                            <li><strong>data_type_characteristic:</strong> Tipo de dato</li>
+                            <li><strong>category_characteristic:</strong> Categoría</li>
+                            <li><strong>bibref_characteristic:</strong> Referencia bibliográfica</li>
+                            <li><strong>file_characteristic:</strong> Archivo asociado</li>
+                            <li><strong>nuevo_file_characteristic:</strong> Campo para subir nuevo archivo</li>
+                        </ul>
+                    </div>
+
+                    <div class="validaciones">
+                        <h5>Reglas de Validación:</h5>
+                        <ul>
+                            <li><strong>name_characteristic:</strong>
+                                <ul>
+                                    <li>Longitud mínima: 8 caracteres</li>
+                                    <li>Longitud máxima: 100 caracteres</li>
+                                    <li>Formato: solo letras y espacios</li>
+                                </ul>
+                            </li>
+                            <li><strong>description_characteristic:</strong>
+                                <ul>
+                                    <li>Longitud mínima: 80 caracteres</li>
+                                    <li>Longitud máxima: 5000 caracteres</li>
+                                    <li>Campo obligatorio</li>
+                                </ul>
+                            </li>
+                            <li><strong>file_characteristic:</strong>
+                                <ul>
+                                    <li>Tipos permitidos: pdf, doc, docx</li>
+                                    <li>Tamaño máximo: 2MB</li>
+                                    <li>Nombre: solo letras y extensión válida</li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -519,14 +696,14 @@
         <!-- Sección de Clases de Prueba -->
         <section id="test-classes" class="api-section">
             <h2>Clases de Prueba</h2>
-            
+
             <div class="class">
                 <h3 class="class-name">Test_class</h3>
-                <p>Clase para manejar la ejecución de pruebas y mostrar resultados de pruebas.</p>
-                
+                <p>Clase que gestiona la ejecución y visualización de pruebas unitarias.</p>
+
                 <div class="method">
                     <h4 class="method-name">test_run()</h4>
-                    <p class="method-description">Ejecuta todas las pruebas para la entidad actual.</p>
+                    <p class="method-description">Ejecuta las pruebas definidas para la entidad actual.</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong> Ninguno</p>
                     </div>
@@ -534,10 +711,10 @@
                         <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
                     </div>
                 </div>
-                
+
                 <div class="method">
                     <h4 class="method-name">test_entidad()</h4>
-                    <p class="method-description">Ejecuta pruebas para campos regulares en la entidad.</p>
+                    <p class="method-description">Ejecuta las pruebas específicas de una entidad.</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong> Ninguno</p>
                     </div>
@@ -545,10 +722,10 @@
                         <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
                     </div>
                 </div>
-                
+
                 <div class="method">
                     <h4 class="method-name">test_entidad_files()</h4>
-                    <p class="method-description">Ejecuta pruebas para campos de archivo en la entidad.</p>
+                    <p class="method-description">Ejecuta las pruebas específicas para archivos de una entidad.</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong> Ninguno</p>
                     </div>
@@ -556,10 +733,10 @@
                         <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
                     </div>
                 </div>
-                
+
                 <div class="method">
-                    <h4 class="method-name">verificarDefTest()</h4>
-                    <p class="method-description">Verifica la corrección de las definiciones de prueba.</p>
+                    <h4 class="method-name">mostrarDefTests()</h4>
+                    <p class="method-description">Muestra la definición de las pruebas en la interfaz.</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong> Ninguno</p>
                     </div>
@@ -567,21 +744,10 @@
                         <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
                     </div>
                 </div>
-                
+
                 <div class="method">
-                    <h4 class="method-name">verificarPruebas()</h4>
-                    <p class="method-description">Verifica la corrección de los casos de prueba.</p>
-                    <div class="parameters">
-                        <p><strong>Parámetros:</strong> Ninguno</p>
-                    </div>
-                    <div class="return-value">
-                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
-                    </div>
-                </div>
-                
-                <div class="method">
-                    <h4 class="method-name">verificarPruebas_file()</h4>
-                    <p class="method-description">Verifica la corrección de los casos de prueba de archivos.</p>
+                    <h4 class="method-name">mostrarDefPruebas()</h4>
+                    <p class="method-description">Muestra los resultados de las pruebas en la interfaz.</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong> Ninguno</p>
                     </div>
@@ -595,169 +761,93 @@
         <!-- Sección de Clases de Validación -->
         <section id="validation-classes" class="api-section">
             <h2>Clases de Validación</h2>
-            
-            <div class="class">
-                <h3 class="class-name">DOM_validations</h3>
-                <p>Clase para validaciones de formulario y comprobaciones de campos.</p>
-                
-                <div class="method">
-                    <h4 class="method-name">submit_test(form, entity, action)</h4>
-                    <p class="method-description">Prueba todos los campos del formulario para asegurar que pasan la validación.</p>
-                    <div class="parameters">
-                        <p><strong>Parámetros:</strong></p>
-                        <div class="parameter">
-                            <span class="parameter-name">form</span> <span class="parameter-type">(string)</span>: ID del formulario.
-                        </div>
-                        <div class="parameter">
-                            <span class="parameter-name">entity</span> <span class="parameter-type">(string)</span>: Nombre de la entidad.
-                        </div>
-                        <div class="parameter">
-                            <span class="parameter-name">action</span> <span class="parameter-type">(string)</span>: Tipo de acción.
-                        </div>
-                    </div>
-                    <div class="return-value">
-                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - True si todos los campos son válidos.</p>
-                    </div>
-                </div>
-                
-                <div class="method">
-                    <h4 class="method-name">check_special_tests(fieldId)</h4>
-                    <p class="method-description">Verifica si existen métodos de validación especiales para un campo y los ejecuta.</p>
-                    <div class="parameters">
-                        <p><strong>Parámetros:</strong></p>
-                        <div class="parameter">
-                            <span class="parameter-name">fieldId</span> <span class="parameter-type">(string)</span>: ID del campo a validar.
-                        </div>
-                    </div>
-                    <div class="return-value">
-                        <p><strong>Devuelve:</strong> <span class="return-type">boolean/string</span> - True si es válido, código de error si no lo es.</p>
-                    </div>
-                </div>
-                
-                <div class="method">
-                    <h4 class="method-name">validate_field(fieldId, entity, action)</h4>
-                    <p class="method-description">Método de validación genérico para campos de formulario basado en las reglas de validación de la entidad.</p>
-                    <div class="parameters">
-                        <p><strong>Parámetros:</strong></p>
-                        <div class="parameter">
-                            <span class="parameter-name">fieldId</span> <span class="parameter-type">(string)</span>: ID del campo a validar.
-                        </div>
-                        <div class="parameter">
-                            <span class="parameter-name">entity</span> <span class="parameter-type">(string)</span>: Nombre de la entidad.
-                        </div>
-                        <div class="parameter">
-                            <span class="parameter-name">action</span> <span class="parameter-type">(string)</span>: Tipo de acción.
-                        </div>
-                    </div>
-                    <div class="return-value">
-                        <p><strong>Devuelve:</strong> <span class="return-type">boolean/string</span> - True si es válido, código de error si no lo es.</p>
-                    </div>
-                </div>
-            </div>
-            
+
             <div class="class">
                 <h3 class="class-name">Validaciones_Atomicas</h3>
-                <p>Clase que contiene métodos de validación atómicos que comprueban criterios específicos.</p>
-                
+                <p>Clase que proporciona validaciones básicas para los campos de formularios.</p>
+
                 <div class="method">
-                    <h4 class="method-name">min_size(id, minsize)</h4>
-                    <p class="method-description">Valida el tamaño/longitud mínima de un campo.</p>
+                    <h4 class="method-name">min_size(id, parametro)</h4>
+                    <p class="method-description">Valida que un campo tenga una longitud mínima.</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong></p>
                         <div class="parameter">
                             <span class="parameter-name">id</span> <span class="parameter-type">(string)</span>: ID del campo a validar.
                         </div>
                         <div class="parameter">
-                            <span class="parameter-name">minsize</span> <span class="parameter-type">(number)</span>: Tamaño mínimo permitido.
+                            <span class="parameter-name">parametro</span> <span class="parameter-type">(number)</span>: Longitud mínima requerida.
                         </div>
                     </div>
                     <div class="return-value">
-                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - True si es válido.</p>
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span></p>
                     </div>
                 </div>
-                
+
                 <div class="method">
-                    <h4 class="method-name">max_size(id, maxsize)</h4>
-                    <p class="method-description">Valida el tamaño/longitud máxima de un campo.</p>
+                    <h4 class="method-name">max_size(id, parametro)</h4>
+                    <p class="method-description">Valida que un campo no exceda una longitud máxima.</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong></p>
                         <div class="parameter">
                             <span class="parameter-name">id</span> <span class="parameter-type">(string)</span>: ID del campo a validar.
                         </div>
                         <div class="parameter">
-                            <span class="parameter-name">maxsize</span> <span class="parameter-type">(number)</span>: Tamaño máximo permitido.
+                            <span class="parameter-name">parametro</span> <span class="parameter-type">(number)</span>: Longitud máxima permitida.
                         </div>
                     </div>
                     <div class="return-value">
-                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - True si es válido.</p>
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span></p>
                     </div>
                 </div>
-                
+
                 <div class="method">
-                    <h4 class="method-name">format(id, exprreg)</h4>
-                    <p class="method-description">Valida si un campo coincide con un patrón regex.</p>
+                    <h4 class="method-name">reg_exp(id, parametro)</h4>
+                    <p class="method-description">Valida que el valor de un campo cumpla con una expresión regular.</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong></p>
                         <div class="parameter">
                             <span class="parameter-name">id</span> <span class="parameter-type">(string)</span>: ID del campo a validar.
                         </div>
                         <div class="parameter">
-                            <span class="parameter-name">exprreg</span> <span class="parameter-type">(string/RegExp)</span>: Expresión regular a comparar.
+                            <span class="parameter-name">parametro</span> <span class="parameter-type">(string)</span>: Expresión regular a aplicar.
                         </div>
                     </div>
                     <div class="return-value">
-                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - True si es válido.</p>
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span></p>
                     </div>
                 </div>
-                
+
                 <div class="method">
                     <h4 class="method-name">max_size_file(objfile, maxsize)</h4>
-                    <p class="method-description">Valida el tamaño máximo de un archivo.</p>
+                    <p class="method-description">Valida que el tamaño de un archivo no exceda el límite máximo.</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong></p>
                         <div class="parameter">
-                            <span class="parameter-name">objfile</span> <span class="parameter-type">(File object)</span>: Archivo a validar.
+                            <span class="parameter-name">objfile</span> <span class="parameter-type">(File)</span>: Objeto archivo a validar.
                         </div>
                         <div class="parameter">
-                            <span class="parameter-name">maxsize</span> <span class="parameter-type">(number)</span>: Tamaño máximo permitido en bytes.
+                            <span class="parameter-name">maxsize</span> <span class="parameter-type">(number)</span>: Tamaño máximo en bytes.
                         </div>
                     </div>
                     <div class="return-value">
-                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - True si es válido.</p>
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span></p>
                     </div>
                 </div>
-                
+
                 <div class="method">
-                    <h4 class="method-name">type_file(objfile, array_tipos)</h4>
-                    <p class="method-description">Valida el tipo de archivo contra tipos permitidos.</p>
+                    <h4 class="method-name">file_type(objfile, array_tipos)</h4>
+                    <p class="method-description">Valida que el tipo MIME del archivo esté permitido.</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong></p>
                         <div class="parameter">
-                            <span class="parameter-name">objfile</span> <span class="parameter-type">(File object)</span>: Archivo a validar.
+                            <span class="parameter-name">objfile</span> <span class="parameter-type">(File)</span>: Objeto archivo a validar.
                         </div>
                         <div class="parameter">
                             <span class="parameter-name">array_tipos</span> <span class="parameter-type">(Array)</span>: Array de tipos MIME permitidos.
                         </div>
                     </div>
                     <div class="return-value">
-                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - True si es válido.</p>
-                    </div>
-                </div>
-                
-                <div class="method">
-                    <h4 class="method-name">format_name_file(objfile, exprreg)</h4>
-                    <p class="method-description">Valida el formato del nombre de archivo contra un patrón regex.</p>
-                    <div class="parameters">
-                        <p><strong>Parámetros:</strong></p>
-                        <div class="parameter">
-                            <span class="parameter-name">objfile</span> <span class="parameter-type">(File object)</span>: Archivo a validar.
-                        </div>
-                        <div class="parameter">
-                            <span class="parameter-name">exprreg</span> <span class="parameter-type">(string/RegExp)</span>: Expresión regular a comparar.
-                        </div>
-                    </div>
-                    <div class="return-value">
-                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - True si es válido.</p>
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span></p>
                     </div>
                 </div>
             </div>

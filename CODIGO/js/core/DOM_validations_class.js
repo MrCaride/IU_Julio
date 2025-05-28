@@ -11,15 +11,15 @@ class DOM_validations extends DOM_class {
             const campo = document.getElementById(campos[i].id);
             const eventType = (campo.tagName === 'INPUT' && campo.type !== 'file') ? 'blur' : 'change';
             
-            // Remove any existing event listeners
+            // Eliminar eventos existentes
             campo.removeEventListener(eventType, this._validateField);
             
-            // Create a new handler function for this field
+            // Crear nuevo manejador para este campo
             this._validateField = (event) => {
                 this.comprobarCampo(campos[i].id, accion);
             };
             
-            // Add the event listener
+            // Agregar el evento
             campo.addEventListener(eventType, this._validateField);
         }
     }    comprobarCampo(campo, accion) {
@@ -31,10 +31,10 @@ class DOM_validations extends DOM_class {
         const validacionesCampo = estructura.attributes[campo].validation_rules?.[accion];
         if (!validacionesCampo) {
             return true;
-        }        // Special handling for file inputs
+        }        // Manejo especial para entradas de archivo
         if (document.getElementById(campo).type === 'file') {
             return this.comprobar_file_characteristic(campo, validacionesCampo);
-        }        // Check if field is required
+        }        // Comprobar si el campo es requerido
         if (estructura.attributes[campo].is_not_null) {
             const elem = document.getElementById(campo);
             const value = elem.value;
@@ -45,7 +45,7 @@ class DOM_validations extends DOM_class {
             }
         }
 
-        // Regular field validation
+        // Validación de campo regular
         for (let regla in validacionesCampo) {
             if (typeof this.validacionesatomicas[regla] === 'function') {
                 const [valor, mensajeError] = validacionesCampo[regla];
@@ -61,21 +61,20 @@ class DOM_validations extends DOM_class {
     }    comprobar_file_characteristic(campo, validacionesCampo) {
         const fileInput = document.getElementById(campo);
         const file = fileInput.files[0];
-        
-        // Check if file is required
+          // Comprobar si el archivo es requerido
         if (!file && validacionesCampo.no_file) {
             this.mostrar_error_campo(campo, validacionesCampo.no_file);
             return false;
         }
 
-        // If no file is selected and it's not required, validation passes
+        // Si no se selecciona archivo y no es requerido, la validación pasa
         if (!file) {
             this.mostrar_exito_campo(campo);
             return true;
         }
 
         if (file) {
-            // Check file type
+            // Comprobar tipo de archivo
             if (validacionesCampo.file_type) {
                 const [allowedTypes, errorMsg] = validacionesCampo.file_type;
                 if (!this.validacionesatomicas.file_type(file, allowedTypes)) {
@@ -84,7 +83,7 @@ class DOM_validations extends DOM_class {
                 }
             }
 
-            // Check file size
+            // Comprobar tamaño del archivo
             if (validacionesCampo.max_size_file) {
                 const [maxSize, errorMsg] = validacionesCampo.max_size_file;
                 if (!this.validacionesatomicas.max_size_file(file, maxSize)) {
@@ -93,7 +92,7 @@ class DOM_validations extends DOM_class {
                 }
             }
 
-            // Check file name format
+            // Comprobar formato del nombre del archivo
             if (validacionesCampo.format_name_file) {
                 const [formatRegex, errorMsg] = validacionesCampo.format_name_file;
                 if (!this.validacionesatomicas.format_name_file(file, formatRegex)) {
@@ -105,9 +104,7 @@ class DOM_validations extends DOM_class {
 
         this.mostrar_exito_campo(campo);
         return true;
-    }
-
-    // Method to handle special validations defined in the entity class
+    }    // Método para manejar validaciones especiales definidas en la clase entidad
     check_special_tests(fieldId) {
         if (typeof window['validar']['check_special_' + fieldId] === 'function') {
             return validar['check_special_' + fieldId]();

@@ -1,7 +1,7 @@
 class DOM_class {
 
     constructor() {
-        // Create validation instance if it doesn't exist
+        // Crear instancia de validación si no existe
         if (!window.validar) {
             window.validar = new Validaciones_Atomicas();
         }
@@ -9,33 +9,33 @@ class DOM_class {
 
     mostrar_error_campo(id, codigoerror) {
         try {
-            // Find the elements
+            // Buscar los elementos
             let errorDiv = document.getElementById('div_error_' + id);
             let campo = document.getElementById(id);
 
-            // Create error div if it doesn't exist
+            // Crear div de error si no existe
             if (!errorDiv && campo) {
                 errorDiv = document.createElement('span');
                 errorDiv.id = 'div_error_' + id;
                 errorDiv.className = 'error-message';
-                // Insert after the field
+                // Insertar después del campo
                 campo.parentNode.insertBefore(errorDiv, campo.nextSibling);
             }
 
-            // Update the error message
+            // Actualizar el mensaje de error
             if (errorDiv) {
                 errorDiv.style.display = 'block';
                 errorDiv.innerHTML = Textos[codigoerror] || codigoerror;
                 errorDiv.style.color = 'red';
             }
             
-            // Update field styling
+            // Actualizar estilo del campo
             if (campo) {
                 campo.style.borderColor = 'red';
                 campo.classList.add('errorcampo');
             } 
         } catch (error) {
-            console.warn(`Error displaying error for field ${id}:`, error);
+            console.warn(`Error al mostrar error del campo ${id}:`, error);
         }
     }
 
@@ -61,7 +61,7 @@ class DOM_class {
                 campo.classList.add('exitocampo');
             }
         } catch (error) {
-            console.warn(`Error displaying success for field ${id}:`, error);
+            console.warn(`Error al mostrar éxito del campo ${id}:`, error);
         }
     }
 
@@ -145,7 +145,7 @@ class DOM_class {
         
         setLang();
     }    hacertabla() {
-        // Titulos
+        // Títulos
         let titleElement = document.getElementById("text_title_page");
         let titlePage = document.getElementById('title_page');
         if (titleElement && titlePage) {
@@ -153,14 +153,7 @@ class DOM_class {
             titlePage.style.display = 'block';
         }
 
-        if (!this.datos || this.datos.length === 0) {
-            document.getElementById("id_tabla_datos").style.display = 'block';
-            document.getElementById("titulostablacabecera").innerHTML = "";
-            document.getElementById("muestradatostabla").innerHTML = "";
-            return;
-        }
-
-        // Initialize attributes and columns if not already set
+        // Inicializar atributos y columnas si no están configurados
         if (!this.atributos || this.atributos.length === 0) {
             this.atributos = this.estructura.attributes_list;
         }
@@ -171,35 +164,43 @@ class DOM_class {
             this.datosespecialestabla = this.estructura.columnas_modificadas_tabla || [];
         }
 
-        // Initialize column selector
-        this.construirSelect();
-
-        // Create table header
+        // Construir selector de columnas
+        this.construirSelect();        // Crear encabezado de tabla
         let textolineatitulos = '<tr>';
         for (let atributo of this.atributos) {
             let display = this.columnasamostrar.includes(atributo) ? '' : 'display:none;';
-            textolineatitulos += `<th class="${atributo}" style="${display}">${Textos[atributo] || atributo}</th>`;
+            let textoAtributo = Textos[`titulo_tabla_${this.entidad}_${atributo}`] || Textos[atributo] || atributo;
+            textolineatitulos += `<th class="${atributo}" style="${display}">${textoAtributo}</th>`;
         }
         textolineatitulos += '<th class="acciones">' + (Textos['acciones'] || 'Acciones') + '</th>';
         textolineatitulos += '</tr>';
+          document.getElementById('titulostablacabecera').innerHTML = textolineatitulos;
+
+        // Asegurar que se aplican las traducciones después de modificar el HTML
+        if (typeof setLang === 'function') {
+            setLang();
+        }
         
-        document.getElementById('titulostablacabecera').innerHTML = textolineatitulos;
-        
-        // Create table rows
+        // Crear filas de la tabla
         let textolineadatos = '';
         for (let i = 0; i < this.datos.length; i++) {
             textolineadatos += '<tr>';
             
+            // Procesar cada columna
             for (let atributo of this.atributos) {
                 let display = this.columnasamostrar.includes(atributo) ? '' : 'display:none;';
-                let valor = this.datos[i][atributo];                if (this.estructura.columnas_modificadas_tabla && this.estructura.columnas_modificadas_tabla.includes(atributo)) {
-                    // Usamos change_value_IU del validar (que es la instancia de la entidad)
+                let valor = this.datos[i][atributo];
+                
+                if (this.estructura.columnas_modificadas_tabla && 
+                    this.estructura.columnas_modificadas_tabla.includes(atributo)) {
+                    // Usar change_value_IU del validador para modificar el valor
                     let valorcolumna = valor;
                     if (window.validar && typeof window.validar.change_value_IU === 'function') {
                         valorcolumna = window.validar.change_value_IU(atributo, valor);
                     }
                     textolineadatos += `<td class="tabla-td-${atributo}" style="${display}">${valorcolumna}</td>`;
                 } else {
+                    // Sanitizar valor para prevenir XSS
                     let san = (obj) => {
                         let value = obj?.toString() || '';
                         return value.replace(/[&<>"'`]/g, match => ({
@@ -216,14 +217,14 @@ class DOM_class {
                 }
             }
             
-            // Add action buttons
+            // Agregar botones de acción
             let acciones = '';
             try {
                 acciones += this.crearboton(this.entidad, 'EDIT', JSON.stringify(this.datos[i]));
                 acciones += this.crearboton(this.entidad, 'DELETE', JSON.stringify(this.datos[i]));
                 acciones += this.crearboton(this.entidad, 'SHOWCURRENT', JSON.stringify(this.datos[i]));
             } catch (error) {
-                console.error('Error creating action buttons:', error);
+                console.error('Error al crear botones de acción:', error);
             }
             
             textolineadatos += '<td class="acciones">' + acciones + '</td>';
@@ -331,8 +332,7 @@ class DOM_class {
       cargar_formulario_dinamico(entidad, estructura) {
         let formulario = '';
         const accion = window.accionActual;
-        
-        // Create form fields based on structure
+          // Crear campos del formulario basados en la estructura
         for (let nombreCampo in estructura.attributes) {
             const campo = estructura.attributes[nombreCampo];
             campo.nombre = nombreCampo;
@@ -416,17 +416,17 @@ class DOM_class {
     }      load_data(parametros) {
         if (!parametros) return;
     
-        // Get form fields
+    // Obtener campos del formulario
         let campos = document.forms['IU_form'].elements;
         
-        // Fill form fields with data
+        // Rellenar campos del formulario con datos
         for (let i = 0; i < campos.length; i++) {
             const campo = campos[i];
             const elemento = document.getElementById(campo.id);
             
             if (!elemento) continue;
             
-            // Obtain the value, possibly transformed
+            // Obtener el valor, posiblemente transformado
             let valor = parametros[campo.id];
             if (window.accionActual === 'SHOWCURRENT' && typeof window.validar?.change_value_IU === 'function') {
                 valor = window.validar.change_value_IU(campo.id, valor) || valor;
@@ -441,8 +441,7 @@ class DOM_class {
                     link.href = `http://193.147.87.202/ET2/filesuploaded/files_${campo.id}/${valor}`;
                     link.target = '_blank';
                     link.className = 'file-link';
-                    
-                    // Add file icon
+                          // Añadir icono de archivo
                     let img = document.createElement('img');
                     img.src = './iconos/FILE.png';
                     img.alt = 'Ver archivo';
@@ -456,10 +455,9 @@ class DOM_class {
                 }
                 continue;
             }
-            
-            // For other types of fields
+              // Para otros tipos de campos
             if (window.accionActual === 'SHOWCURRENT') {
-                // For select elements, find and select the correct option
+                // Para elementos select, encontrar y seleccionar la opción correcta
                 if (elemento.tagName === 'SELECT') {
                     for (let i = 0; i < elemento.options.length; i++) {
                         if (elemento.options[i].value === valor) {
@@ -492,9 +490,12 @@ class DOM_class {
 
             campo.setAttribute(evento, 'validar.comprobarCampo("' + campos[i].id + '", "' + accion + '");');
         }
-    }
+    }    colocarboton(accion) {
+        // No colocar botón de submit para SHOWCURRENT
+        if (accion === 'SHOWCURRENT') {
+            return;
+        }
 
-    colocarboton(accion) {
         let divboton = document.createElement('div');
         divboton.id = 'div_boton';
         document.getElementById('IU_form').appendChild(divboton);
@@ -511,7 +512,7 @@ class DOM_class {
         document.getElementById('div_boton').appendChild(boton);
     }
       ponernoactivoform(entidad, estructura, accion) {
-        // Add small delay to ensure DOM elements are created
+        // Agregar pequeño retraso para asegurar que los elementos del DOM estén creados
         setTimeout(() => {
             const form = document.getElementById('IU_form');
             if (!form) {
@@ -526,7 +527,7 @@ class DOM_class {
             }
 
             if (accion === 'SHOWCURRENT' || accion === 'DELETE') {
-                // For showcurrent and delete, make all fields readonly
+        // Para showcurrent y delete, hacer todos los campos de solo lectura
                 for (let i = 0; i < campos.length; i++) {
                     const campo = document.getElementById(campos[i].id);
                     if (!campo) continue;
@@ -539,19 +540,17 @@ class DOM_class {
                     campo.setAttribute('readonly', true);
                     if (campo.tagName === 'SELECT') {
                         campo.disabled = true;
-                    }
-                }            } else if (accion === 'EDIT') {
-                // For edit, make PK fields readonly but visible
+                    }                }            } else if (accion === 'EDIT') {
+                // Para edit, hacer los campos PK de solo lectura pero visibles
                 for (let attr in estructura.attributes) {
                     if (estructura.attributes[attr].is_pk) {
                         const campo = document.getElementById(attr);
                         if (campo) {
                             campo.setAttribute('readonly', true);
                             campo.classList.add('readonly-field');
-                        }
-                    }
+                        }                    }
                 }            } else if (accion === 'ADD') {
-                // For add, only handle autoincrement primary keys
+                // Para add, solo manejar las claves primarias autoincrement
                 for (let attr in estructura.attributes) {
                     const campo = document.getElementById(attr);
                     if (!campo) continue;
@@ -575,12 +574,11 @@ class DOM_class {
         }, 0);
     }
 
-    cerrar_test() {
-        // Get required elements
+    cerrar_test() {        // Obtener elementos requeridos
         const divIUTest = document.getElementById('div_IU_test');
         const modal = document.getElementById('test-modal');
         
-        // Hide test div and modal if they exist
+        // Ocultar div de test y modal si existen
         if (divIUTest) {
             divIUTest.style.display = 'none';
         }
@@ -588,7 +586,7 @@ class DOM_class {
             modal.style.display = 'none';
         }
 
-        // Clear test content
+        // Limpiar contenido del test
         const testElements = [
             'resultadodef',
             'tablaresultadostest',
