@@ -45,7 +45,6 @@ const Textos_ES = {
     // Específico de la entidad - Característica
     'characteristic': 'Característica',
     'characteristics': 'Características',
-    'menu_characteristic': 'Gestión de Características',
     'id_characteristic': 'ID',
     'name_characteristic': 'Nombre',
     'description_characteristic': 'Descripción',

@@ -1,6 +1,6 @@
-// Textos en inglés
+// English texts
 const Textos_EN = {
-    // Elementos comunes
+    // Common elements
     'title': 'Management System',
     'welcome': 'Welcome to the management system',
     'menu': 'Menu',
@@ -19,15 +19,15 @@ const Textos_EN = {
     'logout': 'Logout',
     'test': 'Test',
 
-    // Menú desplegable
+    // Menu dropdown
     'menu_api': 'API Documentation',
 
-    // Elementos comunes de formularios
+    // Common form elements
     'select_data_type': '--Select Data Type--',
     'select_category': '--Select Category--',
     'new_file': 'New File',
 
-    // Etiquetas de formulario y mensajes de validación
+    // Form labels and validation messages
     'required_field': 'This field is required',
     'min_length': 'Minimum length not reached',
     'max_length': 'Maximum length exceeded',
@@ -184,7 +184,6 @@ const Textos_EN = {
     // Entity specific - Characteristic
     'characteristic': 'Characteristic',
     'characteristics': 'Characteristics',
-    'menu_characteristic': 'Characteristic Management',
     'id_characteristic': 'Characteristic ID',
     'name_characteristic': 'Name',
     'description_characteristic': 'Description',
