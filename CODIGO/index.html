@@ -36,8 +36,7 @@
     <main class="main-content">
         <div class="container">
             <!-- Title for the current page -->
-            <div id="title_page" style="display: none;">
-                <h1 id="text_title_page" class="text_title_page">Gestión de Entidades</h1>
+            <div id="title_page" style="display: none;">                <h1 id="text_title_page" class="text_title_page" data-text-key="title_page">Gestión de Entidades</h1>
                 <button id="boton_test" class="button button-primary" style="display: none;" onclick="validar.test_run()">
                     <img src="./iconos/TEST.png" alt="Test">
                     <span class="text_test">Test</span>
@@ -157,7 +156,9 @@
     <!-- Main script -->
     <script>
         // Global variable to hold the current entity
-        let validar = null;        // Load an entity
+        let validar = null;
+
+        // Load an entity
         function loadEntity(entityName) {
             // Close any open form or tests
             if (validar) {
@@ -185,10 +186,15 @@
                 // Show title and test button
                 document.getElementById('title_page').style.display = 'block';
                 document.getElementById('boton_test').style.display = 'inline-block';
+                // Ensure text is in current language
+                setLang();
             } catch (e) {
                 console.error('Error loading entity:', e);
                 return;
             }
+            
+            // Close the menu dropdown
+            document.getElementById("menuDropdown").classList.remove("show");
         }
 
         // Toggle menu dropdown
@@ -207,46 +213,13 @@
                     }
                 }
             }
-        }        // Initialize language and menu when DOM is loaded
+        }
+
+        // Initialize language and menu when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             setLang();
             menuConfig.initialize();
-        });        // Load an entity
-        function loadEntity(entityName) {
-            // Close any open form or tests
-            if (validar) {
-                validar.cerrar_formulario();
-                validar.cerrar_test();
-                validar.cerrar_tabla();
-            }
-            
-            try {
-                // Create the appropriate entity object
-                switch(entityName) {
-                    case 'characteristic':
-                        validar = new Characteristic();
-                        break;
-                    case 'project':
-                        validar = new Project();
-                        break;
-                    case 'analysis_preparation':
-                        validar = new Analysis_preparation();
-                        break;
-                    default:
-                        console.error('Unknown entity:', entityName);
-                        return;
-                }
-                // Show title and test button
-                document.getElementById('title_page').style.display = 'block';
-                document.getElementById('boton_test').style.display = 'inline-block';
-            } catch (e) {
-                console.error('Error loading entity:', e);
-                return;
-            }
-            
-            // Close the menu dropdown
-            document.getElementById("menuDropdown").classList.remove("show");
-        }
+        });
     </script>
 </body>
 </html>

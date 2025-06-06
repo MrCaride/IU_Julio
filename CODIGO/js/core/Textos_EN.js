@@ -6,6 +6,7 @@ const Textos_EN = {
     'menu': 'Menu',
     'entities': 'Entities',
     'actions': 'Actions',
+    'title_page': 'Entities Management',
     'search': 'Search',
     'add': 'Add',
     'edit': 'Edit',
