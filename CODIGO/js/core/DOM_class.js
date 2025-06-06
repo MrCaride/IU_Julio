@@ -169,12 +169,11 @@ class DOM_class {
         let textolineatitulos = '<tr>';
         for (let atributo of this.atributos) {
             let display = this.columnasamostrar.includes(atributo) ? '' : 'display:none;';
-            let textoAtributo = Textos[`titulo_tabla_${this.entidad}_${atributo}`] || Textos[atributo] || atributo;
-            textolineatitulos += `<th class="${atributo}" style="${display}">${textoAtributo}</th>`;
+            textolineatitulos += `<th class="${atributo} text_${atributo}" style="${display}" data-text-key="${`titulo_tabla_${this.entidad}_${atributo}`}">${Textos[`titulo_tabla_${this.entidad}_${atributo}`] || Textos[atributo] || atributo}</th>`;
         }
-        textolineatitulos += '<th class="acciones">' + (Textos['acciones'] || 'Acciones') + '</th>';
+        textolineatitulos += '<th class="acciones text_acciones">' + (Textos['acciones'] || 'Acciones') + '</th>';
         textolineatitulos += '</tr>';
-          document.getElementById('titulostablacabecera').innerHTML = textolineatitulos;
+        document.getElementById('titulostablacabecera').innerHTML = textolineatitulos;
 
         // Asegurar que se aplican las traducciones después de modificar el HTML
         if (typeof setLang === 'function') {

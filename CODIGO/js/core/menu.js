@@ -5,6 +5,16 @@ const menuConfig = {
             id: 'characteristic',
             textKey: 'characteristics',
             className: 'Characteristic'
+        },
+        {
+            id: 'project',
+            textKey: 'projects',
+            className: 'Project'
+        },
+        {
+            id: 'analysis_preparation',
+            textKey: 'analysis_preparations',
+            className: 'Analysis_preparation'
         }
     ],
     initialize: function() {

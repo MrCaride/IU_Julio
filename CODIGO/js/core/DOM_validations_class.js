@@ -60,44 +60,46 @@ class DOM_validations extends DOM_class {
         return true;
     }    comprobar_file_characteristic(campo, validacionesCampo) {
         const fileInput = document.getElementById(campo);
+        if (!fileInput) {
+            console.error(`Campo no encontrado: ${campo}`);
+            return false;
+        }
+
         const file = fileInput.files[0];
-          // Comprobar si el archivo es requerido
-        if (!file && validacionesCampo.no_file) {
+
+        // Check existence first
+        if (validacionesCampo.no_file && (!file || file.size === 0)) {
             this.mostrar_error_campo(campo, validacionesCampo.no_file);
             return false;
         }
 
-        // Si no se selecciona archivo y no es requerido, la validación pasa
-        if (!file) {
-            this.mostrar_exito_campo(campo);
+        // Skip other validations if no file is required and none is provided
+        if (!file && !validacionesCampo.no_file) {
             return true;
         }
 
-        if (file) {
-            // Comprobar tipo de archivo
-            if (validacionesCampo.file_type) {
-                const [allowedTypes, errorMsg] = validacionesCampo.file_type;
-                if (!this.validacionesatomicas.file_type(file, allowedTypes)) {
+        // Ordered validations for files
+        const validationOrder = ['file_type', 'max_size_file', 'format_name_file'];
+
+        for (const rule of validationOrder) {
+            if (validacionesCampo[rule]) {
+                const [param, errorMsg] = validacionesCampo[rule];
+                if (!this.validacionesatomicas[rule](file, param)) {
                     this.mostrar_error_campo(campo, errorMsg);
                     return false;
                 }
             }
+        }
 
-            // Comprobar tamaño del archivo
-            if (validacionesCampo.max_size_file) {
-                const [maxSize, errorMsg] = validacionesCampo.max_size_file;
-                if (!this.validacionesatomicas.max_size_file(file, maxSize)) {
-                    this.mostrar_error_campo(campo, errorMsg);
-                    return false;
-                }
-            }
-
-            // Comprobar formato del nombre del archivo
-            if (validacionesCampo.format_name_file) {
-                const [formatRegex, errorMsg] = validacionesCampo.format_name_file;
-                if (!this.validacionesatomicas.format_name_file(file, formatRegex)) {
-                    this.mostrar_error_campo(campo, errorMsg);
-                    return false;
+        // Regular validations (min_size, max_size, etc.)
+        for (const rule in validacionesCampo) {
+            if (!validationOrder.includes(rule) && rule !== 'no_file') {
+                if (typeof this.validacionesatomicas[rule] === 'function') {
+                    const [param, errorMsg] = validacionesCampo[rule];
+                    if (!this.validacionesatomicas[rule](campo, param)) {
+                        this.mostrar_error_campo(campo, errorMsg);
+                        return false;
+                    }
                 }
             }
         }

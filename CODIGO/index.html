@@ -141,14 +141,20 @@
     <script src="./js/core/Entidad_Abstract_class.js"></script>
     <script src="./js/core/Test_class.js"></script>
     <script src="./js/core/DOM_validations_class.js"></script>
-    <script src="./js/core/ExternalAccess_class.js"></script><!-- Entity structure files -->
-    <script src="./js/entities/characteristic_estructura.js"></script>
+    <script src="./js/core/ExternalAccess_class.js"></script>
+    <!-- Entity structure files -->      <script src="./js/entities/characteristic/characteristic_estructura.js"></script>
+    <script src="./js/entities/project/project_estructura.js"></script>
+    <script src="./js/entities/analysis_preparation/analysis_preparation_estructura.js"></script>
     
     <!-- Entity class files -->
-    <script src="./js/entities/Characteristic_class.js"></script>
-    
-    <!-- Test files -->
-    <script src="./js/tests/test_definitions.js"></script><!-- Main script -->
+    <script src="./js/entities/characteristic/Characteristic_class.js"></script>
+    <script src="./js/entities/project/Project_class.js"></script>
+    <script src="./js/entities/analysis_preparation/Analysis_preparation_class.js"></script>
+      <!-- Test files -->
+    <script src="./js/entities/characteristic/tests_characteristic.js"></script>
+    <script src="./js/entities/project/tests_project.js"></script>
+    <script src="./js/entities/analysis_preparation/tests_analysis_preparation.js"></script>
+    <!-- Main script -->
     <script>
         // Global variable to hold the current entity
         let validar = null;        // Load an entity
@@ -161,18 +167,24 @@
             }
             
             try {
-                // Create the characteristic entity
+                // Create the appropriate entity object
                 switch(entityName) {
                     case 'characteristic':
                         validar = new Characteristic();
-                        // Show title and test button
-                        document.getElementById('title_page').style.display = 'block';
-                        document.getElementById('boton_test').style.display = 'inline-block';
+                        break;
+                    case 'project':
+                        validar = new Project();
+                        break;
+                    case 'analysis_preparation':
+                        validar = new Analysis_preparation();
                         break;
                     default:
                         console.error('Unknown entity:', entityName);
                         return;
                 }
+                // Show title and test button
+                document.getElementById('title_page').style.display = 'block';
+                document.getElementById('boton_test').style.display = 'inline-block';
             } catch (e) {
                 console.error('Error loading entity:', e);
                 return;
@@ -213,24 +225,20 @@
                 switch(entityName) {
                     case 'characteristic':
                         validar = new Characteristic();
-                        // Show title and test button
-                        document.getElementById('title_page').style.display = 'block';
-                        document.getElementById('boton_test').style.display = 'inline-block';
                         break;
                     case 'project':
-                        // Ensure Project_class is loaded before instantiating
-                        if (typeof Project_class === 'undefined') {
-                            throw new Error('Project_class is not loaded yet');
-                        }
-                        validar = new Project_class();
+                        validar = new Project();
                         break;
                     case 'analysis_preparation':
-                        validar = new AnalysisPreparation();
+                        validar = new Analysis_preparation();
                         break;
                     default:
                         console.error('Unknown entity:', entityName);
                         return;
                 }
+                // Show title and test button
+                document.getElementById('title_page').style.display = 'block';
+                document.getElementById('boton_test').style.display = 'inline-block';
             } catch (e) {
                 console.error('Error loading entity:', e);
                 return;

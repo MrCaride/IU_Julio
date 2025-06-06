@@ -63,8 +63,7 @@ const estructura_characteristic = {
                     reg_exp : ['^[A-Za-z\\s]*$', 'description_characteristic_format_KO  '],
                 }
             }
-        },
-        data_type_characteristic: {
+        },        data_type_characteristic: {
             html: {
                 tag: 'select',
                 options: ['','number','text','set'],
@@ -72,9 +71,17 @@ const estructura_characteristic = {
             is_not_null: true,
             default_value : '',
             validation_rules: {
+                ADD:{
+                    reg_exp : ['^(number|text|set)$', 'data_type_characteristic_format_KO'],
+                },
+                EDIT:{
+                    reg_exp : ['^(number|text|set)$', 'data_type_characteristic_format_KO'],
+                },
+                SEARCH:{
+                    reg_exp : ['^(number|text|set|)$', 'data_type_characteristic_format_KO'],
+                }
             }
-        },
-        category_characteristic: {
+        },        category_characteristic: {
             html: {
                 tag: 'select',
                 options: ["","soil_site", "soil_chem", "soil_bio"],
@@ -82,6 +89,15 @@ const estructura_characteristic = {
             is_not_null: true,
             default_value : '',
             validation_rules: {
+                ADD:{
+                    reg_exp : ['^(soil_site|soil_chem|soil_bio)$', 'category_characteristic_format_KO'],
+                },
+                EDIT:{
+                    reg_exp : ['^(soil_site|soil_chem|soil_bio)$', 'category_characteristic_format_KO'],
+                },
+                SEARCH:{
+                    reg_exp : ['^(soil_site|soil_chem|soil_bio|)$', 'category_characteristic_format_KO'],
+                }
             }
         },
         bibref_characteristic: {

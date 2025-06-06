@@ -48,12 +48,17 @@ function setLang() {
         if (!window.Textos) {
             console.error('Error: window.Textos no está definido');
             return;
-        }
-
-        // Actualizar todos los elementos que tienen clases de traducción
+        }        // Actualizar todos los elementos que tienen clases de traducción
         document.querySelectorAll('[class*="text_"], [class*="menu_"]').forEach(element => {
             try {
-                // Extraer la clave de la clase
+                // Primero intentar usar data-text-key si existe
+                const textKey = element.getAttribute('data-text-key');
+                if (textKey && window.Textos[textKey]) {
+                    element.innerHTML = window.Textos[textKey];
+                    return;
+                }
+                
+                // Si no hay data-text-key, usar el método tradicional de clases
                 let classes = element.className.split(' ');
                 let langClass = classes.find(cls => cls.startsWith('text_') || cls.startsWith('menu_'));
                 

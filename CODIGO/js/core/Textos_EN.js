@@ -45,11 +45,44 @@ const Textos_EN = {
     // Entity specific - Project
     'project': 'Project',
     'projects': 'Projects',
-    'project_id': 'Project ID',
-    'project_name': 'Project Name',
-    'project_description': 'Project Description',
-    'project_date': 'Project Date',
-    'project_manager': 'Project Manager',
+    'menu_project': 'Project Management',
+    'id_project': 'ID',
+    'name_project': 'Name',
+    'start_date_project': 'Start Date',
+    'end_date_project': 'End Date',
+    'responsable_project': 'Manager',
+    'organization_project': 'Organization',
+    'description_project': 'Description',
+    'file_project': 'File',
+    'nuevo_file_project': 'New File',
+    'code_project': 'Code',
+    'acronym_project': 'Acronym',
+    'id_sampling_methodology': 'Methodology ID',
+
+    // Error messages for Project
+    'id_project_required_KO': 'ID is required',
+    'id_project_format_KO': 'ID must be numeric',
+    'id_project_min_size_KO': 'ID must have at least 1 digit',
+    'id_project_max_size_KO': 'ID cannot have more than 11 digits',
+
+    'name_project_required_KO': 'Name is required',
+    'name_project_format_KO': 'Name can only contain letters and spaces',
+    'name_project_min_size_KO': 'Name must be at least 15 characters',
+    'name_project_max_size_KO': 'Name cannot be longer than 100 characters',
+
+    'start_date_project_required_KO': 'Start date is required',
+    'start_date_project_format_KO': 'Date only accepts numbers and slashes in format dd/mm/yyyy',
+    'start_date_project_valid_KO': 'Date must be valid',
+
+    'end_date_project_required_KO': 'End date is required',
+    'end_date_project_format_KO': 'Date only accepts numbers and slashes in format dd/mm/yyyy',
+    'end_date_project_valid_KO': 'Date must be valid',
+    'end_date_project_greater_than_start_KO': 'End date cannot be earlier than start date',
+
+    'responsable_project_required_KO': 'Manager is required',
+    'responsable_project_format_KO': 'Manager can only contain letters, spaces, accents and ñ',
+    'responsable_project_min_size_KO': 'Manager must be at least 6 characters',
+    'responsable_project_max_size_KO': 'Manager cannot be longer than 60 characters',
 
     // Project empty field messages
     'name_project_empty_KO': 'Project name cannot be empty',
@@ -134,80 +167,54 @@ const Textos_EN = {
     // Entity specific - Analysis Preparation
     'analysis_preparation': 'Analysis Preparation',
     'analysis_preparations': 'Analysis Preparations',
-    'analysis_preparation_id': 'Preparation ID',
-    'analysis_type': 'Analysis Type',
-    'analysis_date': 'Analysis Date',
-    'analysis_description': 'Analysis Description',
-    'analysis_method': 'Analysis Method',
+    'menu_analysis_preparation': 'Analysis Preparation Management',
+    'id_analysis_preparation': 'ID',
+    'name_analysis_preparation': 'Name',
+    'description_analysis_preparation': 'Description',
+    'bib_analysis_preparation': 'Bibliographic References',
+    'file_analysis_preparation': 'File',
+    'nuevo_file_analysis_preparation': 'New File',
 
-    // Analysis Preparation empty field messages
-    'id_analysis_preparation_empty_KO': 'Preparation ID cannot be empty',
-    'name_analysis_preparation_empty_KO': 'Preparation name cannot be empty',
-    'description_analysis_preparation_empty_KO': 'Preparation description cannot be empty',
-    'bib_analysis_preparation_empty_KO': 'Bibliographic reference cannot be empty',
-
-    // Analysis Preparation error messages
-    // ID Analysis Preparation
+    // Error messages for Analysis Preparation
+    'id_analysis_preparation_required_KO': 'ID is required',
+    'id_analysis_preparation_format_KO': 'ID must be numeric',
     'id_analysis_preparation_min_size_KO': 'ID must have at least 1 digit',
-    'id_analysis_preparation_max_size_KO': 'ID exceeds maximum number of digits (11)',
-    'id_analysis_preparation_format_KO': 'ID can only contain digits',
+    'id_analysis_preparation_max_size_KO': 'ID cannot have more than 9 digits',
 
-    // Name Analysis Preparation
-    'name_analysis_preparation_min_size_KO': 'Name must have at least 8 characters',
-    'name_analysis_preparation_max_size_KO': 'Name exceeds maximum number of characters (100)',
+    'name_analysis_preparation_required_KO': 'Name is required',
     'name_analysis_preparation_format_KO': 'Name can only contain letters and spaces',
+    'name_analysis_preparation_min_size_KO': 'Name must be at least 8 characters',
+    'name_analysis_preparation_max_size_KO': 'Name cannot be longer than 100 characters',
 
-    // Description Analysis Preparation
+    'description_analysis_preparation_required_KO': 'Description is required',
+    'description_analysis_preparation_format_KO': 'Description contains invalid characters',
     'description_analysis_preparation_min_size_KO': 'Description must have at least 80 characters',
-    'description_analysis_preparation_max_size_KO': 'Description exceeds maximum number of characters (5000)',
-    'description_analysis_preparation_format_KO': 'Description can only contain letters and spaces',
+    'description_analysis_preparation_max_size_KO': 'Description cannot be longer than 5000 characters',
 
-    // Bibliographic Reference
-    'bib_analysis_preparation_min_size_KO': 'Bibliographic reference must have at least 6 characters',
-    'bib_analysis_preparation_max_size_KO': 'Bibliographic reference exceeds maximum number of characters (200)',
-    'bib_analysis_preparation_format_KO': 'Bibliographic reference can only contain letters, spaces, punctuation marks and accents',
-
-    // File Analysis Preparation
-    'nuevo_file_analysis_preparation_max_size_file_KO': 'File cannot exceed 2MB',
-    'nuevo_file_analysis_preparation_type_file_KO': 'File can only be pdf, doc or docx',
-    'nuevo_file_analysis_preparation_format_name_file_KO': 'File name can only contain letters and dot',
-    'nuevo_file_analysis_preparation_min_size_name_KO': 'File name must have at least 7 characters',
-    'nuevo_file_analysis_preparation_max_size_name_KO': 'File name exceeds maximum number of characters (100)',
-
-    // Success messages for Analysis Preparation
-    'id_analysis_preparation_OK': 'Preparation ID is valid',
-    'name_analysis_preparation_OK': 'Preparation name is valid',
-    'description_analysis_preparation_OK': 'Preparation description is valid',
-    'bib_analysis_preparation_OK': 'Bibliographic reference is valid',
-    'nuevo_file_analysis_preparation_OK': 'Preparation file is valid',
+    'bib_analysis_preparation_required_KO': 'Bibliographic reference is required',
+    'bib_analysis_preparation_format_KO': 'Bibliographic reference contains invalid characters',
+    'bib_analysis_preparation_min_size_KO': 'Reference must be at least 6 characters',
+    'bib_analysis_preparation_max_size_KO': 'Reference cannot be longer than 200 characters',
 
     // Entity specific - Characteristic
     'characteristic': 'Characteristic',
     'characteristics': 'Characteristics',
-    'id_characteristic': 'Characteristic ID',
+    'id_characteristic': 'ID',
     'name_characteristic': 'Name',
     'description_characteristic': 'Description',
     'data_type_characteristic': 'Data Type',
     'category_characteristic': 'Category',
+    'file_characteristic': 'File',
+    'acciones': 'Actions',
     'bibref_characteristic': 'Bibliographic Reference',
     'file_characteristic': 'File',
     'nuevo_file_characteristic': 'Upload File',
 
+    // Error messages for Characteristic
     'id_characteristic_required_KO': 'ID is required',
     'id_characteristic_format_KO': 'ID must be numeric',
     'id_characteristic_min_size_KO': 'ID must have at least 1 digit',
     'id_characteristic_max_size_KO': 'ID cannot have more than 11 digits',
-
-    // Messages for nuevo_file_characteristic
-        'nuevo_file_characteristic_required_KO': 'You must attach a file',
-    'nuevo_file_characteristic_name_min_size_KO': 'File name must be at least 7 characters long',
-    'nuevo_file_characteristic_name_max_size_KO': 'File name cannot exceed 100 characters',
-    'nuevo_file_characteristic_no_file_KO': 'You must select an existing file',
-    'nuevo_file_characteristic_file_type_KO': 'File must be PDF or DOC/DOCX',
-    'nuevo_file_characteristic_max_size_KO': 'File cannot exceed 2MB',
-    'nuevo_file_characteristic_name_format_KO': 'File name can only contain letters and dot',
-    'nuevo_file_characteristic_OK': 'File is valid',
-
 
     'name_characteristic_required_KO': 'Name is required',
     'name_characteristic_format_KO': 'Name can only contain letters and spaces',
@@ -216,7 +223,7 @@ const Textos_EN = {
 
     'description_characteristic_required_KO': 'Description is required',
     'description_characteristic_format_KO': 'Description contains invalid characters',
-    'description_characteristic_min_size_KO': 'Description must be at least 80 characters',
+    'description_characteristic_min_size_KO': 'Description must have at least 80 characters',
     'description_characteristic_max_size_KO': 'Description cannot be longer than 5000 characters',
 
     'data_type_characteristic_required_KO': 'Data type is required',
@@ -224,12 +231,12 @@ const Textos_EN = {
 
     'category_characteristic_required_KO': 'Category is required',
     'category_characteristic_format_KO': 'Category can only contain letters and spaces',
-    'category_characteristic_min_size_KO': 'Category must be at least 6 characters',
+    'category_characteristic_min_size_KO': 'Category must have at least 6 characters',
     'category_characteristic_max_size_KO': 'Category cannot be longer than 50 characters',
 
     'bibref_characteristic_required_KO': 'Bibliographic reference is required',
     'bibref_characteristic_format_KO': 'Bibliographic reference contains invalid characters',
-    'bibref_characteristic_min_size_KO': 'Reference must be at least 16 characters',
+    'bibref_characteristic_min_size_KO': 'Reference must have at least 16 characters',
     'bibref_characteristic_max_size_KO': 'Reference cannot be longer than 200 characters',
 
     'file_characteristic_required_KO': 'File is required',
@@ -237,9 +244,28 @@ const Textos_EN = {
     'file_characteristic_size_KO': 'File is too large (max 2MB)',
     'file_characteristic_format_KO': 'Invalid file format',
 
+    // Success messages for Characteristic
+    'id_characteristic_OK': 'Valid ID',
+    'name_characteristic_OK': 'Valid name',
+    'description_characteristic_OK': 'Valid description',
+    'data_type_characteristic_OK': 'Valid data type',
+    'category_characteristic_OK': 'Valid category',
+    'bibref_characteristic_OK': 'Valid bibliographic reference',
+    'file_characteristic_OK': 'Valid file',
+
+    // Messages for nuevo_file_characteristic
+    'nuevo_file_characteristic_required_KO': 'You must attach a file',
+    'nuevo_file_characteristic_name_min_size_KO': 'File name must be at least 7 characters',
+    'nuevo_file_characteristic_name_max_size_KO': 'File name cannot be longer than 100 characters',
+    'nuevo_file_characteristic_no_file_KO': 'You must select a real file',
+    'nuevo_file_characteristic_file_type_KO': 'File must be PDF or DOC/DOCX',
+    'nuevo_file_characteristic_max_size_KO': 'File cannot be larger than 2MB',
+    'nuevo_file_characteristic_name_format_KO': 'File name can only contain letters and dot',
+    'nuevo_file_characteristic_OK': 'File uploaded successfully',
+
     // Data types
     'number': 'Number',
-    'text': 'Text', 
+    'text': 'Text',
     'set': 'Set',
 
     // Categories
@@ -247,15 +273,15 @@ const Textos_EN = {
     'soil_chem': 'Soil Chemistry',
     'soil_bio': 'Soil Biology',
 
-    // Error messages
-    'ERROR_CONNECTION': 'Connection error with server',
-    'ERROR_DB': 'Database error',
-    'ERROR_VALIDATION': 'Data validation error',
-    'ERROR_NO_FILE': 'No file selected',
-    'ERROR_UPLOAD': 'Error uploading file',
-    'ERROR_AUTH': 'Authentication error',
+    // Data type options
+    'select_data_type_characteristic': 'Select data type',
+    'number': 'Number',
+    'text': 'Text',
+    'set': 'Set',
 
-    // File messages
-    'no_file': 'No file',
-    'admin_no_te_lo_deja_borrar_KO': 'The administrator does not allow deleting this item'
+    // Category options 
+    'select_category_characteristic': 'Select category',
+    'soil_site': 'Soil site',
+    'soil_chem': 'Soil chemistry',
+    'soil_bio': 'Soil biology'
 };

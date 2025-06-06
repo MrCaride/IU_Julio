@@ -171,26 +171,38 @@ header {
     box-shadow: var(--box-shadow);
     margin-top: 1.5rem;
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: visible;
     -webkit-overflow-scrolling: touch;
     max-width: 100%;
+    position: relative;
 }
 
 table {
     width: 100%;
-    min-width: 800px;
+    min-width: 900px;
     border-collapse: collapse;
     margin: 0;
+    table-layout: fixed;
 }
 
-td.acciones {
+td.acciones, th.acciones {
+    width: 180px;
     white-space: nowrap;
+    text-align: center;
+    min-width: 180px;
 }
 
 table th, table td {
-    padding: 1rem;
-    vertical-align: middle;
+    padding: 0.5rem 0.75rem;
+    vertical-align: top;
     border-bottom: 1px solid var(--border-color);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 table th {
@@ -200,6 +212,40 @@ table th {
     text-transform: uppercase;
     font-size: 0.875rem;
     letter-spacing: 0.05em;
+}
+
+/* Tooltip para ver contenido completo al hacer hover en celdas */
+table td:not(.acciones):hover {
+    overflow: visible;
+    white-space: normal;
+    position: absolute;
+    background-color: var(--hover-color);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 100;
+    border-radius: 4px;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    max-width: 300px;
+    word-wrap: break-word;
+}
+
+/* Tooltip para ver contenido completo al hacer hover en cabeceras */
+table th:not(.acciones):hover {
+    overflow: visible;
+    white-space: normal;
+    position: absolute;
+    background-color: var(--method-bg);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    z-index: 100;
+    border-radius: 4px;
+    padding: 0.75rem;
+    border: 2px solid var(--heading-color);
+    max-width: 300px;
+    word-wrap: break-word;
+    color: var(--heading-color);
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: normal;
 }
 
 table tr:hover {
@@ -356,13 +402,14 @@ input.exitocampo, textarea.exitocampo, select.exitocampo {
 
 .modal-content {
     background-color: #ffffff;
-    margin: 2% auto;
+    margin: 1% auto;
     padding: 2rem;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-    width: 95%;
-    max-width: 800px;
-    max-height: 90vh;
+    width: 98%;
+    max-width: 1400px;
+    min-height: 80vh;
+    max-height: 95vh;
     overflow-y: auto;
     position: relative;
     animation: modalFadeIn 0.3s ease;
@@ -378,7 +425,149 @@ input.exitocampo, textarea.exitocampo, select.exitocampo {
 }
 
 .test-results-table {
-    margin: 1.5rem 0;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    font-size: 13px;
+    min-width: 1000px;
+}
+
+.test-results-table th,
+.test-results-table td {
+    padding: 6px 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: top;
+    position: relative;
+}
+
+/* Ancho específico para cada columna mejorado */
+.test-results-table th:nth-child(1),
+.test-results-table td:nth-child(1) { /* Entidad */
+    width: 130px;
+    min-width: 130px;
+}
+.test-results-table th:nth-child(2),
+.test-results-table td:nth-child(2) { /* Campo */
+    width: 140px;
+    min-width: 140px;
+}
+.test-results-table th:nth-child(3),
+.test-results-table td:nth-child(3) { /* ID Test */
+    width: 70px;
+    min-width: 70px;
+    text-align: center;
+}
+.test-results-table th:nth-child(4),
+.test-results-table td:nth-child(4) { /* Prueba */
+    width: 180px;
+    min-width: 180px;
+}
+.test-results-table th:nth-child(5),
+.test-results-table td:nth-child(5) { /* Acción */
+    width: 100px;
+    min-width: 100px;
+}
+.test-results-table th:nth-child(6),
+.test-results-table td:nth-child(6) { /* Valor */
+    width: 120px;
+    min-width: 120px;
+}
+.test-results-table th:nth-child(7),
+.test-results-table td:nth-child(7) { /* Resultado Esperado */
+    width: 120px;
+    min-width: 120px;
+}
+.test-results-table th:nth-child(8),
+.test-results-table td:nth-child(8) { /* Resultado Real */
+    width: 120px;
+    min-width: 120px;
+}
+
+/* Tooltip mejorado en hover para ver el contenido completo */
+.test-results-table td:hover {
+    position: absolute;
+    overflow: visible;
+    white-space: normal;
+    background-color: #f8f9fa;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    border-radius: 4px;
+    padding: 8px 12px;
+    border: 2px solid #007bff;
+    max-width: 300px;
+    word-wrap: break-word;
+    font-size: 14px;
+}
+
+/* Tooltip para cabeceras de la tabla de test */
+.test-results-table th:hover {
+    position: absolute;
+    overflow: visible;
+    white-space: normal;
+    background-color: #e9ecef;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    border-radius: 4px;
+    padding: 8px 12px;
+    border: 2px solid #495057;
+    max-width: 300px;
+    word-wrap: break-word;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.test-results-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #333;
+}
+
+.test-results-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Estilos para las columnas específicas */
+.test-results-table .resultado {
+    font-weight: 500;
+}
+
+.test-results-table .resultado-ok {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.test-results-table .resultado-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.test-results-table .codigo-error {
+    font-family: monospace;
+    color: #dc3545;
+}
+
+/* Estilos para resultados esperados vs reales */
+.test-results-table .resultado-esperado,
+.test-results-table .resultado-real {
+    font-weight: 500;
+}
+
+.test-results-table .coinciden {
+    background-color: #d4edda !important;
+    color: #155724;
+}
+
+.test-results-table .no-coinciden {
+    background-color: #f8d7da !important;
+    color: #721c24;
 }
 
 /* Responsive design */
@@ -392,15 +581,45 @@ input.exitocampo, textarea.exitocampo, select.exitocampo {
     }
 
     table {
-        display: block;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+        font-size: 12px;
+        min-width: 800px;
+    }
+
+    table th, table td {
+        padding: 0.4rem 0.5rem;
+    }
+
+    .test-results-table {
+        font-size: 11px;
+        min-width: 900px;
+    }
+
+    .test-results-table th,
+    .test-results-table td {
+        padding: 4px 6px;
     }
 
     .modal-content {
         padding: 1.5rem;
         margin: 1rem;
         width: calc(100% - 2rem);
+    }
+
+    /* Ajustar anchos de columnas en móvil */
+    .test-results-table th:nth-child(1),
+    .test-results-table td:nth-child(1) { 
+        width: 110px;
+        min-width: 110px;
+    }
+    .test-results-table th:nth-child(2),
+    .test-results-table td:nth-child(2) { 
+        width: 120px;
+        min-width: 120px;
+    }
+    .test-results-table th:nth-child(4),
+    .test-results-table td:nth-child(4) { 
+        width: 150px;
+        min-width: 150px;
     }
 }
 

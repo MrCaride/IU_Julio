@@ -143,4 +143,78 @@ const Textos_ES = {
 
     // Mensajes de administrador
     'admin_no_te_lo_deja_borrar_KO': 'El administrador no permite eliminar este elemento',
+
+    // Específico de la entidad - Project
+    'project': 'Proyecto',
+    'projects': 'Proyectos',
+    'menu_project': 'Gestión de Proyectos',
+    'id_project': 'ID',
+    'name_project': 'Nombre',
+    'start_date_project': 'Fecha de Inicio',
+    'end_date_project': 'Fecha de Fin',
+    'responsable_project': 'Responsable',
+    'organization_project': 'Organización',
+    'description_project': 'Descripción',
+    'file_project': 'Archivo',
+    'nuevo_file_project': 'Nuevo Archivo',
+    'code_project': 'Código',
+    'acronym_project': 'Acrónimo',
+    'id_sampling_methodology': 'ID Metodología',
+
+    // Mensajes de error para Project
+    'id_project_required_KO': 'El ID es obligatorio',
+    'id_project_format_KO': 'El ID debe ser numérico',
+    'id_project_min_size_KO': 'El ID debe tener al menos 1 dígito',
+    'id_project_max_size_KO': 'El ID no puede tener más de 11 dígitos',
+
+    'name_project_required_KO': 'El nombre es obligatorio',
+    'name_project_format_KO': 'El nombre solo puede contener letras y espacios',
+    'name_project_min_size_KO': 'El nombre debe tener al menos 15 caracteres',
+    'name_project_max_size_KO': 'El nombre no puede tener más de 100 caracteres',
+
+    'start_date_project_required_KO': 'La fecha de inicio es obligatoria',
+    'start_date_project_format_KO': 'La fecha solo acepta números y barras en formato dd/mm/aaaa',
+    'start_date_project_valid_KO': 'La fecha debe ser válida',
+
+    'end_date_project_required_KO': 'La fecha de fin es obligatoria',
+    'end_date_project_format_KO': 'La fecha solo acepta números y barras en formato dd/mm/aaaa',
+    'end_date_project_valid_KO': 'La fecha debe ser válida',
+    'end_date_project_greater_than_start_KO': 'La fecha de fin no puede ser anterior a la fecha de inicio',
+
+    'responsable_project_required_KO': 'El responsable es obligatorio',
+    'responsable_project_format_KO': 'El responsable solo puede contener letras, espacios, acentos y ñ',
+    'responsable_project_min_size_KO': 'El responsable debe tener al menos 6 caracteres',
+    'responsable_project_max_size_KO': 'El responsable no puede tener más de 60 caracteres',
+
+    // Específico de la entidad - Analysis Preparation
+    'analysis_preparation': 'Preparación de Análisis',
+    'analysis_preparations': 'Preparaciones de Análisis',
+    'menu_analysis_preparation': 'Gestión de Preparaciones de Análisis',
+    'id_analysis_preparation': 'ID',
+    'name_analysis_preparation': 'Nombre',
+    'description_analysis_preparation': 'Descripción',
+    'bib_analysis_preparation': 'Referencias Bibliográficas',
+    'file_analysis_preparation': 'Archivo',
+    'nuevo_file_analysis_preparation': 'Nuevo Archivo',
+
+    // Mensajes de error para Analysis Preparation
+    'id_analysis_preparation_required_KO': 'El ID es obligatorio',
+    'id_analysis_preparation_format_KO': 'El ID debe ser numérico',
+    'id_analysis_preparation_min_size_KO': 'El ID debe tener al menos 1 dígito',
+    'id_analysis_preparation_max_size_KO': 'El ID no puede tener más de 9 dígitos',
+
+    'name_analysis_preparation_required_KO': 'El nombre es obligatorio',
+    'name_analysis_preparation_format_KO': 'El nombre solo puede contener letras y espacios',
+    'name_analysis_preparation_min_size_KO': 'El nombre debe tener al menos 8 caracteres',
+    'name_analysis_preparation_max_size_KO': 'El nombre no puede tener más de 100 caracteres',
+
+    'description_analysis_preparation_required_KO': 'La descripción es obligatoria',
+    'description_analysis_preparation_format_KO': 'La descripción contiene caracteres inválidos',
+    'description_analysis_preparation_min_size_KO': 'La descripción debe tener al menos 80 caracteres',
+    'description_analysis_preparation_max_size_KO': 'La descripción no puede tener más de 5000 caracteres',
+
+    'bib_analysis_preparation_required_KO': 'La referencia bibliográfica es obligatoria',
+    'bib_analysis_preparation_format_KO': 'La referencia bibliográfica contiene caracteres inválidos',
+    'bib_analysis_preparation_min_size_KO': 'La referencia debe tener al menos 6 caracteres',
+    'bib_analysis_preparation_max_size_KO': 'La referencia no puede tener más de 200 caracteres'
 };
