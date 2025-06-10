@@ -154,30 +154,28 @@
     <script src="./js/entities/project/tests_project.js"></script>
     <script src="./js/entities/analysis_preparation/tests_analysis_preparation.js"></script>
     <!-- Main script -->
-    <script>
-        // Global variable to hold the current entity
+    <script>        // Global variable to hold the current entity
         let validar = null;
 
         // Load an entity
         function loadEntity(entityName) {
             // Close any open form or tests
-            if (validar) {
-                validar.cerrar_formulario();
-                validar.cerrar_test();
-                validar.cerrar_tabla();
+            if (window.validar) {
+                window.validar.cerrar_formulario();
+                window.validar.cerrar_test();
+                window.validar.cerrar_tabla();
             }
-            
-            try {
+              try {
                 // Create the appropriate entity object
                 switch(entityName) {
                     case 'characteristic':
-                        validar = new Characteristic();
+                        window.validar = validar = new Characteristic();
                         break;
                     case 'project':
-                        validar = new Project();
+                        window.validar = validar = new Project();
                         break;
                     case 'analysis_preparation':
-                        validar = new Analysis_preparation();
+                        window.validar = validar = new Analysis_preparation();
                         break;
                     default:
                         console.error('Unknown entity:', entityName);

@@ -316,9 +316,10 @@ const Textos_EN = {
     'nuevo_file_analysis_preparation_file_type_KO': 'File must be PDF or DOC/DOCX',
     'nuevo_file_analysis_preparation_max_size_KO': 'File cannot be larger than 2MB',
     'nuevo_file_analysis_preparation_name_format_KO': 'File name can only contain letters and dot',
-    'nuevo_file_analysis_preparation_OK': 'File uploaded successfully',
-
-    // Messages for file_analysis_preparation
+    'nuevo_file_analysis_preparation_OK': 'File uploaded successfully',    // Messages for file_analysis_preparation
     'file_analysis_preparation_name_max_size_KO': 'File name cannot be longer than 100 characters',
-    'file_analysis_preparation_name_format_KO': 'File name can only contain letters and dot'
+    'file_analysis_preparation_name_format_KO': 'File name can only contain letters and dot',
+
+    // File messages
+    'no_file': 'No file'
 };

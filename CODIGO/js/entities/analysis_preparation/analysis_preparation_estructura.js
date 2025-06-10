@@ -1,6 +1,6 @@
 window.estructura_analysis_preparation = {
     attributes_list: ['id_analysis_preparation', 'name_analysis_preparation', 'description_analysis_preparation', 'bib_analysis_preparation', 'file_analysis_preparation','nuevo_file_analysis_preparation'],
-    columnas_visibles_tabla : ['id_analysis_preparation', 'name_analysis_preparation', 'bib_analysis_preparation'],
+    columnas_visibles_tabla : ['id_analysis_preparation', 'name_analysis_preparation', 'bib_analysis_preparation', 'file_analysis_preparation'],
     columnas_modificadas_tabla: ['file_analysis_preparation'],
     attributes: {
         id_analysis_preparation: {

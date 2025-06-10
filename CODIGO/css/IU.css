@@ -252,6 +252,66 @@ table tr:hover {
     background-color: var(--hover-color);
 }
 
+/* Table link styles - Make file links visible */
+table td a {
+    color: var(--primary-color);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0;
+    border-radius: 4px;
+    transition: var(--transition);
+    font-weight: 500;
+}
+
+table td a:hover {
+    color: var(--heading-color);
+    text-decoration: underline;
+    background-color: rgba(37, 99, 235, 0.1);
+    padding: 0.25rem 0.5rem;
+}
+
+table td a img {
+    width: 18px;
+    height: 18px;
+    opacity: 0.9;
+    flex-shrink: 0;
+}
+
+table td a:hover img {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* File link specific styling */
+table td a[href*="filesuploaded"] {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* File columns - make them wider for better visibility */
+table td.tabla-td-file_characteristic,
+table td.tabla-td-file_project,
+table td.tabla-td-file_analysis_preparation,
+table th.file_characteristic,
+table th.file_project,
+table th.file_analysis_preparation {
+    width: 200px;
+    min-width: 200px;
+    white-space: nowrap;
+    overflow: visible;
+}
+
+/* Override text ellipsis for file columns to show full content */
+table td.tabla-td-file_characteristic,
+table td.tabla-td-file_project,
+table td.tabla-td-file_analysis_preparation {
+    text-overflow: clip;
+    overflow: visible;
+    white-space: nowrap;
+}
+
 /* Form styles */
 .modal-form-overlay {
     display: none;

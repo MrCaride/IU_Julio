@@ -159,9 +159,8 @@ class DOM_class {
         }
         if (!this.columnasamostrar || this.columnasamostrar.length === 0) {
             this.columnasamostrar = this.estructura.columnas_visibles_tabla;
-        }
-        if (!this.datosespecialestabla) {
-            this.datosespecialestabla = this.estructura.columnas_modificadas_tabla || [];
+        }        if (!this.datosespecialestabla) {
+            this.datosespecialestabla = [];
         }
 
         // Construir selector de columnas
@@ -188,10 +187,7 @@ class DOM_class {
             // Procesar cada columna
             for (let atributo of this.atributos) {
                 let display = this.columnasamostrar.includes(atributo) ? '' : 'display:none;';
-                let valor = this.datos[i][atributo];
-                
-                if (this.estructura.columnas_modificadas_tabla && 
-                    this.estructura.columnas_modificadas_tabla.includes(atributo)) {
+                let valor = this.datos[i][atributo];                if (this.datosespecialestabla && this.datosespecialestabla.includes(atributo)) {
                     // Usar change_value_IU del validador para modificar el valor
                     let valorcolumna = valor;
                     if (window.validar && typeof window.validar.change_value_IU === 'function') {
