@@ -109,6 +109,10 @@ const Textos_ES = {
     'nuevo_file_characteristic_name_format_KO': 'El nombre del archivo solo puede contener letras y punto',
     'nuevo_file_characteristic_OK': 'Archivo subido correctamente',
 
+    // Mensajes de file_characteristic  
+    'file_characteristic_name_max_size_KO': 'El nombre del archivo no puede tener más de 100 caracteres',
+    'file_characteristic_name_format_KO': 'El nombre del archivo solo puede contener letras y punto',
+
     // Tipos de datos
     'number': 'Número',
     'text': 'Texto', 
@@ -180,12 +184,31 @@ const Textos_ES = {
     'end_date_project_required_KO': 'La fecha de fin es obligatoria',
     'end_date_project_format_KO': 'La fecha solo acepta números y barras en formato dd/mm/aaaa',
     'end_date_project_valid_KO': 'La fecha debe ser válida',
-    'end_date_project_greater_than_start_KO': 'La fecha de fin no puede ser anterior a la fecha de inicio',
-
-    'responsable_project_required_KO': 'El responsable es obligatorio',
+    'end_date_project_greater_than_start_KO': 'La fecha de fin no puede ser anterior a la fecha de inicio',    'responsable_project_required_KO': 'El responsable es obligatorio',
     'responsable_project_format_KO': 'El responsable solo puede contener letras, espacios, acentos y ñ',
     'responsable_project_min_size_KO': 'El responsable debe tener al menos 6 caracteres',
     'responsable_project_max_size_KO': 'El responsable no puede tener más de 60 caracteres',
+
+    'organization_project_required_KO': 'La organización es obligatoria',
+    'organization_project_format_KO': 'La organización solo puede contener letras, espacios, acentos y ñ',
+    'organization_project_min_size_KO': 'La organización debe tener al menos 6 caracteres',
+    'organization_project_max_size_KO': 'La organización no puede tener más de 100 caracteres',
+
+    'description_project_required_KO': 'La descripción es obligatoria',
+    'description_project_format_KO': 'La descripción contiene caracteres inválidos',
+    'description_project_min_size_KO': 'La descripción debe tener al menos 30 caracteres',
+    'description_project_max_size_KO': 'La descripción no puede tener más de 500 caracteres',
+
+    'file_project_required_KO': 'El archivo es obligatorio',
+    'file_project_name_max_size_KO': 'El nombre del archivo no puede tener más de 100 caracteres',
+    'file_project_name_format_KO': 'El nombre del archivo solo puede contener letras y punto',
+    
+    'nuevo_file_project_name_min_size_KO': 'El nombre del archivo debe tener al menos 6 caracteres',
+    'nuevo_file_project_name_max_size_KO': 'El nombre del archivo no puede tener más de 100 caracteres',
+    'nuevo_file_project_no_file_KO': 'Debe seleccionar un archivo real',
+    'nuevo_file_project_file_type_KO': 'El archivo debe ser PDF o DOC/DOCX',
+    'nuevo_file_project_max_size_KO': 'El archivo no puede superar los 2MB',
+    'nuevo_file_project_name_format_KO': 'El nombre del archivo solo puede contener letras y punto',
 
     // Específico de la entidad - Analysis Preparation
     'analysis_preparation': 'Preparación de Análisis',
@@ -217,5 +240,18 @@ const Textos_ES = {
     'bib_analysis_preparation_required_KO': 'La referencia bibliográfica es obligatoria',
     'bib_analysis_preparation_format_KO': 'La referencia bibliográfica contiene caracteres inválidos',
     'bib_analysis_preparation_min_size_KO': 'La referencia debe tener al menos 6 caracteres',
-    'bib_analysis_preparation_max_size_KO': 'La referencia no puede tener más de 200 caracteres'
+    'bib_analysis_preparation_max_size_KO': 'La referencia no puede tener más de 200 caracteres',
+
+    // Mensajes de nuevo_file_analysis_preparation
+    'nuevo_file_analysis_preparation_name_min_size_KO': 'El nombre del archivo debe tener al menos 7 caracteres',
+    'nuevo_file_analysis_preparation_name_max_size_KO': 'El nombre del archivo no puede tener más de 100 caracteres',
+    'nuevo_file_analysis_preparation_no_file_KO': 'Debe seleccionar un archivo real',
+    'nuevo_file_analysis_preparation_file_type_KO': 'El archivo debe ser PDF o DOC/DOCX',
+    'nuevo_file_analysis_preparation_max_size_KO': 'El archivo no puede superar los 2MB',
+    'nuevo_file_analysis_preparation_name_format_KO': 'El nombre del archivo solo puede contener letras y punto',
+    'nuevo_file_analysis_preparation_OK': 'Archivo subido correctamente',
+
+    // Mensajes de file_analysis_preparation
+    'file_analysis_preparation_name_max_size_KO': 'El nombre del archivo no puede tener más de 100 caracteres',
+    'file_analysis_preparation_name_format_KO': 'El nombre del archivo solo puede contener letras y punto'
 };

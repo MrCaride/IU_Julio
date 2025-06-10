@@ -34,9 +34,8 @@ const estructura_characteristic = {
                     min_size : [8, 'name_characteristic_min_size_KO'],
 				    max_size: [100,'name_characteristic_max_size_KO'],
                     reg_exp : ['^[A-Za-z\\s]*$', 'name_characteristic_format_KO'],
-                },
-                SEARCH:{
-				    max_size: [9,'name_characteristic_max_size_KO'],
+                },                SEARCH:{
+				    max_size: [100,'name_characteristic_max_size_KO'],
                     reg_exp : ['^[A-Za-z\\s]*$', 'name_characteristic_format_KO'],
                 }
             }
@@ -58,9 +57,8 @@ const estructura_characteristic = {
 				    max_size: [5000,'description_characteristic_max_size_KO'],
                     reg_exp : ['^[A-Za-z\\s]*$', 'description_characteristic_format_KO'],
                 },
-                SEARCH:{
-				    max_size: [5000,'description_characteristic_max_size_KO'],
-                    reg_exp : ['^[A-Za-z\\s]*$', 'description_characteristic_format_KO  '],
+                SEARCH:{                max_size: [5000,'description_characteristic_max_size_KO'],
+                    reg_exp : ['^[A-Za-z\\s]*$', 'description_characteristic_format_KO'],
                 }
             }
         },        data_type_characteristic: {

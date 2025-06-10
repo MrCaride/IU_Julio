@@ -78,12 +78,31 @@ const Textos_EN = {
     'end_date_project_required_KO': 'End date is required',
     'end_date_project_format_KO': 'Date only accepts numbers and slashes in format dd/mm/yyyy',
     'end_date_project_valid_KO': 'Date must be valid',
-    'end_date_project_greater_than_start_KO': 'End date cannot be earlier than start date',
-
-    'responsable_project_required_KO': 'Manager is required',
+    'end_date_project_greater_than_start_KO': 'End date cannot be earlier than start date',    'responsable_project_required_KO': 'Manager is required',
     'responsable_project_format_KO': 'Manager can only contain letters, spaces, accents and ñ',
     'responsable_project_min_size_KO': 'Manager must be at least 6 characters',
     'responsable_project_max_size_KO': 'Manager cannot be longer than 60 characters',
+
+    'organization_project_required_KO': 'Organization is required',
+    'organization_project_format_KO': 'Organization can only contain letters, spaces, accents and ñ',
+    'organization_project_min_size_KO': 'Organization must be at least 6 characters',
+    'organization_project_max_size_KO': 'Organization cannot be longer than 100 characters',
+
+    'description_project_required_KO': 'Description is required',
+    'description_project_format_KO': 'Description contains invalid characters',
+    'description_project_min_size_KO': 'Description must have at least 30 characters',
+    'description_project_max_size_KO': 'Description cannot be longer than 500 characters',
+
+    'file_project_required_KO': 'File is required',
+    'file_project_name_max_size_KO': 'File name cannot be longer than 100 characters',
+    'file_project_name_format_KO': 'File name can only contain letters and dot',
+    
+    'nuevo_file_project_name_min_size_KO': 'File name must be at least 6 characters',
+    'nuevo_file_project_name_max_size_KO': 'File name cannot be longer than 100 characters',
+    'nuevo_file_project_no_file_KO': 'You must select a real file',
+    'nuevo_file_project_file_type_KO': 'File must be PDF or DOC/DOCX',
+    'nuevo_file_project_max_size_KO': 'File cannot be larger than 2MB',
+    'nuevo_file_project_name_format_KO': 'File name can only contain letters and dot',
 
     // Project empty field messages
     'name_project_empty_KO': 'Project name cannot be empty',
@@ -264,6 +283,10 @@ const Textos_EN = {
     'nuevo_file_characteristic_name_format_KO': 'File name can only contain letters and dot',
     'nuevo_file_characteristic_OK': 'File uploaded successfully',
 
+    // Messages for file_characteristic
+    'file_characteristic_name_max_size_KO': 'File name cannot be longer than 100 characters',
+    'file_characteristic_name_format_KO': 'File name can only contain letters and dot',
+
     // Data types
     'number': 'Number',
     'text': 'Text',
@@ -284,5 +307,18 @@ const Textos_EN = {
     'select_category_characteristic': 'Select category',
     'soil_site': 'Soil site',
     'soil_chem': 'Soil chemistry',
-    'soil_bio': 'Soil biology'
+    'soil_bio': 'Soil biology',
+
+    // Messages for nuevo_file_analysis_preparation
+    'nuevo_file_analysis_preparation_name_min_size_KO': 'File name must be at least 7 characters',
+    'nuevo_file_analysis_preparation_name_max_size_KO': 'File name cannot be longer than 100 characters',
+    'nuevo_file_analysis_preparation_no_file_KO': 'You must select a real file',
+    'nuevo_file_analysis_preparation_file_type_KO': 'File must be PDF or DOC/DOCX',
+    'nuevo_file_analysis_preparation_max_size_KO': 'File cannot be larger than 2MB',
+    'nuevo_file_analysis_preparation_name_format_KO': 'File name can only contain letters and dot',
+    'nuevo_file_analysis_preparation_OK': 'File uploaded successfully',
+
+    // Messages for file_analysis_preparation
+    'file_analysis_preparation_name_max_size_KO': 'File name cannot be longer than 100 characters',
+    'file_analysis_preparation_name_format_KO': 'File name can only contain letters and dot'
 };
