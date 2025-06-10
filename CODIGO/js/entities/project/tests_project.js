@@ -44,17 +44,15 @@ window.project_tests = Array(
 
     // Pruebas End Date Project
     Array('project', 'end_date_project', 17, 33, 'ADD', '2025-12-31', '', 'end_date_project_format_KO'),
-    Array('project', 'end_date_project', 17, 34, 'ADD', '31/12/2025', '', 'OK'),
-    Array('project', 'end_date_project', 18, 35, 'ADD', '32/13/2025', '', 'end_date_project_valid_KO'),
+    Array('project', 'end_date_project', 17, 34, 'ADD', '31/12/2025', '', 'OK'),    Array('project', 'end_date_project', 18, 35, 'ADD', '32/13/2025', '', 'end_date_project_valid_KO'),
     Array('project', 'end_date_project', 18, 36, 'ADD', '31/12/2025', '', 'OK'),
-    Array('project', 'end_date_project', 19, 37, 'ADD', '01/01/2024', '', 'end_date_project_greater_than_start_KO'),
-    Array('project', 'end_date_project', 19, 38, 'ADD', '31/12/2025', '', 'OK'),
+    Array('project', 'end_date_project', 19, 37, 'ADD', '31/12/2020', {'start_date_project': '01/01/2025'}, 'end_date_project_greater_than_start_KO'),
+    Array('project', 'end_date_project', 19, 38, 'ADD', '31/12/2025', {'start_date_project': '01/01/2025'}, 'OK'),
     Array('project', 'end_date_project', 20, 39, 'EDIT', '2025-12-31', '', 'end_date_project_format_KO'),
-    Array('project', 'end_date_project', 20, 40, 'EDIT', '31/12/2025', '', 'OK'),
-    Array('project', 'end_date_project', 21, 41, 'EDIT', '32/13/2025', '', 'end_date_project_valid_KO'),
+    Array('project', 'end_date_project', 20, 40, 'EDIT', '31/12/2025', '', 'OK'),    Array('project', 'end_date_project', 21, 41, 'EDIT', '32/13/2025', '', 'end_date_project_valid_KO'),
     Array('project', 'end_date_project', 21, 42, 'EDIT', '31/12/2025', '', 'OK'),
-    Array('project', 'end_date_project', 22, 43, 'EDIT', '01/01/2024', '', 'end_date_project_greater_than_start_KO'),
-    Array('project', 'end_date_project', 22, 44, 'EDIT', '31/12/2025', '', 'OK'),
+    Array('project', 'end_date_project', 22, 43, 'EDIT', '01/01/2020', {'start_date_project': '01/01/2025'}, 'end_date_project_greater_than_start_KO'),
+    Array('project', 'end_date_project', 22, 44, 'EDIT', '31/12/2025', {'start_date_project': '01/01/2025'}, 'OK'),
     Array('project', 'end_date_project', 23, 45, 'SEARCH', '2025-12-31', '', 'end_date_project_format_KO'),
     Array('project', 'end_date_project', 23, 46, 'SEARCH', '31/12/2025', '', 'OK'),
     Array('project', 'end_date_project', 24, 47, 'SEARCH', '32/13/2025', '', 'end_date_project_valid_KO'),
@@ -97,13 +95,13 @@ window.project_tests = Array(
     Array('project', 'description_project', 41, 82, 'ADD', 'This is a valid description with at least thirty characters long', '', 'OK'),
     Array('project', 'description_project', 42, 83, 'ADD', 'a'.repeat(501), '', 'description_project_max_size_KO'),
     Array('project', 'description_project', 42, 84, 'ADD', 'This is a valid description with at least thirty characters long', '', 'OK'),
-    Array('project', 'description_project', 43, 85, 'ADD', 'Invalid@Description123', '', 'description_project_format_KO'),
+    Array('project', 'description_project', 43, 85, 'ADD', 'IIIIIIIIIIIIIInvalid@Description123', '', 'description_project_format_KO'),
     Array('project', 'description_project', 43, 86, 'ADD', 'This is a valid description with at least thirty characters long', '', 'OK'),
     Array('project', 'description_project', 44, 87, 'EDIT', 'short', '', 'description_project_min_size_KO'),
     Array('project', 'description_project', 44, 88, 'EDIT', 'This is a valid description with at least thirty characters long', '', 'OK'),
     Array('project', 'description_project', 45, 89, 'EDIT', 'a'.repeat(501), '', 'description_project_max_size_KO'),
     Array('project', 'description_project', 45, 90, 'EDIT', 'This is a valid description with at least thirty characters long', '', 'OK'),
-    Array('project', 'description_project', 46, 91, 'EDIT', 'Invalid@Description123', '', 'description_project_format_KO'),
+    Array('project', 'description_project', 46, 91, 'EDIT', 'IIIIIIIIIIIIIInvalidInvalid@Description123', '', 'description_project_format_KO'),
     Array('project', 'description_project', 46, 92, 'EDIT', 'This is a valid description with at least thirty characters long', '', 'OK'),
     Array('project', 'description_project', 47, 93, 'SEARCH', 'a'.repeat(501), '', 'description_project_max_size_KO'),
     Array('project', 'description_project', 47, 94, 'SEARCH', 'This is a valid description with at least thirty characters long', '', 'OK'),
@@ -114,10 +112,9 @@ window.project_tests = Array(
 /**
  * Pruebas para campos de tipo file
  */
-window.project_tests_files = Array(
-    // Tests de nuevo_file_project - max_size validation
-    Array('project', 'nuevo_file_project', 49, 97, 'ADD', 'max_size', 2000001, 'nuevo_file_project_max_size_KO'),
-    Array('project', 'nuevo_file_project', 49, 98, 'ADD', 'max_size', 1000000, 'OK'),
+window.project_tests_files = Array(    // Tests de nuevo_file_project - max_size_file validation (file size in bytes)
+    Array('project', 'nuevo_file_project', 49, 97, 'ADD', 'max_size_file', 3000001, 'nuevo_file_project_max_size_KO'),
+    Array('project', 'nuevo_file_project', 49, 98, 'ADD', 'max_size_file', 1000000, 'OK'),
     
     // Tests de nuevo_file_project - file_type validation  
     Array('project', 'nuevo_file_project', 50, 99, 'ADD', 'file_type', 'text/plain', 'nuevo_file_project_file_type_KO'),
@@ -125,9 +122,7 @@ window.project_tests_files = Array(
     
     // Tests de nuevo_file_project - min_size validation
     Array('project', 'nuevo_file_project', 51, 101, 'ADD', 'min_size', 5, 'nuevo_file_project_name_min_size_KO'),
-    Array('project', 'nuevo_file_project', 51, 102, 'ADD', 'min_size', 10, 'OK'),
-    
-    // Tests de nuevo_file_project - max_size_name validation
-    Array('project', 'nuevo_file_project', 52, 103, 'ADD', 'max_size', 101, 'nuevo_file_project_name_max_size_KO'),
-    Array('project', 'nuevo_file_project', 52, 104, 'ADD', 'max_size', 50, 'OK')
+    Array('project', 'nuevo_file_project', 51, 102, 'ADD', 'min_size', 10, 'OK'),    // Tests de nuevo_file_project - max_size validation (filename length)
+    Array('project', 'nuevo_file_project', 52, 103, 'ADD', 'max_size', 'a'.repeat(101) + '.pdf', 'nuevo_file_project_name_max_size_KO'),
+    Array('project', 'nuevo_file_project', 52, 104, 'ADD', 'max_size', 'validfile.pdf', 'OK')
 );

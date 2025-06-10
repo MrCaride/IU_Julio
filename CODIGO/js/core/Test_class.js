@@ -232,14 +232,22 @@ class Test_class {
             let acciontest = this.array_pruebas[i][4];
             let valortest = this.array_pruebas[i][5];
             let valoresExtra = this.array_pruebas[i][6]; // Valores extra si son necesarios
-            let resultadoEsperado = this.array_pruebas[i][7]; // Código de error o 'OK'
+            let resultadoEsperado = this.array_pruebas[i][7]; // Código de error o 'OK'            // Establecer valor de prueba en el campo
+            document.getElementById(campotest).value = valortest;
 
-            // Establecer valor de prueba en el campo
-            document.getElementById(campotest).value = valortest;            // Obtener reglas de validación de la estructura
+            // Establecer valores extra si son necesarios para validaciones especiales
+            if (valoresExtra && typeof valoresExtra === 'object') {
+                for (let campo in valoresExtra) {
+                    const campoElement = document.getElementById(campo);
+                    if (campoElement) {
+                        campoElement.value = valoresExtra[campo];
+                    }
+                }
+            }
+
+            // Obtener reglas de validación de la estructura
             const estructura = eval('estructura_' + this.entidad);
-            const validationRules = estructura.attributes[campotest].validation_rules[acciontest];
-
-            // Ejecutar validaciones según las reglas
+            const validationRules = estructura.attributes[campotest].validation_rules[acciontest];// Ejecutar validaciones según las reglas
             let resultadotest = 'OK';
             if (validationRules) {
                 // Para pruebas regulares (no de archivos)
@@ -265,7 +273,23 @@ class Test_class {
                         }
                     }
                 }
-            }            // Buscar la fila correspondiente en la tabla y actualizar el resultado
+            }            // Ejecutar validaciones especiales si existen
+            if (resultadotest === 'OK') {
+                const specialMethodName = 'check_special_' + campotest;
+                // Buscar primero en window.validar, luego en this.parent
+                let entityInstance = window.validar || this.parent;
+                if (entityInstance && typeof entityInstance[specialMethodName] === 'function') {
+                    try {
+                        const specialResult = entityInstance[specialMethodName]();
+                        if (specialResult !== true) {
+                            // El método retorna directamente el código de error o false
+                            resultadotest = specialResult;
+                        }
+                    } catch (error) {
+                        console.error(`Error executing special validation ${specialMethodName}:`, error);
+                    }
+                }
+            }// Buscar la fila correspondiente en la tabla y actualizar el resultado
             this.updateTestResultInTable(table, numdeftest, numprueba, campotest, resultadotest);
         }
 
@@ -361,11 +385,26 @@ class Test_class {
                                 } else {
                                     fileName = expectingError ? 'a'.repeat(101) + ".pdf" : "validfile.pdf";
                                 }
-                                break;
-                            case 'file_type':
+                                break;                            case 'file_type':
                                 if (typeof valortest === 'string') {
-                                    fileType = valortest;
-                                    fileName = expectingError ? "test.txt" : "test.pdf";
+                                    // Si valortest es un string de filename, usar eso para determinar tipo
+                                    if (valortest.includes('.')) {
+                                        fileName = valortest;
+                                        // Determinar MIME type basado en la extensión
+                                        if (valortest.endsWith('.pdf')) {
+                                            fileType = "application/pdf";
+                                        } else if (valortest.endsWith('.doc')) {
+                                            fileType = "application/msword";
+                                        } else if (valortest.endsWith('.docx')) {
+                                            fileType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+                                        } else {
+                                            fileType = "text/plain"; // Para archivos no válidos como .txt
+                                        }
+                                    } else {
+                                        // Si valortest es un MIME type
+                                        fileType = valortest;
+                                        fileName = expectingError ? "test.txt" : "test.pdf";
+                                    }
                                 }
                                 break;
                             case 'format_name_file':

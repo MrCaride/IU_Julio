@@ -43,9 +43,7 @@ class DOM_validations extends DOM_class {
                 elem.style.borderColor = 'red';
                 return false;
             }
-        }
-
-        // Validación de campo regular
+        }        // Validación de campo regular
         for (let regla in validacionesCampo) {
             if (typeof this.validacionesatomicas[regla] === 'function') {
                 const [valor, mensajeError] = validacionesCampo[regla];
@@ -54,6 +52,11 @@ class DOM_validations extends DOM_class {
                     return false;
                 }
             }
+        }
+
+        // Ejecutar validaciones especiales si existen en la entidad
+        if (!this.check_special_tests(campo)) {
+            return false;
         }
 
         this.mostrar_exito_campo(campo);
@@ -106,12 +109,31 @@ class DOM_validations extends DOM_class {
 
         this.mostrar_exito_campo(campo);
         return true;
-    }    // Método para manejar validaciones especiales definidas en la clase entidad
+    } 
+    
     check_special_tests(fieldId) {
-        if (typeof window['validar']['check_special_' + fieldId] === 'function') {
-            return validar['check_special_' + fieldId]();
+        // Verificar si existe un método check_special_NOMBREATRIBUTO en la instancia actual
+        const specialMethodName = 'check_special_' + fieldId;
+        
+        // Buscar el método en la instancia de validación actual (window.validar)
+        if (window.validar && typeof window.validar[specialMethodName] === 'function') {
+            try {
+                const result = window.validar[specialMethodName]();
+                if (result !== true) {
+                    // Si el resultado no es true, puede ser un código de error o false
+                    if (typeof result === 'string') {
+                        // Es un código de error, mostrar el error (solo si no se ha mostrado ya)
+                        this.mostrar_error_campo(fieldId, result);
+                    }
+                    return false;
+                }
+            } catch (error) {
+                console.error(`Error ejecutando validación especial ${specialMethodName}:`, error);
+                return false;
+            }
         }
-        return true;
+        
+        return true; // Si no existe el método especial o la validación pasa
     }
 
     // Método genérico para validar un campo
@@ -132,6 +154,16 @@ class DOM_validations extends DOM_class {
                 if (campo.type === 'submit' || !campo.id) continue;
                 
                 if (!this.comprobarCampo(campo.id, accion)) {
+                    resultadoValidacion = false;
+                }
+            }
+            
+            // Ejecutar validaciones especiales adicionales para todos los campos
+            for (let i = 0; i < campos.length; i++) {
+                const campo = campos[i];
+                if (campo.type === 'submit' || !campo.id) continue;
+                
+                if (!this.check_special_tests(campo.id)) {
                     resultadoValidacion = false;
                 }
             }

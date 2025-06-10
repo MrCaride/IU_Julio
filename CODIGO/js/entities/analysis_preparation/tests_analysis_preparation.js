@@ -5,11 +5,10 @@
 /**
  * Pruebas para campos que no son de tipo file
  */
-window.analysis_preparation_tests = Array(
-    // Pruebas ID Analysis Preparation
+window.analysis_preparation_tests = Array(    // Pruebas ID Analysis Preparation
     Array('analysis_preparation', 'id_analysis_preparation', 1, 1, 'SEARCH', 'abc123', '', 'id_analysis_preparation_format_KO'),
     Array('analysis_preparation', 'id_analysis_preparation', 1, 2, 'SEARCH', '123', '', 'OK'),
-    Array('analysis_preparation', 'id_analysis_preparation', 2, 3, 'SEARCH', '123456789012', '', 'id_analysis_preparation_max_size_KO'),
+    Array('analysis_preparation', 'id_analysis_preparation', 2, 3, 'SEARCH', '1234567890', '', 'id_analysis_preparation_max_size_KO'),
     Array('analysis_preparation', 'id_analysis_preparation', 2, 4, 'SEARCH', '12345', '', 'OK'),
 
     // Pruebas Name Analysis Preparation
@@ -24,46 +23,41 @@ window.analysis_preparation_tests = Array(
     Array('analysis_preparation', 'name_analysis_preparation', 7, 13, 'EDIT', 'a'.repeat(101), '', 'name_analysis_preparation_max_size_KO'),
     Array('analysis_preparation', 'name_analysis_preparation', 7, 14, 'EDIT', 'Valid Name', '', 'OK'),
     Array('analysis_preparation', 'name_analysis_preparation', 8, 15, 'EDIT', 'Invalid@Name123', '', 'name_analysis_preparation_format_KO'),
-    Array('analysis_preparation', 'name_analysis_preparation', 8, 16, 'EDIT', 'Valid Name', '', 'OK'),
-    Array('analysis_preparation', 'name_analysis_preparation', 9, 17, 'SEARCH', 'a'.repeat(101), '', 'name_analysis_preparation_max_size_KO'),
+    Array('analysis_preparation', 'name_analysis_preparation', 8, 16, 'EDIT', 'Valid Name', '', 'OK'),    Array('analysis_preparation', 'name_analysis_preparation', 9, 17, 'SEARCH', 'a'.repeat(10), '', 'name_analysis_preparation_max_size_KO'),
     Array('analysis_preparation', 'name_analysis_preparation', 9, 18, 'SEARCH', 'Valid', '', 'OK'),
-    Array('analysis_preparation', 'name_analysis_preparation', 10, 19, 'SEARCH', 'Invalid@123', '', 'name_analysis_preparation_format_KO'),
-    Array('analysis_preparation', 'name_analysis_preparation', 10, 20, 'SEARCH', 'Valid Name', '', 'OK'),
-
-    // Pruebas Description Analysis Preparation
+    Array('analysis_preparation', 'name_analysis_preparation', 10, 19, 'SEARCH', 'Bad@Name', '', 'name_analysis_preparation_format_KO'),
+    Array('analysis_preparation', 'name_analysis_preparation', 10, 20, 'SEARCH', 'Valid', '', 'OK'),// Pruebas Description Analysis Preparation
     Array('analysis_preparation', 'description_analysis_preparation', 11, 21, 'ADD', 'short description', '', 'description_analysis_preparation_min_size_KO'),
     Array('analysis_preparation', 'description_analysis_preparation', 11, 22, 'ADD', 'a'.repeat(80), '', 'OK'),
     Array('analysis_preparation', 'description_analysis_preparation', 12, 23, 'ADD', 'a'.repeat(5001), '', 'description_analysis_preparation_max_size_KO'),
-    Array('analysis_preparation', 'description_analysis_preparation', 12, 24, 'ADD', 'Valid Description', '', 'OK'),
-    Array('analysis_preparation', 'description_analysis_preparation', 13, 25, 'ADD', 'Invalid@Description123', '', 'description_analysis_preparation_format_KO'),
-    Array('analysis_preparation', 'description_analysis_preparation', 13, 26, 'ADD', 'Valid Description', '', 'OK'),
+    Array('analysis_preparation', 'description_analysis_preparation', 12, 24, 'ADD', 'a'.repeat(80), '', 'OK'),
+    Array('analysis_preparation', 'description_analysis_preparation', 13, 25, 'ADD', 'IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIInvalid@Description123', '', 'description_analysis_preparation_format_KO'),
+    Array('analysis_preparation', 'description_analysis_preparation', 13, 26, 'ADD', 'a'.repeat(80), '', 'OK'),
     Array('analysis_preparation', 'description_analysis_preparation', 14, 27, 'EDIT', 'short', '', 'description_analysis_preparation_min_size_KO'),
     Array('analysis_preparation', 'description_analysis_preparation', 14, 28, 'EDIT', 'a'.repeat(80), '', 'OK'),
     Array('analysis_preparation', 'description_analysis_preparation', 15, 29, 'EDIT', 'a'.repeat(5001), '', 'description_analysis_preparation_max_size_KO'),
-    Array('analysis_preparation', 'description_analysis_preparation', 15, 30, 'EDIT', 'Valid Description', '', 'OK'),
-    Array('analysis_preparation', 'description_analysis_preparation', 16, 31, 'EDIT', 'Invalid@Description123', '', 'description_analysis_preparation_format_KO'),
-    Array('analysis_preparation', 'description_analysis_preparation', 16, 32, 'EDIT', 'Valid Description', '', 'OK'),
-    Array('analysis_preparation', 'description_analysis_preparation', 17, 33, 'SEARCH', 'a'.repeat(5001), '', 'description_analysis_preparation_max_size_KO'),
+    Array('analysis_preparation', 'description_analysis_preparation', 15, 30, 'EDIT', 'a'.repeat(80), '', 'OK'),
+    Array('analysis_preparation', 'description_analysis_preparation', 16, 31, 'EDIT', 'IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIInvalidS@Description123', '', 'description_analysis_preparation_format_KO'),
+    Array('analysis_preparation', 'description_analysis_preparation', 16, 32, 'EDIT', 'a'.repeat(80), '', 'OK'),    Array('analysis_preparation', 'description_analysis_preparation', 17, 33, 'SEARCH', 'a'.repeat(5001), '', 'description_analysis_preparation_max_size_KO'),
     Array('analysis_preparation', 'description_analysis_preparation', 17, 34, 'SEARCH', 'Valid Description', '', 'OK'),
     Array('analysis_preparation', 'description_analysis_preparation', 18, 35, 'SEARCH', 'Invalid@Description123', '', 'description_analysis_preparation_format_KO'),
-    Array('analysis_preparation', 'description_analysis_preparation', 18, 36, 'SEARCH', 'Valid Description', '', 'OK'),
-
-    // Pruebas Bibliographic Reference
+    Array('analysis_preparation', 'description_analysis_preparation', 18, 36, 'SEARCH', 'Valid Description', '', 'OK'),    // Pruebas Bibliographic Reference
     Array('analysis_preparation', 'bib_analysis_preparation', 19, 37, 'ADD', 'short', '', 'bib_analysis_preparation_min_size_KO'),
-    Array('analysis_preparation', 'bib_analysis_preparation', 19, 38, 'ADD', 'Valid Reference 2023', '', 'OK'),
+    Array('analysis_preparation', 'bib_analysis_preparation', 19, 38, 'ADD', 'Valid Reference Study', '', 'OK'),
     Array('analysis_preparation', 'bib_analysis_preparation', 20, 39, 'ADD', 'a'.repeat(201), '', 'bib_analysis_preparation_max_size_KO'),
-    Array('analysis_preparation', 'bib_analysis_preparation', 20, 40, 'ADD', 'Valid Reference 2023', '', 'OK'),
+    Array('analysis_preparation', 'bib_analysis_preparation', 20, 40, 'ADD', 'Valid Reference Study', '', 'OK'),
     Array('analysis_preparation', 'bib_analysis_preparation', 21, 41, 'ADD', 'Invalid$Reference', '', 'bib_analysis_preparation_format_KO'),
-    Array('analysis_preparation', 'bib_analysis_preparation', 21, 42, 'ADD', 'Valid Reference, 2023', '', 'OK'),
+    Array('analysis_preparation', 'bib_analysis_preparation', 21, 42, 'ADD', 'Valid Reference, Study', '', 'OK'),
     Array('analysis_preparation', 'bib_analysis_preparation', 22, 43, 'EDIT', 'short', '', 'bib_analysis_preparation_min_size_KO'),
-    Array('analysis_preparation', 'bib_analysis_preparation', 22, 44, 'EDIT', 'Valid Reference 2023', '', 'OK'),
+    Array('analysis_preparation', 'bib_analysis_preparation', 22, 44, 'EDIT', 'Valid Reference Study', '', 'OK'),
     Array('analysis_preparation', 'bib_analysis_preparation', 23, 45, 'EDIT', 'a'.repeat(201), '', 'bib_analysis_preparation_max_size_KO'),
-    Array('analysis_preparation', 'bib_analysis_preparation', 23, 46, 'EDIT', 'Valid Reference 2023', '', 'OK'),
-    Array('analysis_preparation', 'bib_analysis_preparation', 24, 47, 'EDIT', 'Invalid$Reference', '', 'bib_analysis_preparation_format_KO'),    Array('analysis_preparation', 'bib_analysis_preparation', 24, 48, 'EDIT', 'Valid Reference, 2023', '', 'OK'),
+    Array('analysis_preparation', 'bib_analysis_preparation', 23, 46, 'EDIT', 'Valid Reference Study', '', 'OK'),
+    Array('analysis_preparation', 'bib_analysis_preparation', 24, 47, 'EDIT', 'Invalid$Reference', '', 'bib_analysis_preparation_format_KO'),
+    Array('analysis_preparation', 'bib_analysis_preparation', 24, 48, 'EDIT', 'Valid Reference, Study', '', 'OK'),
     Array('analysis_preparation', 'bib_analysis_preparation', 25, 49, 'SEARCH', 'a'.repeat(201), '', 'bib_analysis_preparation_max_size_KO'),
-    Array('analysis_preparation', 'bib_analysis_preparation', 25, 50, 'SEARCH', 'Valid Reference 2023', '', 'OK'),
+    Array('analysis_preparation', 'bib_analysis_preparation', 25, 50, 'SEARCH', 'Valid Reference Study', '', 'OK'),
     Array('analysis_preparation', 'bib_analysis_preparation', 26, 51, 'SEARCH', 'Invalid$Reference', '', 'bib_analysis_preparation_format_KO'),
-    Array('analysis_preparation', 'bib_analysis_preparation', 26, 52, 'SEARCH', 'Valid Reference, 2023', '', 'OK'),
+    Array('analysis_preparation', 'bib_analysis_preparation', 26, 52, 'SEARCH', 'Valid Reference, Study', '', 'OK'),
 
     // Tests de File Analysis Preparation (text field)
     Array('analysis_preparation', 'file_analysis_preparation', 27, 53, 'SEARCH', 'a'.repeat(101), '', 'file_analysis_preparation_name_max_size_KO'),

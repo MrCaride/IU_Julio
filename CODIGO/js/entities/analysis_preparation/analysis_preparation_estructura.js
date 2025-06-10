@@ -10,10 +10,9 @@ window.estructura_analysis_preparation = {
             },
             is_pk: true,
             is_not_null: true,
-            is_autoincrement: true,
-            validation_rules: {
+            is_autoincrement: true,            validation_rules: {
                 SEARCH:{
-                    max_size: [9,'id_analysis_preparation_format_KO'],
+                    max_size: [9,'id_analysis_preparation_max_size_KO'],
                     reg_exp :  ['^[0-9]*$', 'id_analysis_preparation_format_KO'],
                 }
             }
