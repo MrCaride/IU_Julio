@@ -70,16 +70,16 @@ class Test_class {
         // Obtener arreglos de pruebas para ejecución
         const prefix = this.entidad + '_';
         
-        // Reset test arrays
+        // Reiniciar arrays de pruebas
         this.array_def = [];
         this.array_pruebas = [];
         this.array_pruebas_file = [];
         
-        try {            // Load test definitions
+        try {            // Cargar definiciones de pruebas
             this.array_def = eval(this.entidad + '_def_tests');
         } catch (e) {
             console.warn('No se encontraron definiciones de test para ' + this.entidad);
-        }        // Get regular test cases
+        }        // Obtener casos de prueba regulares
         try {
             this.array_pruebas = eval(this.entidad + '_tests');
         } catch (e) {
@@ -87,7 +87,7 @@ class Test_class {
             console.warn('No se encontraron pruebas regulares para ' + this.entidad);
         }
 
-        // Get file test cases
+        // Obtener casos de prueba de archivos
         try {
             this.array_pruebas_file = eval(this.entidad + '_tests_files');
         } catch (e) {
@@ -178,7 +178,7 @@ class Test_class {
             separatorCell.style.textAlign = 'center';
             separatorCell.style.fontWeight = 'bold';            // Agregar filas de pruebas de archivos
             for (let prueba of this.array_pruebas_file) {
-                if (!prueba) continue; // Skip if prueba is null
+                if (!prueba) continue; // Saltar si prueba es null
                 
                 let row = table.insertRow();
                 row.setAttribute('data-test-id', prueba[2]);
@@ -232,7 +232,8 @@ class Test_class {
             let acciontest = this.array_pruebas[i][4];
             let valortest = this.array_pruebas[i][5];
             let valoresExtra = this.array_pruebas[i][6]; // Valores extra si son necesarios
-            let resultadoEsperado = this.array_pruebas[i][7]; // Código de error o 'OK'            // Establecer valor de prueba en el campo
+            let resultadoEsperado = this.array_pruebas[i][7]; // Código de error o 'OK'           
+            // Establecer valor de prueba en el campo
             document.getElementById(campotest).value = valortest;
 
             // Establecer valores extra si son necesarios para validaciones especiales
@@ -286,7 +287,7 @@ class Test_class {
                             resultadotest = specialResult;
                         }
                     } catch (error) {
-                        console.error(`Error executing special validation ${specialMethodName}:`, error);
+                        console.error(`Error ejecutando validación especial ${specialMethodName}:`, error);
                     }
                 }
             }// Buscar la fila correspondiente en la tabla y actualizar el resultado
@@ -330,21 +331,18 @@ class Test_class {
         } else {
             console.error(`No se encontró la fila para test ${testId}-${testNum} en campo ${field}`);
         }
-    }test_entidad_files() {
-        // Check if there are no file tests
+    }    test_entidad_files() {        // Verificar si no hay pruebas de archivos
         if (!this.array_pruebas_file || this.array_pruebas_file.length === 0) {
-            console.log('No file tests to execute');
-            return;  // Exit if no file tests exist
+            console.log('No hay pruebas de archivos para ejecutar');            return;  // Salir si no existen pruebas de archivos
         }
 
-        // Get the existing table
+        // Obtener la tabla existente
         const table = document.getElementById('tabla-pruebas-principales');
         if (!table) {
             console.error('No se encontró la tabla de pruebas principales');
-            return;
-        }
+            return;        }
 
-        // Execute each file test and update results in existing table
+        // Ejecutar cada prueba de archivo y actualizar resultados en la tabla existente
         for (let i = 0; i < this.array_pruebas_file.length; i++) {
             try {
                 this.parent.cargar_formulario();                const campotest = this.array_pruebas_file[i][1];
@@ -355,25 +353,25 @@ class Test_class {
                 const valortest = this.array_pruebas_file[i][6]; // Valor de prueba
                 const resultadoEsperado = this.array_pruebas_file[i][7]; // Código de error o 'OK'
 
-                // Add submit button
+                // Agregar botón de envío
                 let botonSubmit = document.createElement('input');
                 botonSubmit.id = 'submit_button';
                 document.getElementById('IU_form').append(botonSubmit);
 
-                // Create file input
+                // Crear entrada de archivo
                 let fileInput = document.createElement('input');
                 fileInput.type = 'file';
                 fileInput.id = campotest;
                 fileInput.name = campotest;
                 document.getElementById('IU_form').appendChild(fileInput);
-                  // Create test file if needed
+                  // Crear archivo de prueba si es necesario
                 if (valortest && valortest !== null) {
                     try {
                         let fileType = "application/pdf";
                         let fileName = "test.pdf";
                         let fileSize = 100;
-                          // Set file properties based on test type and expected failure
-                        const expectingError = (resultadoEsperado !== 'OK');  // If result is not 'OK', we expect an error
+                          // Establecer propiedades del archivo basado en tipo de prueba y fallo esperado
+                        const expectingError = (resultadoEsperado !== 'OK');  // Si el resultado no es 'OK', esperamos un error
                         
                         switch (tipoPrueba) {
                             case 'min_size':
@@ -415,7 +413,7 @@ class Test_class {
                                 break;
                             case 'no_file':
                                 if (expectingError) {
-                                    // For no_file tests expecting error, don't create a file
+                                    // Para pruebas no_file que esperan error, no crear archivo
                                     continue;
                                 } else {
                                     fileName = "validfile.pdf";
@@ -429,23 +427,22 @@ class Test_class {
                         dataTransfer.items.add(file);
                         fileInput.files = dataTransfer.files;
                     } catch (error) {
-                        console.error('Error creating test file:', error);
+                        console.error('Error creando archivo de prueba:', error);
                         continue;
                     }
                 }
 
-                // Get validation rules
+                // Obtener reglas de validación
                 const estructura = eval('estructura_' + this.entidad);
-                const validationRules = estructura.attributes[campotest].validation_rules[acciontest];                // Execute validations in order
-                let resultadotest = 'OK';
-                if (validationRules) {
-                    // Check no_file first
+                const validationRules = estructura.attributes[campotest].validation_rules[acciontest];                // Ejecutar validaciones en orden
+                let resultadotest = 'OK';                if (validationRules) {
+                    // Verificar no_file primero
                     if (tipoPrueba === 'no_file' && validationRules.no_file) {
                         if (!fileInput.files[0] || fileInput.files[0].size === 0) {
                             resultadotest = validationRules.no_file;
                         }
                     } else if (fileInput.files[0]) {
-                        // Check file-specific validations
+                        // Verificar validaciones específicas de archivo
                         if (tipoPrueba === 'file_type' && validationRules.file_type) {
                             const [allowedTypes, errorMsg] = validationRules.file_type;
                             if (!this.validaciones.file_type(fileInput.files[0], allowedTypes)) {
@@ -473,41 +470,18 @@ class Test_class {
                             }
                         }
                     }
-                }// Update result in existing table
+                }// Actualizar resultado en tabla existente
                 this.updateTestResultInTable(table, numdeftest, numprueba, campotest, resultadotest);
 
             } catch (error) {
-                console.error('Error executing file test:', error);
+                console.error('Error ejecutando prueba de archivo:', error);
             }
         }
 
         // No mostrar mensaje aquí, se mostrará al final de todas las pruebas
-    }devolver_def(num_def) {
-        // Convert num_def to number for comparison since it may come as string
-        const numDefNumber = Number(num_def);
-        
-        if (isNaN(numDefNumber)) {
-            console.warn(`Número de definición de test inválido: ${num_def}`);
-            return null;
-        }
-        
-        // Verify we have test definitions to search
-        if (!this.array_def || !Array.isArray(this.array_def)) {
-            console.warn('No hay definiciones de test disponibles');
-            return null;
-        }
-        
-        // Find the matching definition using strict numeric comparison
-        const def = this.array_def.find(d => Number(d[2]) === numDefNumber);
-        
-        if (!def) {
-            console.warn(`No se encontró la definición para el test número ${numDefNumber}`);
-            return null;
-        }
-        
-        return def;
-    }    traduccion(codigo) {
-        if (codigo === true) return 'Correcto';
+    }
+
+    traduccion(codigo) {
         return Textos[codigo] || codigo;
     }
 

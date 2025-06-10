@@ -59,7 +59,7 @@ window.analysis_preparation_tests = Array(    // Pruebas ID Analysis Preparation
     Array('analysis_preparation', 'bib_analysis_preparation', 26, 51, 'SEARCH', 'Invalid$Reference', '', 'bib_analysis_preparation_format_KO'),
     Array('analysis_preparation', 'bib_analysis_preparation', 26, 52, 'SEARCH', 'Valid Reference, Study', '', 'OK'),
 
-    // Tests de File Analysis Preparation (text field)
+    // Pruebas de File Analysis Preparation (campo de texto)
     Array('analysis_preparation', 'file_analysis_preparation', 27, 53, 'SEARCH', 'a'.repeat(101), '', 'file_analysis_preparation_name_max_size_KO'),
     Array('analysis_preparation', 'file_analysis_preparation', 27, 54, 'SEARCH', 'valid.pdf', '', 'OK'),
     Array('analysis_preparation', 'file_analysis_preparation', 28, 55, 'SEARCH', 'invalid.txt', '', 'file_analysis_preparation_name_format_KO'),
@@ -70,7 +70,7 @@ window.analysis_preparation_tests = Array(    // Pruebas ID Analysis Preparation
  * Pruebas para campos de tipo file
  */
 window.analysis_preparation_tests_files = Array(
-    // Tests de Nuevo File Analysis Preparation
+    // Pruebas de Nuevo File Analysis Preparation
     Array('analysis_preparation', 'nuevo_file_analysis_preparation', 29, 57, 'ADD', 'min_size', 'short', 'nuevo_file_analysis_preparation_name_min_size_KO'),
     Array('analysis_preparation', 'nuevo_file_analysis_preparation', 29, 58, 'ADD', 'min_size', 'validfile.pdf', 'OK'),
     Array('analysis_preparation', 'nuevo_file_analysis_preparation', 30, 59, 'ADD', 'max_size', 'a'.repeat(101), 'nuevo_file_analysis_preparation_name_max_size_KO'),

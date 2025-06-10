@@ -244,14 +244,12 @@ class DOM_class {
         boton.appendChild(opcion);
         columna.appendChild(boton);
         return columna.outerHTML;
-    }createForm(entidad, accion, parametros = null) {
-        // Store current action globally
-        window.accionActual = accion;
+    }createForm(entidad, accion, parametros = null) {        window.accionActual = accion;
         
-        // Get the entity structure data
+        // Obtener los datos de estructura de la entidad
         let estructura = eval('estructura_' + entidad);
         
-        // Create a form based on the entity structure
+        // Crear un formulario basado en la estructura de la entidad
         let form = document.getElementById('IU_form');
         if (!form) {
             form = document.createElement('form');
@@ -259,24 +257,22 @@ class DOM_class {
             form.name = 'IU_form';
             form.enctype = 'multipart/form-data';
             document.getElementById('div_IU_form').appendChild(form);
-        }
-        
-        // Set title based on action
+        }        
+        // Establecer título basado en la acción
         let title = document.getElementById('class_contenido_titulo_form');
         title.className = 'text_contenido_titulo_form_' + entidad + '_' + accion;
         
-        // Check if the entity has a manual form creation method
+        // Verificar si la entidad tiene un método de creación manual de formulario
         if (typeof window['validar']['cargar_formulario_html'] === 'function') {
-            validar.cargar_formulario_html();
-        } else {
-            // Fallback to dynamic form creation
+            validar.cargar_formulario_html();        } else {
+            // Recurrir a la creación dinámica de formulario
             this.cargar_formulario_dinamico(entidad, estructura);
         }
 
-        // Display the form first to ensure elements are in DOM
+        // Mostrar el formulario primero para asegurar que los elementos estén en el DOM
         document.getElementById("div_IU_form").style.display = 'block';
 
-        // Set necessary attributes based on action
+        // Establecer atributos necesarios basados en la acción
         form.onsubmit = (e) => {
             e.preventDefault();
             
@@ -300,25 +296,24 @@ class DOM_class {
                     validar.DELETE();
                     break;
             }
-            return false;
-        };
+            return false;        };
         
-        // Add button for the action
+        // Agregar botón para la acción
         this.colocarboton(accion);
         
-        // Set validations with a small delay to ensure elements exist
+        // Establecer validaciones con un pequeño retraso para asegurar que los elementos existan
         setTimeout(() => {
             this.load_validations(accion);
             
-            // Fill form with data if provided
+            // Rellenar formulario con datos si se proporcionan
             if (parametros) {
                 this.load_data(parametros);
             }
             
-            // Handle readonly and hidden fields based on action
+            // Manejar campos de solo lectura y ocultos basados en la acción
             this.ponernoactivoform(entidad, estructura, accion);
             
-            // Set language translations
+            // Establecer traducciones de idioma
             if (typeof setLang === 'function') {
                 setLang();
             }
@@ -326,8 +321,7 @@ class DOM_class {
     }
       cargar_formulario_dinamico(entidad, estructura) {
         let formulario = '';
-        const accion = window.accionActual;
-          // Crear campos del formulario basados en la estructura
+        const accion = window.accionActual;          // Crear campos del formulario basados en la estructura
         for (let nombreCampo in estructura.attributes) {
             const campo = estructura.attributes[nombreCampo];
             campo.nombre = nombreCampo;
@@ -343,14 +337,12 @@ class DOM_class {
                 }
             } else if (accion === 'SEARCH' || accion === 'DELETE' || accion === 'SHOWCURRENT') {
                 if (nombreCampo.startsWith('nuevo_file_')) {
-                    continue;
-                }
-            }
-
-            // Create label first
+                    continue;                }
+            }            // Crear etiqueta primero
             formulario += `<div class="campo-container">`;
             formulario += `<label class="label_${campo.nombre}" id="label_${campo.nombre}" for="${campo.nombre}">${Textos[campo.nombre] || campo.nombre}:</label>`;
-              // Manejar campos de archivo
+            
+            // Manejar campos de archivo
             if (campo.html.type === 'file' || campo.html.tag === 'file') {
                 formulario += `<div class="file-container" id="${campo.nombre}_container">`;
                 
@@ -366,8 +358,7 @@ class DOM_class {
                     formulario += `<input type="file" name="${campo.nombre}" id="${campo.nombre}" `;
                     formulario += `accept=".pdf,.doc,.docx">`;
                 }
-                formulario += `</div>`;
-            } else {
+                formulario += `</div>`;            } else {
                 // Crear input basado en el tipo de campo
                 switch (campo.html.tag) {
                     case 'input':
@@ -425,13 +416,10 @@ class DOM_class {
             let valor = parametros[campo.id];
             if (window.accionActual === 'SHOWCURRENT' && typeof window.validar?.change_value_IU === 'function') {
                 valor = window.validar.change_value_IU(campo.id, valor) || valor;
-            }
-
-            // Special handling for files
+            }            // Manejo especial para archivos
             if (elemento.type === 'file') {
-                const linkContainer = document.getElementById(campo.id + '_link');
-                if (linkContainer && valor) {
-                    // Create link to view current file
+                const linkContainer = document.getElementById(campo.id + '_link');                if (linkContainer && valor) {
+                    // Crear enlace para ver archivo actual
                     let link = document.createElement('a');
                     link.href = `http://193.147.87.202/ET2/filesuploaded/files_${campo.id}/${valor}`;
                     link.target = '_blank';
@@ -459,11 +447,10 @@ class DOM_class {
                             elemento.selectedIndex = i;
                             break;
                         }
-                    }
-                } else {
+                    }                } else {
                     elemento.value = valor || '';
                 }
-                // Make all fields readonly in SHOWCURRENT
+                // Hacer que todos los campos sean de solo lectura en SHOWCURRENT
                 elemento.setAttribute('readonly', 'readonly');
                 if (elemento.tagName === 'SELECT') {
                     elemento.disabled = true;
@@ -508,16 +495,13 @@ class DOM_class {
     }
       ponernoactivoform(entidad, estructura, accion) {
         // Agregar pequeño retraso para asegurar que los elementos del DOM estén creados
-        setTimeout(() => {
-            const form = document.getElementById('IU_form');
+        setTimeout(() => {            const form = document.getElementById('IU_form');
             if (!form) {
-                console.error('Form not found');
+                console.error('Formulario no encontrado');
                 return;
-            }
-
-            const campos = form.elements;
+            }            const campos = form.elements;
             if (!campos || campos.length === 0) {
-                console.error('No form elements found');
+                console.error('No se encontraron elementos del formulario');
                 return;
             }
 
@@ -551,15 +535,13 @@ class DOM_class {
                     if (!campo) continue;
                     
                     if (estructura.attributes[attr].is_pk && estructura.attributes[attr].is_autoincrement) {
-                        campo.setAttribute('readonly', true);
-                        campo.style.display = 'none';
-                        // Also hide the label
+                        campo.setAttribute('readonly', true);                        campo.style.display = 'none';
+                        // También ocultar la etiqueta
                         const label = document.getElementById('label_' + attr);
                         if (label) {
-                            label.style.display = 'none';
-                        }
+                            label.style.display = 'none';                        }
                     } else if (estructura.attributes[attr].is_pk) {
-                        // Primary keys that are not autoincrement should be editable in ADD
+                        // Las claves primarias que no son autoincrement deben ser editables en ADD
                         campo.removeAttribute('readonly');
                         campo.style.display = '';
                         campo.classList.remove('readonly-field');
@@ -597,24 +579,20 @@ class DOM_class {
                 element.innerHTML = '';
             }
         });
-    }
-
-    cerrar_formulario() {
-        // Get the form elements
+    }    cerrar_formulario() {
+        // Obtener los elementos del formulario
         const form = document.getElementById("IU_form");
         if (form) {
             form.innerHTML = '';
             form.onsubmit = null;
-            form.action = '';
-        }
+            form.action = '';        }
 
-        // Hide the form container
+        // Ocultar el contenedor del formulario
         const formContainer = document.getElementById("div_IU_form");
         if (formContainer) {
-            formContainer.style.display = 'none';
-        }
+            formContainer.style.display = 'none';        }
 
-        // Remove current action
+        // Eliminar acción actual
         window.accionActual = null;
     }
 }

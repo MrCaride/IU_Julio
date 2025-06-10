@@ -275,46 +275,17 @@
     <div class="api-documentation">
         <a href="./index.html" class="back-to-app">← Volver a la Aplicación</a>        <div class="navigation">
             <div class="nav-categories">
-                <a href="#updates" class="nav-link">Novedades</a>
                 <a href="#core-classes" class="nav-link">Clases Base</a>
+                <a href="#external-access-classes" class="nav-link">Acceso Externo</a>
                 <a href="#entity-classes" class="nav-link">Clases de Entidad</a>
                 <a href="#test-classes" class="nav-link">Clases de Prueba</a>
                 <a href="#validation-classes" class="nav-link">Clases de Validación</a>
                 <a href="#dom-validation-classes" class="nav-link">Validación DOM</a>
+                <a href="#internationalization" class="nav-link">Internacionalización</a>
+                <a href="#menu-system" class="nav-link">Sistema de Menú</a>
             </div>
         </div>
-          <h1>Documentación de la API</h1>
-        <p>Esta documentación describe las clases y métodos utilizados en la aplicación.</p>
-        
-        <!-- Sección de Novedades -->
-        <section id="updates" class="api-section">
-            <h2>Últimas Actualizaciones</h2>
-            <div class="method">
-                <h4 class="method-name">Sistema de Validaciones Especiales</h4>
-                <p class="method-description">
-                    <strong>Nueva funcionalidad implementada:</strong> Sistema automático de validaciones especiales que permite a las clases de entidad definir validaciones personalizadas siguiendo el patrón <code>check_special_NOMBREATRIBUTO()</code>.
-                </p>
-                <ul>
-                    <li><strong>Validaciones automáticas:</strong> El sistema busca y ejecuta automáticamente métodos especiales en las clases de entidad</li>
-                    <li><strong>Soporte para valores extra:</strong> Los tests pueden incluir valores adicionales para configurar campos necesarios para validaciones complejas</li>
-                    <li><strong>Integración completa:</strong> Las validaciones especiales se ejecutan tanto en tiempo real como en los tests unitarios</li>
-                    <li><strong>Códigos de error mejorados:</strong> Diferenciación correcta entre errores de formato y tamaño máximo</li>
-                </ul>
-            </div>
-            
-            <div class="method">
-                <h4 class="method-name">Mejoras en Tests</h4>
-                <p class="method-description">
-                    <strong>Actualizaciones en el sistema de pruebas:</strong>
-                </p>
-                <ul>
-                    <li><strong>Soporte para validaciones especiales:</strong> Los tests ahora ejecutan automáticamente las validaciones especiales definidas en las entidades</li>
-                    <li><strong>Valores extra:</strong> Posibilidad de configurar múltiples campos simultáneamente para tests complejos</li>
-                    <li><strong>Mejores mensajes de error:</strong> Corrección de códigos de error duplicados en estructuras de entidades</li>
-                    <li><strong>Estadísticas de tests:</strong> Resumen final con contadores de pruebas exitosas y fallidas</li>
-                </ul>
-            </div>
-        </section>
+          <h1>Documentación de la API</h1>        <p>Esta documentación describe las clases y métodos utilizados en la aplicación.</p>
         
         <!-- Sección de Clases Base -->
         <section id="core-classes" class="api-section">
@@ -623,16 +594,46 @@
                     <div class="return-value">
                         <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
                     </div>
-                </div>
-
-                <div class="method">
+                </div>                <div class="method">
                     <h4 class="method-name">cerrarModalError()</h4>
                     <p class="method-description">Cierra el modal de error.</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección de Clases de Acceso Externo -->
+        <section id="external-access-classes" class="api-section">
+            <h2>Clases de Acceso Externo</h2>
+            
+            <div class="class">
+                <h3 class="class-name">ExternalAccess</h3>
+                <p>Clase responsable de la comunicación con el back-end mediante peticiones AJAX. Maneja el envío de datos de formularios, incluyendo archivos, al servidor.</p>
+                
+                <div class="method">
+                    <h4 class="method-name">peticionBackGeneral(formulario, controlador, action, datosextra)</h4>
+                    <p class="method-description">Realiza una petición POST al back-end con los datos del formulario especificado. Maneja automáticamente archivos y datos adicionales.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">formulario</span> <span class="parameter-type">(string)</span>: ID del formulario del cual recoger los datos, o cadena vacía para FormData vacío.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">controlador</span> <span class="parameter-type">(string)</span>: Nombre del controlador en el back-end (nombre de la entidad).
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">action</span> <span class="parameter-type">(string)</span>: Acción a realizar (ADD, EDIT, DELETE, SEARCH).
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">datosextra</span> <span class="parameter-type">(object, opcional)</span>: Datos adicionales a enviar con la petición.
+                        </div>
                     </div>
                     <div class="return-value">
-                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                        <p><strong>Devuelve:</strong> <span class="return-type">Promise</span> - Promesa que se resuelve con la respuesta del servidor.</p>
                     </div>
                 </div>
             </div>
@@ -1163,15 +1164,47 @@
                     <div class="return-value">
                         <p><strong>Devuelve:</strong> <span class="return-type">boolean</span></p>
                     </div>
-                </div>
-
-                <div class="method">
+                </div>                <div class="method">
                     <h4 class="method-name">no_file(objfile)</h4>
                     <p class="method-description">Valida que se haya seleccionado un archivo.</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong></p>
                         <div class="parameter">
                             <span class="parameter-name">objfile</span> <span class="parameter-type">(File)</span>: Objeto archivo a validar.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span></p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">min_size_name_file(objfile, param)</h4>
+                    <p class="method-description">Valida que el nombre del archivo tenga una longitud mínima.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">objfile</span> <span class="parameter-type">(File)</span>: Objeto archivo a validar.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">param</span> <span class="parameter-type">(number)</span>: Longitud mínima requerida para el nombre del archivo.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span></p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">max_size_name_file(objfile, param)</h4>
+                    <p class="method-description">Valida que el nombre del archivo no exceda una longitud máxima.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">objfile</span> <span class="parameter-type">(File)</span>: Objeto archivo a validar.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">param</span> <span class="parameter-type">(number)</span>: Longitud máxima permitida para el nombre del archivo.
                         </div>
                     </div>
                     <div class="return-value">
@@ -1368,6 +1401,161 @@ const Textos = {
     'start_date_project_format_KO': 'El formato de fecha debe ser DD/MM/YYYY',
     'start_date_project_valid_KO': 'La fecha introducida no es válida'
 };</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Internacionalización -->
+        <section id="internationalization" class="api-section">
+            <h2>Sistema de Internacionalización</h2>
+            <p>El sistema incluye soporte completo para múltiples idiomas (Español e Inglés) mediante archivos de textos y un sistema de gestión de idiomas.</p>
+
+            <div class="class">
+                <h3 class="class-name">Textos_ES</h3>
+                <p class="class-description">Archivo de constantes de texto en español.</p>
+                <p><strong>Ubicación:</strong> <code>js/core/Textos_ES.js</code></p>
+                
+                <div class="method">
+                    <h4 class="method-name">Estructura de Textos</h4>
+                    <p class="method-description">Contiene todas las cadenas de texto de la aplicación en español:</p>
+                    <ul>
+                        <li><strong>Elementos comunes:</strong> title, menu, search, add, edit, delete, etc.</li>
+                        <li><strong>Etiquetas de formulario:</strong> required_field, min_length, max_length, format_error</li>
+                        <li><strong>Textos específicos de entidades:</strong> characteristic, project, analysis_preparation</li>
+                        <li><strong>Mensajes de validación:</strong> Códigos de error específicos para cada campo</li>
+                        <li><strong>Títulos de tabla:</strong> Encabezados para las columnas de datos</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="class">
+                <h3 class="class-name">Textos_EN</h3>
+                <p class="class-description">Archivo de constantes de texto en inglés.</p>
+                <p><strong>Ubicación:</strong> <code>js/core/Textos_EN.js</code></p>
+                
+                <div class="method">
+                    <h4 class="method-name">Estructura de Textos</h4>
+                    <p class="method-description">Traducción completa al inglés de todos los textos de la aplicación, manteniendo la misma estructura que Textos_ES.</p>
+                </div>
+            </div>
+
+            <div class="class">
+                <h3 class="class-name">Sistema de Idiomas</h3>
+                <p class="class-description">Gestión dinámica del cambio de idioma.</p>
+                <p><strong>Ubicación:</strong> <code>js/core/idioma.js</code></p>
+                
+                <div class="method">
+                    <h4 class="method-name">changeLang()</h4>
+                    <p class="method-description">Alterna entre español e inglés, actualizando automáticamente toda la interfaz.</p>
+                    <div class="parameters">
+                        <p><strong>Funcionalidad:</strong></p>
+                        <ul>
+                            <li>Cambia la variable global <code>current_lang</code></li>
+                            <li>Actualiza <code>window.Textos</code> con el nuevo idioma</li>
+                            <li>Cambia el icono de bandera (España/Reino Unido)</li>
+                            <li>Llama a <code>setLang()</code> para actualizar la interfaz</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">setLang()</h4>
+                    <p class="method-description">Actualiza todos los elementos de texto en la página con el idioma actual.</p>
+                    <div class="parameters">
+                        <p><strong>Funcionalidad:</strong></p>
+                        <ul>
+                            <li>Busca elementos con atributos <code>data-text-key</code></li>
+                            <li>Actualiza elementos con clases que empiecen por <code>text_</code></li>
+                            <li>Actualiza el menú de navegación</li>
+                            <li>Aplica traducciones a formularios y tablas dinámicas</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección del Sistema de Menú -->
+        <section id="menu-system" class="api-section">
+            <h2>Sistema de Menú</h2>
+            <p>Sistema de navegación dinámico que gestiona las entidades disponibles y la navegación de la aplicación.</p>
+
+            <div class="class">
+                <h3 class="class-name">menuConfig</h3>
+                <p class="class-description">Objeto de configuración del menú principal.</p>
+                <p><strong>Ubicación:</strong> <code>js/core/menu.js</code></p>
+                
+                <div class="method">
+                    <h4 class="method-name">entities</h4>
+                    <p class="method-description">Array de configuración de entidades disponibles:</p>
+                    <div class="code-example">
+<pre><code>{
+    id: 'characteristic',
+    textKey: 'characteristics',
+    className: 'Characteristic'
+}</code></pre>
+                    </div>
+                    <ul>
+                        <li><strong>id:</strong> Identificador único de la entidad</li>
+                        <li><strong>textKey:</strong> Clave para el texto de traducción</li>
+                        <li><strong>className:</strong> Nombre de la clase JavaScript correspondiente</li>
+                    </ul>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">initialize()</h4>
+                    <p class="method-description">Inicializa el menú desplegable con las entidades disponibles.</p>
+                    <div class="parameters">
+                        <p><strong>Funcionalidad:</strong></p>
+                        <ul>
+                            <li>Limpia el contenido del menú existente</li>
+                            <li>Crea enlaces dinámicos para cada entidad</li>
+                            <li>Añade enlace a la documentación API</li>
+                            <li>Asigna eventos onclick para cargar entidades</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">updateText()</h4>
+                    <p class="method-description">Actualiza los textos del menú cuando cambia el idioma.</p>
+                    <div class="parameters">
+                        <p><strong>Funcionalidad:</strong></p>
+                        <ul>
+                            <li>Busca elementos del menú por clase CSS</li>
+                            <li>Actualiza el texto usando las traducciones actuales</li>
+                            <li>Mantiene la funcionalidad de navegación</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="class">
+                <h3 class="class-name">Funciones de Navegación</h3>
+                <p class="class-description">Funciones globales para la gestión de la navegación.</p>
+                
+                <div class="method">
+                    <h4 class="method-name">loadEntity(entityName)</h4>
+                    <p class="method-description">Carga una entidad específica y actualiza la interfaz.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">entityName</span> <span class="parameter-type">(string)</span>: Nombre de la entidad a cargar.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Funcionalidad:</strong></p>
+                        <ul>
+                            <li>Cierra formularios y tablas existentes</li>
+                            <li>Instancia la clase correspondiente de la entidad</li>
+                            <li>Muestra el título y botón de pruebas</li>
+                            <li>Cierra el menú desplegable</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">toggleMenu()</h4>
+                    <p class="method-description">Alterna la visibilidad del menú desplegable.</p>
                 </div>
             </div>
         </section>

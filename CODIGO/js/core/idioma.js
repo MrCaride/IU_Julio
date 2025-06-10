@@ -29,14 +29,8 @@ function changeLang() {
             window.Textos = Textos_ES;
             document.getElementById('idioma_img').src = './iconos/United-Kingdom.png';
         }
-        
-        // Actualizar todos los elementos de texto con el nuevo idioma
+          // Actualizar todos los elementos de texto con el nuevo idioma
         setLang();
-        
-        // Actualizar el texto del menú si existe la configuración del menú
-        if (typeof menuConfig !== 'undefined') {
-            menuConfig.updateText();
-        }
     } catch (e) {
         console.error('Error al cambiar el idioma:', e);
     }
@@ -57,8 +51,7 @@ function setLang() {
                     element.innerHTML = window.Textos[textKey];
                     return;
                 }
-                
-                // Si no hay data-text-key, usar el método tradicional de clases
+                  // Si no hay data-text-key, usar el método tradicional de clases
                 let classes = element.className.split(' ');
                 let langClass = classes.find(cls => cls.startsWith('text_') || cls.startsWith('menu_'));
                 
@@ -66,6 +59,19 @@ function setLang() {
                     let key = langClass;
                     if (langClass.startsWith('text_')) {
                         key = langClass.substring(5); // Eliminar el prefijo 'text_'
+                    } else if (langClass.startsWith('menu_')) {
+                        // Para elementos del menú, usar la configuración del menú
+                        if (typeof menuConfig !== 'undefined') {
+                            const entityId = langClass.substring(5); // Eliminar el prefijo 'menu_'
+                            if (entityId === 'api') {
+                                key = 'menu_api';
+                            } else {
+                                const entityConfig = menuConfig.entities.find(entity => entity.id === entityId);
+                                if (entityConfig) {
+                                    key = entityConfig.textKey;
+                                }
+                            }
+                        }
                     }
                     
                     if (window.Textos[key]) {

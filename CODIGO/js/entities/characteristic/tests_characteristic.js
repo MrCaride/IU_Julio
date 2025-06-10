@@ -1,4 +1,4 @@
-// Test definitions moved to /js/core/test_definitions.js
+// Definiciones de test movidas a /js/core/test_definitions.js
 
 /**
  * Pruebas para campos que no son de tipo file
@@ -64,7 +64,7 @@ window.characteristic_tests = Array(
     Array('characteristic', 'bibref_characteristic', 26, 51, 'SEARCH', 'Invalid$Reference', '', 'bibref_characteristic_format_KO'),
     Array('characteristic', 'bibref_characteristic', 26, 52, 'SEARCH', 'Valid Reference Test', '', 'OK'),
 
-    // Pruebas File Characteristic (text field)
+    // Pruebas File Characteristic (campo de texto)
     Array('characteristic', 'file_characteristic', 27, 53, 'SEARCH', 'a'.repeat(101), '', 'file_characteristic_name_max_size_KO'),
     Array('characteristic', 'file_characteristic', 27, 54, 'SEARCH', 'valid.pdf', '', 'OK'),
     Array('characteristic', 'file_characteristic', 28, 55, 'SEARCH', 'invalid.txt', '', 'file_characteristic_name_format_KO'),
@@ -75,7 +75,7 @@ window.characteristic_tests = Array(
  * Pruebas para campos de tipo file
  */
 window.characteristic_tests_files = Array(
-    // Tests de Nuevo File Characteristic
+    // Pruebas de Nuevo File Characteristic
     Array('characteristic', 'nuevo_file_characteristic', 29, 57, 'ADD', 'min_size', 'short', 'nuevo_file_characteristic_name_min_size_KO'),
     Array('characteristic', 'nuevo_file_characteristic', 29, 58, 'ADD', 'min_size', 'validfile.pdf', 'OK'),
     Array('characteristic', 'nuevo_file_characteristic', 30, 59, 'ADD', 'max_size', 'a'.repeat(101), 'nuevo_file_characteristic_name_max_size_KO'),

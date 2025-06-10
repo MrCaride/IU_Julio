@@ -22,10 +22,9 @@ window.project_tests = Array(
     Array('project', 'name_project', 6, 11, 'EDIT', 'short', '', 'name_project_min_size_KO'),
     Array('project', 'name_project', 6, 12, 'EDIT', 'Valid Project Name Test', '', 'OK'),
     Array('project', 'name_project', 7, 13, 'EDIT', 'a'.repeat(101), '', 'name_project_max_size_KO'),
-    Array('project', 'name_project', 7, 14, 'EDIT', 'Valid Project Name', '', 'OK'),
-    Array('project', 'name_project', 8, 15, 'EDIT', 'Invalid@Name123', '', 'name_project_format_KO'),
+    Array('project', 'name_project', 7, 14, 'EDIT', 'Valid Project Name', '', 'OK'),    Array('project', 'name_project', 8, 15, 'EDIT', 'Invalid@Name123', '', 'name_project_format_KO'),
     Array('project', 'name_project', 8, 16, 'EDIT', 'Valid Project Name', '', 'OK'),
-    Array('project', 'name_project', 9, 17, 'SEARCH', 'a'.repeat(16), '', 'name_project_max_size_KO'),
+    Array('project', 'name_project', 9, 17, 'SEARCH', 'a'.repeat(101), '', 'name_project_max_size_KO'),
     Array('project', 'name_project', 9, 18, 'SEARCH', 'Valid', '', 'OK'),
     Array('project', 'name_project', 10, 19, 'SEARCH', 'Invalid@123', '', 'name_project_format_KO'),
     Array('project', 'name_project', 10, 20, 'SEARCH', 'Valid Name', '', 'OK'),    // Pruebas Start Date Project
@@ -112,17 +111,20 @@ window.project_tests = Array(
 /**
  * Pruebas para campos de tipo file
  */
-window.project_tests_files = Array(    // Tests de nuevo_file_project - max_size_file validation (file size in bytes)
+window.project_tests_files = Array(
+    // Pruebas de nuevo_file_project - validación max_size_file (tamaño de archivo en bytes)
     Array('project', 'nuevo_file_project', 49, 97, 'ADD', 'max_size_file', 3000001, 'nuevo_file_project_max_size_KO'),
     Array('project', 'nuevo_file_project', 49, 98, 'ADD', 'max_size_file', 1000000, 'OK'),
     
-    // Tests de nuevo_file_project - file_type validation  
+    // Pruebas de nuevo_file_project - validación file_type  
     Array('project', 'nuevo_file_project', 50, 99, 'ADD', 'file_type', 'text/plain', 'nuevo_file_project_file_type_KO'),
     Array('project', 'nuevo_file_project', 50, 100, 'ADD', 'file_type', 'application/pdf', 'OK'),
     
-    // Tests de nuevo_file_project - min_size validation
+    // Pruebas de nuevo_file_project - validación min_size
     Array('project', 'nuevo_file_project', 51, 101, 'ADD', 'min_size', 5, 'nuevo_file_project_name_min_size_KO'),
-    Array('project', 'nuevo_file_project', 51, 102, 'ADD', 'min_size', 10, 'OK'),    // Tests de nuevo_file_project - max_size validation (filename length)
+    Array('project', 'nuevo_file_project', 51, 102, 'ADD', 'min_size', 10, 'OK'),
+    
+    // Pruebas de nuevo_file_project - validación max_size (longitud del nombre de archivo)
     Array('project', 'nuevo_file_project', 52, 103, 'ADD', 'max_size', 'a'.repeat(101) + '.pdf', 'nuevo_file_project_name_max_size_KO'),
     Array('project', 'nuevo_file_project', 52, 104, 'ADD', 'max_size', 'validfile.pdf', 'OK')
 );

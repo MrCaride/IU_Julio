@@ -68,20 +68,18 @@ class DOM_validations extends DOM_class {
             return false;
         }
 
-        const file = fileInput.files[0];
-
-        // Check existence first
+        const file = fileInput.files[0];        // Verificar existencia primero
         if (validacionesCampo.no_file && (!file || file.size === 0)) {
             this.mostrar_error_campo(campo, validacionesCampo.no_file);
             return false;
         }
 
-        // Skip other validations if no file is required and none is provided
+        // Omitir otras validaciones si no se requiere archivo y no se proporciona ninguno
         if (!file && !validacionesCampo.no_file) {
             return true;
         }
 
-        // Ordered validations for files
+        // Validaciones ordenadas para archivos
         const validationOrder = ['file_type', 'max_size_file', 'format_name_file'];
 
         for (const rule of validationOrder) {
@@ -94,7 +92,7 @@ class DOM_validations extends DOM_class {
             }
         }
 
-        // Regular validations (min_size, max_size, etc.)
+        // Validaciones regulares (min_size, max_size, etc.)
         for (const rule in validacionesCampo) {
             if (!validationOrder.includes(rule) && rule !== 'no_file') {
                 if (typeof this.validacionesatomicas[rule] === 'function') {
@@ -110,7 +108,7 @@ class DOM_validations extends DOM_class {
         this.mostrar_exito_campo(campo);
         return true;
     } 
-    
+
     check_special_tests(fieldId) {
         // Verificar si existe un método check_special_NOMBREATRIBUTO en la instancia actual
         const specialMethodName = 'check_special_' + fieldId;
