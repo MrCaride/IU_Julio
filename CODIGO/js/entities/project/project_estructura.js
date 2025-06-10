@@ -29,14 +29,13 @@ window.estructura_project = {
                     min_size : [15, 'name_project_min_size_KO'],
                     max_size: [100,'name_project_max_size_KO'],
                     reg_exp : ['^[A-Za-z\\s]+$', 'name_project_format_KO'],
-                },
-                EDIT:{
+                },                EDIT:{
                     min_size : [15, 'name_project_min_size_KO'],
                     max_size: [100,'name_project_max_size_KO'],
                     reg_exp : ['^[A-Za-z\\s]*$', 'name_project_format_KO'],
                 },
                 SEARCH:{
-                    max_size: [15,'name_project_max_size_KO'],
+                    max_size: [100,'name_project_max_size_KO'],
                     reg_exp : ['^[A-Za-z\\s]*$', 'name_project_format_KO'],
                 }
             }

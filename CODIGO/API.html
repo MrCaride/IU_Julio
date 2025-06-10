@@ -273,19 +273,48 @@
     </header>
     
     <div class="api-documentation">
-        <a href="./index.html" class="back-to-app">← Volver a la Aplicación</a>
-        
-        <div class="navigation">
+        <a href="./index.html" class="back-to-app">← Volver a la Aplicación</a>        <div class="navigation">
             <div class="nav-categories">
+                <a href="#updates" class="nav-link">Novedades</a>
                 <a href="#core-classes" class="nav-link">Clases Base</a>
                 <a href="#entity-classes" class="nav-link">Clases de Entidad</a>
                 <a href="#test-classes" class="nav-link">Clases de Prueba</a>
                 <a href="#validation-classes" class="nav-link">Clases de Validación</a>
+                <a href="#dom-validation-classes" class="nav-link">Validación DOM</a>
             </div>
         </div>
-        
-        <h1>Documentación de la API</h1>
+          <h1>Documentación de la API</h1>
         <p>Esta documentación describe las clases y métodos utilizados en la aplicación.</p>
+        
+        <!-- Sección de Novedades -->
+        <section id="updates" class="api-section">
+            <h2>Últimas Actualizaciones</h2>
+            <div class="method">
+                <h4 class="method-name">Sistema de Validaciones Especiales</h4>
+                <p class="method-description">
+                    <strong>Nueva funcionalidad implementada:</strong> Sistema automático de validaciones especiales que permite a las clases de entidad definir validaciones personalizadas siguiendo el patrón <code>check_special_NOMBREATRIBUTO()</code>.
+                </p>
+                <ul>
+                    <li><strong>Validaciones automáticas:</strong> El sistema busca y ejecuta automáticamente métodos especiales en las clases de entidad</li>
+                    <li><strong>Soporte para valores extra:</strong> Los tests pueden incluir valores adicionales para configurar campos necesarios para validaciones complejas</li>
+                    <li><strong>Integración completa:</strong> Las validaciones especiales se ejecutan tanto en tiempo real como en los tests unitarios</li>
+                    <li><strong>Códigos de error mejorados:</strong> Diferenciación correcta entre errores de formato y tamaño máximo</li>
+                </ul>
+            </div>
+            
+            <div class="method">
+                <h4 class="method-name">Mejoras en Tests</h4>
+                <p class="method-description">
+                    <strong>Actualizaciones en el sistema de pruebas:</strong>
+                </p>
+                <ul>
+                    <li><strong>Soporte para validaciones especiales:</strong> Los tests ahora ejecutan automáticamente las validaciones especiales definidas en las entidades</li>
+                    <li><strong>Valores extra:</strong> Posibilidad de configurar múltiples campos simultáneamente para tests complejos</li>
+                    <li><strong>Mejores mensajes de error:</strong> Corrección de códigos de error duplicados en estructuras de entidades</li>
+                    <li><strong>Estadísticas de tests:</strong> Resumen final con contadores de pruebas exitosas y fallidas</li>
+                </ul>
+            </div>
+        </section>
         
         <!-- Sección de Clases Base -->
         <section id="core-classes" class="api-section">
@@ -679,12 +708,231 @@
                                     <li>Longitud máxima: 5000 caracteres</li>
                                     <li>Campo obligatorio</li>
                                 </ul>
-                            </li>
-                            <li><strong>file_characteristic:</strong>
+                            </li>                            <li><strong>file_characteristic:</strong>
                                 <ul>
                                     <li>Tipos permitidos: pdf, doc, docx</li>
                                     <li>Tamaño máximo: 2MB</li>
                                     <li>Nombre: solo letras y extensión válida</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="class">
+                <h3 class="class-name">Analysis_preparation</h3>
+                <p>Clase que representa una preparación de análisis en el sistema. Extiende de Entidad_Abstract_class y maneja información sobre métodos de preparación de análisis con archivos asociados.</p>
+                
+                <div class="method">
+                    <h4 class="method-name">constructor()</h4>
+                    <p class="method-description">Inicializa una nueva instancia de la clase Analysis_preparation. Configura la entidad con su estructura predefinida y especifica que file_analysis_preparation requiere manejo especial en tabla.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">Analysis_preparation</span></p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">change_value_IU(atributo, valoratributo)</h4>
+                    <p class="method-description">Modifica el valor de visualización de un atributo. Maneja especialmente el campo file_analysis_preparation para mostrar un enlace con icono al archivo.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">atributo</span> <span class="parameter-type">(string)</span>: Nombre del atributo a modificar.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">valoratributo</span> <span class="parameter-type">(string)</span>: Valor del atributo a transformar.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">string</span> - HTML con enlace e icono para archivos, o valor original para otros campos.</p>
+                    </div>
+                </div>
+
+                <div class="estructura">
+                    <h4 class="estructura-name">Estructura (estructura_analysis_preparation)</h4>
+                    <p class="estructura-description">Define la estructura de datos y validaciones para la entidad Analysis_preparation.</p>
+                    
+                    <div class="atributos">
+                        <h5>Atributos:</h5>
+                        <ul>
+                            <li><strong>id_analysis_preparation:</strong> Identificador único (PK, autoincremental)</li>
+                            <li><strong>name_analysis_preparation:</strong> Nombre de la preparación de análisis</li>
+                            <li><strong>description_analysis_preparation:</strong> Descripción detallada</li>
+                            <li><strong>bib_analysis_preparation:</strong> Referencia bibliográfica</li>
+                            <li><strong>file_analysis_preparation:</strong> Archivo asociado</li>
+                            <li><strong>nuevo_file_analysis_preparation:</strong> Campo para subir nuevo archivo</li>
+                        </ul>
+                    </div>
+
+                    <div class="validaciones">
+                        <h5>Reglas de Validación:</h5>
+                        <ul>
+                            <li><strong>id_analysis_preparation:</strong>
+                                <ul>
+                                    <li>Búsqueda: máximo 9 caracteres, solo números</li>
+                                </ul>
+                            </li>
+                            <li><strong>name_analysis_preparation:</strong>
+                                <ul>
+                                    <li>Longitud mínima: 8 caracteres </li>
+                                    <li>Longitud máxima: 100 caracteres </li>
+                                    <li>Formato: solo letras y espacios</li>
+                                    <li>Campo obligatorio</li>
+                                </ul>
+                            </li>
+                            <li><strong>description_analysis_preparation:</strong>
+                                <ul>
+                                    <li>Longitud mínima: 80 caracteres</li>
+                                    <li>Longitud máxima: 5000 caracteres</li>
+                                    <li>Formato: solo letras y espacios</li>
+                                    <li>Campo obligatorio</li>
+                                </ul>
+                            </li>
+                            <li><strong>bib_analysis_preparation:</strong>
+                                <ul>
+                                    <li>Longitud mínima: 6 caracteres</li>
+                                    <li>Longitud máxima: 200 caracteres</li>
+                                    <li>Formato: letras, espacios y signos de puntuación</li>
+                                    <li>Campo obligatorio</li>
+                                </ul>
+                            </li>
+                            <li><strong>file_analysis_preparation:</strong>
+                                <ul>
+                                    <li>Longitud máxima: 100 caracteres</li>
+                                    <li>Formato: solo letras con extensión .pdf, .doc o .docx</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="class">
+                <h3 class="class-name">Project</h3>
+                <p>Clase que representa un proyecto en el sistema. Extiende de Entidad_Abstract_class e incluye validaciones especiales para fechas de inicio y fin del proyecto.</p>
+                
+                <div class="method">
+                    <h4 class="method-name">constructor()</h4>
+                    <p class="method-description">Inicializa una nueva instancia de la clase Project. Configura la entidad con su estructura predefinida y especifica que file_project requiere manejo especial en tabla.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">Project</span></p>
+                    </div>
+                </div>
+                
+                <div class="method">
+                    <h4 class="method-name">change_value_IU(atributo, valoratributo)</h4>
+                    <p class="method-description">Modifica el valor de visualización de un atributo. Maneja especialmente el campo file_project para mostrar un enlace con icono al archivo.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">atributo</span> <span class="parameter-type">(string)</span>: Nombre del atributo a modificar.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">valoratributo</span> <span class="parameter-type">(string)</span>: Valor del atributo a transformar.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">string</span> - HTML con enlace e icono para archivos, o valor original para otros campos.</p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">check_special_start_date_project()</h4>
+                    <p class="method-description">Validación especial para el campo start_date_project. Verifica que la fecha tenga formato válido (DD/MM/YYYY) y sea una fecha real.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean|string</span> - true si es válida, código de error si no lo es.</p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">check_special_end_date_project()</h4>
+                    <p class="method-description">Validación especial para el campo end_date_project. Verifica formato válido y que la fecha de fin sea posterior a la fecha de inicio del proyecto.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean|string</span> - true si es válida, código de error si no lo es.</p>
+                    </div>
+                </div>
+
+                <div class="estructura">
+                    <h4 class="estructura-name">Estructura (estructura_project)</h4>
+                    <p class="estructura-description">Define la estructura de datos y validaciones para la entidad Project.</p>
+                    
+                    <div class="atributos">
+                        <h5>Atributos:</h5>
+                        <ul>
+                            <li><strong>id_project:</strong> Identificador único (PK, autoincremental)</li>
+                            <li><strong>name_project:</strong> Nombre del proyecto</li>
+                            <li><strong>start_date_project:</strong> Fecha de inicio (DD/MM/YYYY)</li>
+                            <li><strong>end_date_project:</strong> Fecha de fin (DD/MM/YYYY)</li>
+                            <li><strong>responsable_project:</strong> Responsable del proyecto</li>
+                            <li><strong>organization_project:</strong> Organización</li>
+                            <li><strong>description_project:</strong> Descripción del proyecto</li>
+                            <li><strong>file_project:</strong> Archivo asociado</li>
+                            <li><strong>nuevo_file_project:</strong> Campo para subir nuevo archivo</li>
+                            <li><strong>code_project:</strong> Código del proyecto</li>
+                            <li><strong>acronym_project:</strong> Acrónimo del proyecto</li>
+                            <li><strong>id_sampling_methodology:</strong> ID de metodología de muestreo</li>
+                        </ul>
+                    </div>
+
+                    <div class="validaciones">
+                        <h5>Reglas de Validación:</h5>
+                        <ul>
+                            <li><strong>id_project:</strong>
+                                <ul>
+                                    <li>Búsqueda: máximo 11 caracteres, solo números</li>
+                                </ul>
+                            </li>                            <li><strong>name_project:</strong>
+                                <ul>
+                                    <li>Longitud mínima: 15 caracteres </li>
+                                    <li>Longitud máxima: 100 caracteres </li>
+                                    <li>Formato: solo letras y espacios</li>
+                                    <li>Campo obligatorio</li>
+                                </ul>
+                            </li>
+                            <li><strong>start_date_project:</strong>
+                                <ul>
+                                    <li>Formato: DD/MM/YYYY (solo números y barras)</li>
+                                    <li>Validación de fecha válida</li>
+                                    <li>Validación especial: check_special_start_date_project()</li>
+                                    <li>Campo obligatorio</li>
+                                </ul>
+                            </li>
+                            <li><strong>end_date_project:</strong>
+                                <ul>
+                                    <li>Formato: DD/MM/YYYY (solo números y barras)</li>
+                                    <li>Validación de fecha válida</li>
+                                    <li>Debe ser mayor que start_date_project</li>
+                                    <li>Validación especial: check_special_end_date_project()</li>
+                                    <li>Campo obligatorio</li>
+                                </ul>
+                            </li>
+                            <li><strong>responsable_project:</strong>
+                                <ul>
+                                    <li>Longitud mínima: 6 caracteres</li>
+                                    <li>Longitud máxima: 60 caracteres</li>
+                                    <li>Formato: letras, espacios y caracteres acentuados</li>
+                                    <li>Campo obligatorio</li>
+                                </ul>
+                            </li>
+                            <li><strong>organization_project:</strong>
+                                <ul>
+                                    <li>Longitud mínima: 6 caracteres</li>
+                                    <li>Longitud máxima: 100 caracteres</li>
+                                    <li>Formato: letras, espacios y caracteres acentuados</li>
+                                    <li>Campo obligatorio</li>
                                 </ul>
                             </li>
                         </ul>
@@ -710,13 +958,15 @@
                     <div class="return-value">
                         <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
                     </div>
-                </div>
-
-                <div class="method">
+                </div>                <div class="method">
                     <h4 class="method-name">test_entidad()</h4>
-                    <p class="method-description">Ejecuta las pruebas específicas de una entidad.</p>
+                    <p class="method-description">Ejecuta las pruebas específicas de una entidad, incluyendo validaciones especiales. Soporta valores extra para configurar campos adicionales necesarios para las validaciones especiales.</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong> Ninguno</p>
+                        <p><strong>Formato de tests con valores extra:</strong></p>
+                        <pre><code>Array('entidad', 'campo', testId, testNum, 'acción', 'valor', {'campo_extra': 'valor_extra'}, 'código_error_esperado')</code></pre>
+                        <p><strong>Ejemplo:</strong></p>
+                        <pre><code>Array('project', 'end_date_project', 19, 37, 'ADD', '31/12/2020', {'start_date_project': '01/01/2025'}, 'end_date_project_greater_than_start_KO')</code></pre>
                     </div>
                     <div class="return-value">
                         <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
@@ -743,11 +993,60 @@
                     <div class="return-value">
                         <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
                     </div>
+                </div>                <div class="method">
+                    <h4 class="method-name">mostrarDefPruebas()</h4>
+                    <p class="method-description">Muestra los resultados de las pruebas en la interfaz.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
                 </div>
 
                 <div class="method">
-                    <h4 class="method-name">mostrarDefPruebas()</h4>
-                    <p class="method-description">Muestra los resultados de las pruebas en la interfaz.</p>
+                    <h4 class="method-name">updateTestResultInTable(table, testId, testNum, field, resultado)</h4>
+                    <p class="method-description">Actualiza el resultado de una prueba específica en la tabla de resultados.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">table</span> <span class="parameter-type">(HTMLElement)</span>: Elemento tabla donde actualizar el resultado.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">testId</span> <span class="parameter-type">(number)</span>: ID de la definición de test.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">testNum</span> <span class="parameter-type">(number)</span>: Número de la prueba.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">field</span> <span class="parameter-type">(string)</span>: Campo que se está probando.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">resultado</span> <span class="parameter-type">(string)</span>: Resultado de la prueba (código de error o 'OK').
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">traduccion(codigo)</h4>
+                    <p class="method-description">Traduce códigos de error a mensajes legibles según el idioma actual.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">codigo</span> <span class="parameter-type">(string|boolean)</span>: Código de error o valor booleano.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">string</span> - Mensaje traducido.</p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">mostrarResultadoFinal()</h4>
+                    <p class="method-description">Muestra un resumen final con estadísticas de todas las pruebas ejecutadas.</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong> Ninguno</p>
                     </div>
@@ -832,9 +1131,7 @@
                     <div class="return-value">
                         <p><strong>Devuelve:</strong> <span class="return-type">boolean</span></p>
                     </div>
-                </div>
-
-                <div class="method">
+                </div>                <div class="method">
                     <h4 class="method-name">file_type(objfile, array_tipos)</h4>
                     <p class="method-description">Valida que el tipo MIME del archivo esté permitido.</p>
                     <div class="parameters">
@@ -849,6 +1146,228 @@
                     <div class="return-value">
                         <p><strong>Devuelve:</strong> <span class="return-type">boolean</span></p>
                     </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">format_name_file(objfile, exprreg)</h4>
+                    <p class="method-description">Valida que el nombre del archivo cumpla con una expresión regular.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">objfile</span> <span class="parameter-type">(File)</span>: Objeto archivo a validar.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">exprreg</span> <span class="parameter-type">(string)</span>: Expresión regular para validar el nombre.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span></p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">no_file(objfile)</h4>
+                    <p class="method-description">Valida que se haya seleccionado un archivo.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">objfile</span> <span class="parameter-type">(File)</span>: Objeto archivo a validar.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Clases de Validación DOM -->
+        <section id="dom-validation-classes" class="api-section">
+            <h2>Clases de Validación DOM</h2>
+
+            <div class="class">
+                <h3 class="class-name">DOM_validations</h3>
+                <p>Clase que extiende DOM_class y gestiona las validaciones de formularios en tiempo real, incluyendo validaciones especiales personalizadas por entidad.</p>
+
+                <div class="method">
+                    <h4 class="method-name">load_validations(accion)</h4>
+                    <p class="method-description">Carga y asocia eventos de validación a los campos del formulario según la acción especificada.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">accion</span> <span class="parameter-type">(string)</span>: Acción del formulario (ADD, EDIT, SEARCH, etc.).
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">void</span></p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">comprobarCampo(campo, accion)</h4>
+                    <p class="method-description">Valida un campo específico del formulario aplicando las reglas de validación definidas en la estructura de la entidad.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">campo</span> <span class="parameter-type">(string)</span>: ID del campo a validar.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">accion</span> <span class="parameter-type">(string)</span>: Acción del formulario (ADD, EDIT, SEARCH, etc.).
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - true si la validación pasa, false en caso contrario.</p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">comprobar_file_characteristic(campo, validacionesCampo)</h4>
+                    <p class="method-description">Valida campos de tipo archivo aplicando validaciones específicas como tamaño, tipo y formato del nombre.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">campo</span> <span class="parameter-type">(string)</span>: ID del campo de archivo a validar.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">validacionesCampo</span> <span class="parameter-type">(Object)</span>: Objeto con las reglas de validación del campo.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - true si la validación pasa, false en caso contrario.</p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">check_special_tests(fieldId)</h4>
+                    <p class="method-description">Busca y ejecuta métodos de validación especiales definidos en la clase de entidad con el patrón check_special_NOMBREATRIBUTO().</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">fieldId</span> <span class="parameter-type">(string)</span>: ID del campo para el cual buscar validaciones especiales.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - true si la validación pasa o no existe método especial, false si hay error.</p>
+                    </div>
+                    <div class="method-description">
+                        <p><strong>Ejemplo de uso en clases de entidad:</strong></p>
+                        <pre><code>// En Project_class.js
+check_special_end_date_project() {
+    // Validación personalizada para fechas
+    if (error_condition) {
+        return 'end_date_project_greater_than_start_KO';
+    }
+    return true;
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">validate_field(fieldId, entity, action)</h4>
+                    <p class="method-description">Método genérico para validar un campo específico de cualquier entidad.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong></p>
+                        <div class="parameter">
+                            <span class="parameter-name">fieldId</span> <span class="parameter-type">(string)</span>: ID del campo a validar.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">entity</span> <span class="parameter-type">(string)</span>: Nombre de la entidad.
+                        </div>
+                        <div class="parameter">
+                            <span class="parameter-name">action</span> <span class="parameter-type">(string)</span>: Acción del formulario.
+                        </div>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span></p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">comprobar_submit()</h4>
+                    <p class="method-description">Valida todos los campos del formulario antes del envío, incluyendo validaciones especiales.</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - true si todas las validaciones pasan, false en caso contrario.</p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">comprobar_submit_SEARCH()</h4>
+                    <p class="method-description">Validación específica para formularios de búsqueda (menos restrictiva).</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - Siempre true para búsquedas.</p>
+                    </div>                </div>
+            </div>
+
+            <!-- Sección de Ejemplos Prácticos -->
+            <div class="estructura">
+                <h4 class="estructura-name">Ejemplos Prácticos de Validaciones Especiales</h4>
+                
+                <div class="method-description">
+                    <p><strong>1. Implementar validación especial en una clase de entidad:</strong></p>
+                    <pre><code>// En Project_class.js
+class Project extends Entidad_Abstract_class {
+    // Validación especial para fechas de fin
+    check_special_end_date_project() {
+        const endDateField = document.getElementById('end_date_project');
+        const startDateField = document.getElementById('start_date_project');
+        
+        if (!endDateField || !endDateField.value) {
+            return true; // Si no hay valor, las validaciones regulares se encargan
+        }
+
+        // Validar que end_date sea mayor que start_date
+        if (startDateField && startDateField.value) {
+            if (new Date(endDateField.value) <= new Date(startDateField.value)) {
+                return 'end_date_project_greater_than_start_KO';
+            }
+        }
+        return true;
+    }
+}</code></pre>
+                </div>
+
+                <div class="method-description">
+                    <p><strong>2. Definir tests con valores extra para validaciones especiales:</strong></p>
+                    <pre><code>// En tests_project.js
+window.project_tests = Array(
+    // Test que falla por fecha fin anterior a fecha inicio
+    Array('project', 'end_date_project', 19, 37, 'ADD', '31/12/2020', 
+          {'start_date_project': '01/01/2025'}, 'end_date_project_greater_than_start_KO'),
+    
+    // Test que pasa con fechas correctas
+    Array('project', 'end_date_project', 19, 38, 'ADD', '31/12/2025', 
+          {'start_date_project': '01/01/2025'}, 'OK')
+);</code></pre>
+                </div>
+
+                <div class="method-description">
+                    <p><strong>3. Uso del sistema de validaciones en tiempo real:</strong></p>
+                    <pre><code>// El sistema automáticamente:
+// 1. Ejecuta validaciones regulares (min_size, max_size, reg_exp, etc.)
+// 2. Busca métodos check_special_NOMBREATRIBUTO() en la clase de entidad
+// 3. Ejecuta las validaciones especiales encontradas
+// 4. Muestra errores o marca el campo como válido
+
+// Ejemplo de uso programático:
+const validator = new DOM_validations();
+validator.entidad = 'project';
+const isValid = validator.comprobarCampo('end_date_project', 'ADD');</code></pre>
+                </div>
+
+                <div class="method-description">
+                    <p><strong>4. Códigos de error personalizados:</strong></p>
+                    <pre><code>// En Textos_ES.js
+const Textos = {
+    'end_date_project_greater_than_start_KO': 'La fecha de fin no puede ser anterior a la fecha de inicio',
+    'start_date_project_format_KO': 'El formato de fecha debe ser DD/MM/YYYY',
+    'start_date_project_valid_KO': 'La fecha introducida no es válida'
+};</code></pre>
                 </div>
             </div>
         </section>
