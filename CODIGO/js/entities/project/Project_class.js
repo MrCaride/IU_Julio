@@ -7,22 +7,28 @@ class Project extends Entidad_Abstract_class {
                 return Textos['no_file'] || 'Sin archivo';
             }
             
-            // Construir el enlace completo con icono y nombre de archivo
-            let texto = `<a id="link_file_project" href="http://193.147.87.202/ET2/filesuploaded/files_file_project/${valoratributo}">`;
-            texto += `<img src="./iconos/FILE.png" alt="Archivo" /> ${valoratributo}`;
-            texto += `</a>`;
-
-            return texto;
+            // Verificar si estamos en un contexto de solo lectura (SHOWCURRENT o DELETE)
+            const isReadOnlyContext = window.accionActual === 'SHOWCURRENT' || window.accionActual === 'DELETE';
+            
+            if (isReadOnlyContext) {
+                // Para contextos de solo lectura, retornar solo el nombre del archivo
+                return valoratributo;
+            } else {
+                // Para tabla y otros contextos, construir el enlace completo con icono
+                let texto = `<a id="link_file_project" href="http://193.147.87.202/ET2/filesuploaded/files_file_project/${valoratributo}">`;
+                texto += `<img src="./iconos/FILE.png" alt="Archivo" /> ${valoratributo}`;
+                texto += `</a>`;
+                return texto;
+            }
         }
-        
-        // Convertir fechas de formato yyyy-mm-dd a dd/mm/yyyy
+          // Convertir fechas de formato yyyy-mm-dd a dd-mm-yyyy
         if ((atributo === 'start_date_project' || atributo === 'end_date_project') && valoratributo) {
             // Verificar si la fecha está en formato yyyy-mm-dd
             const dateRegex = /^(\d{4})-(\d{2})-(\d{2})$/;
             const match = valoratributo.match(dateRegex);
             if (match) {
                 const [, year, month, day] = match;
-                return `${day}/${month}/${year}`;
+                return `${day}-${month}-${year}`;
             }
         }
         
@@ -35,9 +41,8 @@ class Project extends Entidad_Abstract_class {
         }
 
         const startDateValue = startDateField.value;
-        
-        // Validar formato de fecha (DD/MM/YYYY)
-        const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+          // Validar formato de fecha (DD-MM-YYYY)
+        const dateRegex = /^(\d{2})-(\d{2})-(\d{4})$/;
         const match = startDateValue.match(dateRegex);
           if (!match) {
             window.validar.mostrar_error_campo('start_date_project', 'start_date_project_format_KO');
@@ -64,9 +69,8 @@ class Project extends Entidad_Abstract_class {
         }
 
         const endDateValue = endDateField.value;
-        
-        // Validar formato de fecha (DD/MM/YYYY)
-        const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+          // Validar formato de fecha (DD-MM-YYYY)
+        const dateRegex = /^(\d{2})-(\d{2})-(\d{4})$/;
         const endMatch = endDateValue.match(dateRegex);
         
         if (!endMatch) {

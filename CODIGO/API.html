@@ -540,9 +540,8 @@
                     </div>
                 </div>
 
-                <div class="method">
-                    <h4 class="method-name">validate_date_format(dateStr)</h4>
-                    <p class="method-description">Valida si una fecha tiene el formato correcto (dd/mm/yyyy).</p>
+                <div class="method">                    <h4 class="method-name">validate_date_format(dateStr)</h4>
+                    <p class="method-description">Valida si una fecha tiene el formato correcto (dd-mm-yyyy).</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong></p>
                         <div class="parameter">
@@ -844,9 +843,8 @@
                     </div>
                 </div>
 
-                <div class="method">
-                    <h4 class="method-name">check_special_start_date_project()</h4>
-                    <p class="method-description">Validación especial para el campo start_date_project. Verifica que la fecha tenga formato válido (DD/MM/YYYY) y sea una fecha real.</p>
+                <div class="method">                    <h4 class="method-name">check_special_start_date_project()</h4>
+                    <p class="method-description">Validación especial para el campo start_date_project. Verifica que la fecha tenga formato válido (DD-MM-YYYY) y sea una fecha real.</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong> Ninguno</p>
                     </div>
@@ -874,9 +872,8 @@
                         <h5>Atributos:</h5>
                         <ul>
                             <li><strong>id_project:</strong> Identificador único (PK, autoincremental)</li>
-                            <li><strong>name_project:</strong> Nombre del proyecto</li>
-                            <li><strong>start_date_project:</strong> Fecha de inicio (DD/MM/YYYY)</li>
-                            <li><strong>end_date_project:</strong> Fecha de fin (DD/MM/YYYY)</li>
+                            <li><strong>name_project:</strong> Nombre del proyecto</li>                            <li><strong>start_date_project:</strong> Fecha de inicio (DD-MM-YYYY)</li>
+                            <li><strong>end_date_project:</strong> Fecha de fin (DD-MM-YYYY)</li>
                             <li><strong>responsable_project:</strong> Responsable del proyecto</li>
                             <li><strong>organization_project:</strong> Organización</li>
                             <li><strong>description_project:</strong> Descripción del proyecto</li>
@@ -902,10 +899,9 @@
                                     <li>Formato: solo letras y espacios</li>
                                     <li>Campo obligatorio</li>
                                 </ul>
-                            </li>
-                            <li><strong>start_date_project:</strong>
+                            </li>                            <li><strong>start_date_project:</strong>
                                 <ul>
-                                    <li>Formato: DD/MM/YYYY (solo números y barras)</li>
+                                    <li>Formato: DD-MM-YYYY (solo números y guiones)</li>
                                     <li>Validación de fecha válida</li>
                                     <li>Validación especial: check_special_start_date_project()</li>
                                     <li>Campo obligatorio</li>
@@ -913,7 +909,7 @@
                             </li>
                             <li><strong>end_date_project:</strong>
                                 <ul>
-                                    <li>Formato: DD/MM/YYYY (solo números y barras)</li>
+                                    <li>Formato: DD-MM-YYYY (solo números y guiones)</li>
                                     <li>Validación de fecha válida</li>
                                     <li>Debe ser mayor que start_date_project</li>
                                     <li>Validación especial: check_special_end_date_project()</li>
@@ -1394,9 +1390,8 @@ const isValid = validator.comprobarCampo('end_date_project', 'ADD');</code></pre
                 <div class="method-description">
                     <p><strong>4. Códigos de error personalizados:</strong></p>
                     <pre><code>// En Textos_ES.js
-const Textos = {
-    'end_date_project_greater_than_start_KO': 'La fecha de fin no puede ser anterior a la fecha de inicio',
-    'start_date_project_format_KO': 'El formato de fecha debe ser DD/MM/YYYY',
+const Textos = {    'end_date_project_greater_than_start_KO': 'La fecha de fin no puede ser anterior a la fecha de inicio',
+    'start_date_project_format_KO': 'El formato de fecha debe ser DD-MM-YYYY',
     'start_date_project_valid_KO': 'La fecha introducida no es válida'
 };</code></pre>
                 </div>

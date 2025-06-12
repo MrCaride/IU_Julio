@@ -2,7 +2,8 @@ class DOM_validations extends DOM_class {
     constructor() {
         super();
         this.validacionesatomicas = new Validaciones_Atomicas();
-    }    load_validations(accion) {
+    }    
+    load_validations(accion) {
         let campos = document.forms['IU_form'].elements;
         
         for (let i = 0; i < campos.length; i++) {
@@ -22,7 +23,8 @@ class DOM_validations extends DOM_class {
             // Agregar el evento
             campo.addEventListener(eventType, this._validateField);
         }
-    }    comprobarCampo(campo, accion) {
+    }    
+    comprobarCampo(campo, accion) {
         const estructura = eval('estructura_' + this.entidad);
         if (!estructura || !estructura.attributes[campo]) {
             return true;
@@ -31,11 +33,13 @@ class DOM_validations extends DOM_class {
         const validacionesCampo = estructura.attributes[campo].validation_rules?.[accion];
         if (!validacionesCampo) {
             return true;
-        }        // Manejo especial para entradas de archivo
+        }        
+        // Manejo especial para entradas de archivo
         if (document.getElementById(campo).type === 'file') {
             return this.comprobar_file_characteristic(campo, validacionesCampo);
-        }        // Comprobar si el campo es requerido
-        if (estructura.attributes[campo].is_not_null) {
+        }        
+        // Comprobar si el campo es requerido (excepto en modo SEARCH)
+        if (estructura.attributes[campo].is_not_null && accion !== 'SEARCH') {
             const elem = document.getElementById(campo);
             const value = elem.value;
             if (!value || value === '') {
@@ -43,7 +47,17 @@ class DOM_validations extends DOM_class {
                 elem.style.borderColor = 'red';
                 return false;
             }
-        }        // Validación de campo regular
+        }        
+        // Validación de campo regular
+        const elem = document.getElementById(campo);
+        const fieldValue = elem?.value || '';
+        
+        // En modo SEARCH, saltarse validaciones si el campo está vacío
+        if (accion === 'SEARCH' && (!fieldValue || fieldValue.trim() === '')) {
+            this.mostrar_exito_campo(campo);
+            return true;
+        }
+        
         for (let regla in validacionesCampo) {
             if (typeof this.validacionesatomicas[regla] === 'function') {
                 const [valor, mensajeError] = validacionesCampo[regla];
@@ -61,53 +75,9 @@ class DOM_validations extends DOM_class {
 
         this.mostrar_exito_campo(campo);
         return true;
-    }    comprobar_file_characteristic(campo, validacionesCampo) {
-        const fileInput = document.getElementById(campo);
-        if (!fileInput) {
-            console.error(`Campo no encontrado: ${campo}`);
-            return false;
-        }
+    }    
+    
 
-        const file = fileInput.files[0];        // Verificar existencia primero
-        if (validacionesCampo.no_file && (!file || file.size === 0)) {
-            this.mostrar_error_campo(campo, validacionesCampo.no_file);
-            return false;
-        }
-
-        // Omitir otras validaciones si no se requiere archivo y no se proporciona ninguno
-        if (!file && !validacionesCampo.no_file) {
-            return true;
-        }
-
-        // Validaciones ordenadas para archivos
-        const validationOrder = ['file_type', 'max_size_file', 'format_name_file'];
-
-        for (const rule of validationOrder) {
-            if (validacionesCampo[rule]) {
-                const [param, errorMsg] = validacionesCampo[rule];
-                if (!this.validacionesatomicas[rule](file, param)) {
-                    this.mostrar_error_campo(campo, errorMsg);
-                    return false;
-                }
-            }
-        }
-
-        // Validaciones regulares (min_size, max_size, etc.)
-        for (const rule in validacionesCampo) {
-            if (!validationOrder.includes(rule) && rule !== 'no_file') {
-                if (typeof this.validacionesatomicas[rule] === 'function') {
-                    const [param, errorMsg] = validacionesCampo[rule];
-                    if (!this.validacionesatomicas[rule](campo, param)) {
-                        this.mostrar_error_campo(campo, errorMsg);
-                        return false;
-                    }
-                }
-            }
-        }
-
-        this.mostrar_exito_campo(campo);
-        return true;
-    } 
 
     check_special_tests(fieldId) {
         // Verificar si existe un método check_special_NOMBREATRIBUTO en la instancia actual

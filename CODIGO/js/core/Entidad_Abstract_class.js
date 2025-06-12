@@ -143,6 +143,9 @@ class Entidad_Abstract_class extends DOM_class {
                 // Usar modal para todos los errores
                 this.abrirModalError(respuesta['code']);
             }
+        })
+        .catch(error => {
+            console.error('Error en petición EDIT:', error);
         });
     }
 
@@ -164,11 +167,55 @@ class Entidad_Abstract_class extends DOM_class {
 
     createForm_SEARCH() {
         this.createForm(this.entidad, 'SEARCH');
+    }    createForm_SHOWCURRENT(datos) {
+        this.createForm(this.entidad, 'SHOWCURRENT', datos);
     }
 
-    createForm_SHOWCURRENT(datos) {
-        this.createForm(this.entidad, 'SHOWCURRENT', datos);
-    }    // Método para ejecutar pruebas
+    // Método para mostrar errores en modal
+    abrirModalError(codigoError) {
+        try {
+            const modal = document.getElementById('error-modal');
+            const messageElement = document.getElementById('modal-error-message');
+            
+            if (modal && messageElement) {
+                // Obtener el mensaje de error basado en el código
+                const mensaje = Textos[codigoError] || codigoError || 'Error desconocido';
+                
+                // Establecer el mensaje
+                messageElement.innerHTML = mensaje;
+                
+                // Mostrar el modal
+                modal.style.display = 'block';
+                
+                // Actualizar textos en el idioma actual
+                if (typeof updateModalTexts === 'function') {
+                    updateModalTexts();
+                }
+            } else {
+                console.error('Modal de error no encontrado en el DOM');
+                // Fallback: mostrar alert si no hay modal
+                alert(Textos[codigoError] || codigoError || 'Error desconocido');
+            }
+        } catch (error) {
+            console.error('Error al mostrar modal de error:', error);
+            // Fallback: mostrar alert en caso de error
+            alert(Textos[codigoError] || codigoError || 'Error desconocido');
+        }
+    }
+
+    // Método para cerrar el modal de error
+    cerrarModalError() {
+        try {
+            const modal = document.getElementById('error-modal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        } catch (error) {
+            console.error('Error al cerrar modal de error:', error);
+        }
+    }
+
+    // Método para ejecutar pruebas
     test_run() {
         // Inicializar modal de pruebas
         this.test.showTestModal();

@@ -45,17 +45,18 @@ window.estructura_project = {
                 tag: 'input',
                 type: 'text',
             },
-            is_not_null: true,
-            validation_rules: {                ADD:{
-                    reg_exp : ['^[0-9/]*$', 'start_date_project_format_KO'],
+            is_not_null: true,            
+            validation_rules: {               
+                 ADD:{
+                    reg_exp : ['^[0-9-]*$', 'start_date_project_format_KO'],
                     valid_date : "start_date_project_valid_KO"
                 },
                 EDIT:{
-                    reg_exp : ['^[0-9/]*$', 'start_date_project_format_KO'],
+                    reg_exp : ['^[0-9-]*$', 'start_date_project_format_KO'],
                     valid_date : "start_date_project_valid_KO"
                 },
                 SEARCH:{
-                    reg_exp : ['^[0-9/]*$', 'start_date_project_format_KO'],
+                    reg_exp : ['^[0-9-]*$', 'start_date_project_format_KO'],
                     valid_date : "start_date_project_valid_KO"
                 }
             }
@@ -65,18 +66,20 @@ window.estructura_project = {
                 tag: 'input',
                 type: 'text',
             },
-            is_not_null: true,            validation_rules: {                ADD:{
-                    reg_exp : ['^[0-9/]*$', 'end_date_project_format_KO'],
+            is_not_null: true,            
+            validation_rules: {                
+                ADD:{
+                    reg_exp : ['^[0-9-]*$', 'end_date_project_format_KO'],
                     valid_date : "end_date_project_valid_KO",
                     greater_date : "end_date_project_greater_than_start_KO($start_date_project)"
                 },
                 EDIT:{
-                    reg_exp : ['^[0-9/]*$', 'end_date_project_format_KO'],
+                    reg_exp : ['^[0-9-]*$', 'end_date_project_format_KO'],
                     valid_date : "end_date_project_valid_KO",
                     greater_date : "end_date_project_greater_than_start_KO($start_date_project)"
                 },
                 SEARCH:{
-                    reg_exp : ['^[0-9/]*$', 'end_date_project_format_KO'],
+                    reg_exp : ['^[0-9-]*$', 'end_date_project_format_KO'],
                     valid_date : "end_date_project_valid_KO"
                 }
             }
@@ -177,11 +180,10 @@ window.estructura_project = {
                     file_type :[["application/pdf", "application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document"],"nuevo_file_project_file_type_KO"],
                     max_size_file: [ 2000000, "nuevo_file_project_max_size_KO"],
                     format_name_file: ["^[A-Za-z.]+$","nuevo_file_project_name_format_KO"]
-                },
+                },               
                 EDIT:{
                     min_size : [6, 'nuevo_file_project_name_min_size_KO'],
                     max_size: [100,'nuevo_file_project_name_max_size_KO'],
-                    no_file: "nuevo_file_project_no_file_KO",
                     file_type :[["application/pdf", "application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document"],"nuevo_file_project_file_type_KO"],
                     max_size_file: [ 2000000, "nuevo_file_project_max_size_KO"],
                     format_name_file: ["^[A-Za-z.]+$","nuevo_file_project_name_format_KO"]

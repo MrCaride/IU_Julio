@@ -69,14 +69,12 @@ const Textos_EN = {
     'name_project_required_KO': 'Name is required',
     'name_project_format_KO': 'Name can only contain letters and spaces',
     'name_project_min_size_KO': 'Name must be at least 15 characters',
-    'name_project_max_size_KO': 'Name cannot be longer than 100 characters',
-
-    'start_date_project_required_KO': 'Start date is required',
-    'start_date_project_format_KO': 'Date only accepts numbers and slashes in format dd/mm/yyyy',
+    'name_project_max_size_KO': 'Name cannot be longer than 100 characters',    'start_date_project_required_KO': 'Start date is required',
+    'start_date_project_format_KO': 'Date only accepts numbers and hyphens in format dd-mm-yyyy',
     'start_date_project_valid_KO': 'Date must be valid',
 
     'end_date_project_required_KO': 'End date is required',
-    'end_date_project_format_KO': 'Date only accepts numbers and slashes in format dd/mm/yyyy',
+    'end_date_project_format_KO': 'Date only accepts numbers and hyphens in format dd-mm-yyyy',
     'end_date_project_valid_KO': 'Date must be valid',
     'end_date_project_greater_than_start_KO': 'End date cannot be earlier than start date',    'responsable_project_required_KO': 'Manager is required',
     'responsable_project_format_KO': 'Manager can only contain letters, spaces, accents and ñ',
@@ -128,14 +126,12 @@ const Textos_EN = {
 
     // Description Project
     'description_project_min_size_KO': 'Description must have at least 30 characters',
-    'description_project_max_size_KO': 'Description exceeds maximum number of characters (500)',
-
-    // Start Date Project
-    'start_date_project_format_KO': 'Date only accepts numbers and slashes in format dd/mm/yyyy',
+    'description_project_max_size_KO': 'Description exceeds maximum number of characters (500)',    // Start Date Project
+    'start_date_project_format_KO': 'Date only accepts numbers and hyphens in format dd-mm-yyyy',
     'start_date_project_valid_KO': 'Date must be valid',
 
     // End Date Project
-    'end_date_project_format_KO': 'Date only accepts numbers and slashes in format dd/mm/yyyy',
+    'end_date_project_format_KO': 'Date only accepts numbers and hyphens in format dd-mm-yyyy',
     'end_date_project_valid_KO': 'Date must be valid',
     'end_date_project_greater_than_start_KO': 'End date cannot be earlier than start date',
 

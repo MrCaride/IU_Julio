@@ -55,12 +55,9 @@ window.characteristic_def_tests = Array(
     Array('characteristic', 'nuevo_file_characteristic', 32, 'Validar tipo de archivo ADD', 'ADD', 'string', 'nuevo_file_characteristic_file_type_KO'),
     Array('characteristic', 'nuevo_file_characteristic', 33, 'Validar tamaño de archivo ADD', 'ADD', 'string', 'nuevo_file_characteristic_max_size_KO'),
     Array('characteristic', 'nuevo_file_characteristic', 34, 'Validar formato nombre archivo ADD', 'ADD', 'string', 'nuevo_file_characteristic_name_format_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 35, 'Validar longitud mínima EDIT', 'EDIT', 'string', 'nuevo_file_characteristic_name_min_size_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 36, 'Validar longitud máxima EDIT', 'EDIT', 'string', 'nuevo_file_characteristic_name_max_size_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 37, 'Validar archivo requerido EDIT', 'EDIT', 'string', 'nuevo_file_characteristic_no_file_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 38, 'Validar tipo de archivo EDIT', 'EDIT', 'string', 'nuevo_file_characteristic_file_type_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 39, 'Validar tamaño de archivo EDIT', 'EDIT', 'string', 'nuevo_file_characteristic_max_size_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 40, 'Validar formato nombre archivo EDIT', 'EDIT', 'string', 'nuevo_file_characteristic_name_format_KO')
+    Array('characteristic', 'nuevo_file_characteristic', 35, 'Validar longitud mínima EDIT', 'EDIT', 'string', 'nuevo_file_characteristic_name_min_size_KO'),    Array('characteristic', 'nuevo_file_characteristic', 36, 'Validar longitud máxima EDIT', 'EDIT', 'string', 'nuevo_file_characteristic_name_max_size_KO'),
+    Array('characteristic', 'nuevo_file_characteristic', 37, 'Validar tipo de archivo EDIT', 'EDIT', 'string', 'nuevo_file_characteristic_file_type_KO'),    Array('characteristic', 'nuevo_file_characteristic', 38, 'Validar tamaño de archivo EDIT', 'EDIT', 'string', 'nuevo_file_characteristic_max_size_KO'),
+    Array('characteristic', 'nuevo_file_characteristic', 39, 'Validar formato nombre archivo EDIT', 'EDIT', 'string', 'nuevo_file_characteristic_name_format_KO')
 );
 
 // Definiciones de tests para analysis_preparation 
@@ -110,12 +107,9 @@ window.analysis_preparation_def_tests = Array(
     Array('analysis_preparation', 'nuevo_file_analysis_preparation', 32, 'Validar tipo de archivo ADD', 'ADD', 'string', 'nuevo_file_analysis_preparation_file_type_KO'),
     Array('analysis_preparation', 'nuevo_file_analysis_preparation', 33, 'Validar tamaño de archivo ADD', 'ADD', 'string', 'nuevo_file_analysis_preparation_max_size_KO'),
     Array('analysis_preparation', 'nuevo_file_analysis_preparation', 34, 'Validar formato nombre archivo ADD', 'ADD', 'string', 'nuevo_file_analysis_preparation_name_format_KO'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 35, 'Validar longitud mínima EDIT', 'EDIT', 'string', 'nuevo_file_analysis_preparation_name_min_size_KO'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 36, 'Validar longitud máxima EDIT', 'EDIT', 'string', 'nuevo_file_analysis_preparation_name_max_size_KO'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 37, 'Validar archivo requerido EDIT', 'EDIT', 'string', 'nuevo_file_analysis_preparation_no_file_KO'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 38, 'Validar tipo de archivo EDIT', 'EDIT', 'string', 'nuevo_file_analysis_preparation_file_type_KO'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 39, 'Validar tamaño de archivo EDIT', 'EDIT', 'string', 'nuevo_file_analysis_preparation_max_size_KO'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 40, 'Validar formato nombre archivo EDIT', 'EDIT', 'string', 'nuevo_file_analysis_preparation_name_format_KO')
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 35, 'Validar longitud mínima EDIT', 'EDIT', 'string', 'nuevo_file_analysis_preparation_name_min_size_KO'),    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 36, 'Validar longitud máxima EDIT', 'EDIT', 'string', 'nuevo_file_analysis_preparation_name_max_size_KO'),
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 37, 'Validar tipo de archivo EDIT', 'EDIT', 'string', 'nuevo_file_analysis_preparation_file_type_KO'),    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 38, 'Validar tamaño de archivo EDIT', 'EDIT', 'string', 'nuevo_file_analysis_preparation_max_size_KO'),
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 39, 'Validar formato nombre archivo EDIT', 'EDIT', 'string', 'nuevo_file_analysis_preparation_name_format_KO')
 );
 
 // Definiciones de tests para project
@@ -223,39 +217,37 @@ window.project_tests = Array(
     Array('project', 'name_project', 9, 17, 'SEARCH', 'a'.repeat(101), '', 'name_project_max_size_KO'),
     Array('project', 'name_project', 9, 18, 'SEARCH', 'Valid', '', 'OK'),
     Array('project', 'name_project', 10, 19, 'SEARCH', 'Invalid@123', '', 'name_project_format_KO'),
-    Array('project', 'name_project', 10, 20, 'SEARCH', 'Valid Name', '', 'OK'),
-
-    // Pruebas Start Date Project
+    Array('project', 'name_project', 10, 20, 'SEARCH', 'Valid Name', '', 'OK'),    // Pruebas Start Date Project
     Array('project', 'start_date_project', 11, 21, 'ADD', '2025-01-01', '', 'start_date_project_format_KO'),
-    Array('project', 'start_date_project', 11, 22, 'ADD', '01/01/2025', '', 'OK'),
-    Array('project', 'start_date_project', 12, 23, 'ADD', '32/13/2025', '', 'start_date_project_valid_KO'),
-    Array('project', 'start_date_project', 12, 24, 'ADD', '01/01/2025', '', 'OK'),
+    Array('project', 'start_date_project', 11, 22, 'ADD', '01-01-2025', '', 'OK'),
+    Array('project', 'start_date_project', 12, 23, 'ADD', '32-13-2025', '', 'start_date_project_valid_KO'),
+    Array('project', 'start_date_project', 12, 24, 'ADD', '01-01-2025', '', 'OK'),
     Array('project', 'start_date_project', 13, 25, 'EDIT', '2025-01-01', '', 'start_date_project_format_KO'),
-    Array('project', 'start_date_project', 13, 26, 'EDIT', '01/01/2025', '', 'OK'),
-    Array('project', 'start_date_project', 14, 27, 'EDIT', '32/13/2025', '', 'start_date_project_valid_KO'),
-    Array('project', 'start_date_project', 14, 28, 'EDIT', '01/01/2025', '', 'OK'),
+    Array('project', 'start_date_project', 13, 26, 'EDIT', '01-01-2025', '', 'OK'),
+    Array('project', 'start_date_project', 14, 27, 'EDIT', '32-13-2025', '', 'start_date_project_valid_KO'),
+    Array('project', 'start_date_project', 14, 28, 'EDIT', '01-01-2025', '', 'OK'),
     Array('project', 'start_date_project', 15, 29, 'SEARCH', '2025-01-01', '', 'start_date_project_format_KO'),
-    Array('project', 'start_date_project', 15, 30, 'SEARCH', '01/01/2025', '', 'OK'),
-    Array('project', 'start_date_project', 16, 31, 'SEARCH', '32/13/2025', '', 'start_date_project_valid_KO'),
-    Array('project', 'start_date_project', 16, 32, 'SEARCH', '01/01/2025', '', 'OK'),
+    Array('project', 'start_date_project', 15, 30, 'SEARCH', '01-01-2025', '', 'OK'),
+    Array('project', 'start_date_project', 16, 31, 'SEARCH', '32-13-2025', '', 'start_date_project_valid_KO'),
+    Array('project', 'start_date_project', 16, 32, 'SEARCH', '01-01-2025', '', 'OK'),
 
     // Pruebas End Date Project
     Array('project', 'end_date_project', 17, 33, 'ADD', '2025-12-31', '', 'end_date_project_format_KO'),
-    Array('project', 'end_date_project', 17, 34, 'ADD', '31/12/2025', '', 'OK'),
-    Array('project', 'end_date_project', 18, 35, 'ADD', '32/13/2025', '', 'end_date_project_valid_KO'),
-    Array('project', 'end_date_project', 18, 36, 'ADD', '31/12/2025', '', 'OK'),
-    Array('project', 'end_date_project', 19, 37, 'ADD', '31/12/2020', {'start_date_project': '01/01/2025'}, 'end_date_project_greater_than_start_KO'),
-    Array('project', 'end_date_project', 19, 38, 'ADD', '31/12/2025', {'start_date_project': '01/01/2025'}, 'OK'),
+    Array('project', 'end_date_project', 17, 34, 'ADD', '31-12-2025', '', 'OK'),
+    Array('project', 'end_date_project', 18, 35, 'ADD', '32-13-2025', '', 'end_date_project_valid_KO'),
+    Array('project', 'end_date_project', 18, 36, 'ADD', '31-12-2025', '', 'OK'),
+    Array('project', 'end_date_project', 19, 37, 'ADD', '31-12-2020', {'start_date_project': '01-01-2025'}, 'end_date_project_greater_than_start_KO'),
+    Array('project', 'end_date_project', 19, 38, 'ADD', '31-12-2025', {'start_date_project': '01-01-2025'}, 'OK'),
     Array('project', 'end_date_project', 20, 39, 'EDIT', '2025-12-31', '', 'end_date_project_format_KO'),
-    Array('project', 'end_date_project', 20, 40, 'EDIT', '31/12/2025', '', 'OK'),
-    Array('project', 'end_date_project', 21, 41, 'EDIT', '32/13/2025', '', 'end_date_project_valid_KO'),
-    Array('project', 'end_date_project', 21, 42, 'EDIT', '31/12/2025', '', 'OK'),
-    Array('project', 'end_date_project', 22, 43, 'EDIT', '01/01/2020', {'start_date_project': '01/01/2025'}, 'end_date_project_greater_than_start_KO'),
-    Array('project', 'end_date_project', 22, 44, 'EDIT', '31/12/2025', {'start_date_project': '01/01/2025'}, 'OK'),
+    Array('project', 'end_date_project', 20, 40, 'EDIT', '31-12-2025', '', 'OK'),
+    Array('project', 'end_date_project', 21, 41, 'EDIT', '32-13-2025', '', 'end_date_project_valid_KO'),
+    Array('project', 'end_date_project', 21, 42, 'EDIT', '31-12-2025', '', 'OK'),
+    Array('project', 'end_date_project', 22, 43, 'EDIT', '01-01-2020', {'start_date_project': '01-01-2025'}, 'end_date_project_greater_than_start_KO'),
+    Array('project', 'end_date_project', 22, 44, 'EDIT', '31-12-2025', {'start_date_project': '01-01-2025'}, 'OK'),
     Array('project', 'end_date_project', 23, 45, 'SEARCH', '2025-12-31', '', 'end_date_project_format_KO'),
-    Array('project', 'end_date_project', 23, 46, 'SEARCH', '31/12/2025', '', 'OK'),
-    Array('project', 'end_date_project', 24, 47, 'SEARCH', '32/13/2025', '', 'end_date_project_valid_KO'),
-    Array('project', 'end_date_project', 24, 48, 'SEARCH', '31/12/2025', '', 'OK'),
+    Array('project', 'end_date_project', 23, 46, 'SEARCH', '31-12-2025', '', 'OK'),
+    Array('project', 'end_date_project', 24, 47, 'SEARCH', '32-13-2025', '', 'end_date_project_valid_KO'),
+    Array('project', 'end_date_project', 24, 48, 'SEARCH', '31-12-2025', '', 'OK'),
 
     // Pruebas Responsable Project
     Array('project', 'responsable_project', 25, 49, 'ADD', 'short', '', 'responsable_project_min_size_KO'),
@@ -424,19 +416,15 @@ window.characteristic_tests_files = Array(
     Array('characteristic', 'nuevo_file_characteristic', 33, 65, 'ADD', 'max_size_file', 2000001, 'nuevo_file_characteristic_max_size_KO'),
     Array('characteristic', 'nuevo_file_characteristic', 33, 66, 'ADD', 'max_size_file', 1000000, 'OK'),
     Array('characteristic', 'nuevo_file_characteristic', 34, 67, 'ADD', 'format_name_file', 'invalid@file.pdf', 'nuevo_file_characteristic_name_format_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 34, 68, 'ADD', 'format_name_file', 'valid.pdf', 'OK'),
+    Array('characteristic', 'nuevo_file_characteristic', 34, 68, 'ADD', 'format_name_file', 'valid.pdf', 'OK'),    // Pruebas de Nuevo File Characteristic - EDIT
     Array('characteristic', 'nuevo_file_characteristic', 35, 69, 'EDIT', 'min_size', 'short', 'nuevo_file_characteristic_name_min_size_KO'),
     Array('characteristic', 'nuevo_file_characteristic', 35, 70, 'EDIT', 'min_size', 'validfile.pdf', 'OK'),
-    Array('characteristic', 'nuevo_file_characteristic', 36, 71, 'EDIT', 'max_size', 'a'.repeat(101), 'nuevo_file_characteristic_name_max_size_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 36, 72, 'EDIT', 'max_size', 'validfile.pdf', 'OK'),
-    Array('characteristic', 'nuevo_file_characteristic', 37, 73, 'EDIT', 'no_file', null, 'nuevo_file_characteristic_no_file_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 37, 74, 'EDIT', 'no_file', 'validfile.pdf', 'OK'),
-    Array('characteristic', 'nuevo_file_characteristic', 38, 75, 'EDIT', 'file_type', 'invalid.txt', 'nuevo_file_characteristic_file_type_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 38, 76, 'EDIT', 'file_type', 'valid.pdf', 'OK'),
-    Array('characteristic', 'nuevo_file_characteristic', 39, 77, 'EDIT', 'max_size_file', 2000001, 'nuevo_file_characteristic_max_size_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 39, 78, 'EDIT', 'max_size_file', 1000000, 'OK'),
-    Array('characteristic', 'nuevo_file_characteristic', 40, 79, 'EDIT', 'format_name_file', 'invalid@file.pdf', 'nuevo_file_characteristic_name_format_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 40, 80, 'EDIT', 'format_name_file', 'valid.pdf', 'OK')
+    Array('characteristic', 'nuevo_file_characteristic', 36, 71, 'EDIT', 'max_size', 'a'.repeat(101), 'nuevo_file_characteristic_name_max_size_KO'),    Array('characteristic', 'nuevo_file_characteristic', 36, 72, 'EDIT', 'max_size', 'validfile.pdf', 'OK'),    Array('characteristic', 'nuevo_file_characteristic', 37, 75, 'EDIT', 'file_type', 'invalid.txt', 'nuevo_file_characteristic_file_type_KO'),
+    Array('characteristic', 'nuevo_file_characteristic', 37, 76, 'EDIT', 'file_type', 'valid.pdf', 'OK'),
+    Array('characteristic', 'nuevo_file_characteristic', 38, 77, 'EDIT', 'max_size_file', 2000001, 'nuevo_file_characteristic_max_size_KO'),
+    Array('characteristic', 'nuevo_file_characteristic', 38, 78, 'EDIT', 'max_size_file', 1000000, 'OK'),
+    Array('characteristic', 'nuevo_file_characteristic', 39, 79, 'EDIT', 'format_name_file', 'invalid@file.pdf', 'nuevo_file_characteristic_name_format_KO'),
+    Array('characteristic', 'nuevo_file_characteristic', 39, 80, 'EDIT', 'format_name_file', 'valid.pdf', 'OK')
 );
 
 /**
@@ -533,14 +521,10 @@ window.analysis_preparation_tests_files = Array(
     Array('analysis_preparation', 'nuevo_file_analysis_preparation', 34, 68, 'ADD', 'format_name_file', 'validfile.pdf', 'OK'),
     Array('analysis_preparation', 'nuevo_file_analysis_preparation', 35, 69, 'EDIT', 'min_size', 'short', 'nuevo_file_analysis_preparation_name_min_size_KO'),
     Array('analysis_preparation', 'nuevo_file_analysis_preparation', 35, 70, 'EDIT', 'min_size', 'validfile.pdf', 'OK'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 36, 71, 'EDIT', 'max_size', 'a'.repeat(101), 'nuevo_file_analysis_preparation_name_max_size_KO'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 36, 72, 'EDIT', 'max_size', 'validfile.pdf', 'OK'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 37, 73, 'EDIT', 'no_file', null, 'nuevo_file_analysis_preparation_no_file_KO'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 37, 74, 'EDIT', 'no_file', 'validfile.pdf', 'OK'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 38, 75, 'EDIT', 'file_type', 'invalid.txt', 'nuevo_file_analysis_preparation_file_type_KO'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 38, 76, 'EDIT', 'file_type', 'validfile.pdf', 'OK'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 39, 77, 'EDIT', 'max_size_file', 2000001, 'nuevo_file_analysis_preparation_max_size_KO'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 39, 78, 'EDIT', 'max_size_file', 1000000, 'OK'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 40, 79, 'EDIT', 'format_name_file', 'invalid@file.pdf', 'nuevo_file_analysis_preparation_name_format_KO'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 40, 80, 'EDIT', 'format_name_file', 'validfile.pdf', 'OK')
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 36, 71, 'EDIT', 'max_size', 'a'.repeat(101), 'nuevo_file_analysis_preparation_name_max_size_KO'),    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 36, 72, 'EDIT', 'max_size', 'validfile.pdf', 'OK'),    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 37, 75, 'EDIT', 'file_type', 'invalid.txt', 'nuevo_file_analysis_preparation_file_type_KO'),
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 37, 76, 'EDIT', 'file_type', 'validfile.pdf', 'OK'),
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 38, 77, 'EDIT', 'max_size_file', 2000001, 'nuevo_file_analysis_preparation_max_size_KO'),
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 38, 78, 'EDIT', 'max_size_file', 1000000, 'OK'),
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 39, 79, 'EDIT', 'format_name_file', 'invalid@file.pdf', 'nuevo_file_analysis_preparation_name_format_KO'),
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 39, 80, 'EDIT', 'format_name_file', 'validfile.pdf', 'OK')
 );

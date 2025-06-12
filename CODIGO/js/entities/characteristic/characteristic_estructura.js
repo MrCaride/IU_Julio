@@ -148,11 +148,10 @@ const estructura_characteristic = {
                     file_type :[["application/pdf", "application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document"],"nuevo_file_characteristic_file_type_KO"],
                     max_size_file: [ 2000000, "nuevo_file_characteristic_max_size_KO"],
                     format_name_file: ["^[A-Za-z.]+$","nuevo_file_characteristic_name_format_KO"]
-                },
+                },                
                 EDIT:{
                     min_size : [7, 'nuevo_file_characteristic_name_min_size_KO'],
 				    max_size: [100,'nuevo_file_characteristic_name_max_size_KO'],
-                    no_file: "nuevo_file_characteristic_no_file_KO",
                     file_type :[["application/pdf", "application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document"],"nuevo_file_characteristic_file_type_KO"],
                     max_size_file: [ 2000000, "nuevo_file_characteristic_max_size_KO"],
                     format_name_file: ["^[A-Za-z.]*$","nuevo_file_characteristic_name_format_KO"]
