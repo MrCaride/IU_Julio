@@ -29,7 +29,6 @@ const Textos_ES = {
     'new_file': 'Nuevo Archivo',
 
     // Etiquetas de formulario y mensajes de validación
-    'required_field': 'Este campo es obligatorio',
     'min_length': 'No alcanza la longitud mínima',
     'max_length': 'Excede la longitud máxima',
     'format_error': 'Formato incorrecto',
@@ -57,35 +56,28 @@ const Textos_ES = {
     'file_characteristic': 'Archivo',
     'nuevo_file_characteristic': 'Subir Archivo',
 
-    'id_characteristic_required_KO': 'El ID es obligatorio',
     'id_characteristic_format_KO': 'El ID debe ser numérico',
     'id_characteristic_min_size_KO': 'El ID debe tener al menos 1 dígito',
     'id_characteristic_max_size_KO': 'El ID no puede tener más de 11 dígitos',
 
-    'name_characteristic_required_KO': 'El nombre es obligatorio',
     'name_characteristic_format_KO': 'El nombre solo puede contener letras y espacios',
     'name_characteristic_min_size_KO': 'El nombre debe tener al menos 8 caracteres',
     'name_characteristic_max_size_KO': 'El nombre no puede tener más de 100 caracteres',
 
-    'description_characteristic_required_KO': 'La descripción es obligatoria',
     'description_characteristic_format_KO': 'La descripción contiene caracteres inválidos',
     'description_characteristic_min_size_KO': 'La descripción debe tener al menos 80 caracteres',
     'description_characteristic_max_size_KO': 'La descripción no puede tener más de 5000 caracteres',
 
-    'data_type_characteristic_required_KO': 'El tipo de dato es obligatorio',
     'data_type_characteristic_format_KO': 'Tipo de dato inválido',
 
-    'category_characteristic_required_KO': 'La categoría es obligatoria',
     'category_characteristic_format_KO': 'La categoría solo puede contener letras y espacios',
     'category_characteristic_min_size_KO': 'La categoría debe tener al menos 6 caracteres',
     'category_characteristic_max_size_KO': 'La categoría no puede tener más de 50 caracteres',
 
-    'bibref_characteristic_required_KO': 'La referencia bibliográfica es obligatoria',
     'bibref_characteristic_format_KO': 'La referencia bibliográfica contiene caracteres inválidos',
     'bibref_characteristic_min_size_KO': 'La referencia debe tener al menos 16 caracteres',
     'bibref_characteristic_max_size_KO': 'La referencia no puede tener más de 200 caracteres',
 
-    'file_characteristic_required_KO': 'El archivo es obligatorio',
     'file_characteristic_type_KO': 'Tipo de archivo inválido (debe ser PDF o DOC)',
     'file_characteristic_size_KO': 'El archivo es demasiado grande (máx 2MB)',
     'file_characteristic_format_KO': 'Formato de archivo inválido',
@@ -100,7 +92,6 @@ const Textos_ES = {
     'file_characteristic_OK': 'Archivo válido',
 
     // Mensajes de nuevo_file_characteristic
-    'nuevo_file_characteristic_required_KO': 'Tienes que adjuntar un archivo',
     'nuevo_file_characteristic_name_min_size_KO': 'El nombre del archivo debe tener al menos 7 caracteres',
     'nuevo_file_characteristic_name_max_size_KO': 'El nombre del archivo no puede tener más de 100 caracteres',
     'nuevo_file_characteristic_no_file_KO': 'Debe seleccionar un archivo real',
@@ -167,37 +158,31 @@ const Textos_ES = {
     'id_sampling_methodology': 'ID Metodología',
 
     // Mensajes de error para Project
-    'id_project_required_KO': 'El ID es obligatorio',
     'id_project_format_KO': 'El ID debe ser numérico',
     'id_project_min_size_KO': 'El ID debe tener al menos 1 dígito',
     'id_project_max_size_KO': 'El ID no puede tener más de 11 dígitos',
 
-    'name_project_required_KO': 'El nombre es obligatorio',
     'name_project_format_KO': 'El nombre solo puede contener letras y espacios',
     'name_project_min_size_KO': 'El nombre debe tener al menos 15 caracteres',
-    'name_project_max_size_KO': 'El nombre no puede tener más de 100 caracteres',    'start_date_project_required_KO': 'La fecha de inicio es obligatoria',
+    'name_project_max_size_KO': 'El nombre no puede tener más de 100 caracteres',   
     'start_date_project_format_KO': 'La fecha solo acepta números y guiones en formato dd-mm-aaaa',
     'start_date_project_valid_KO': 'La fecha debe ser válida',
 
-    'end_date_project_required_KO': 'La fecha de fin es obligatoria',
     'end_date_project_format_KO': 'La fecha solo acepta números y guiones en formato dd-mm-aaaa',
     'end_date_project_valid_KO': 'La fecha debe ser válida',
-    'end_date_project_greater_than_start_KO': 'La fecha de fin no puede ser anterior a la fecha de inicio',    'responsable_project_required_KO': 'El responsable es obligatorio',
+    'end_date_project_greater_than_start_KO': 'La fecha de fin no puede ser anterior a la fecha de inicio',    'responsable_project__KO': 'El responsable es obligatorio',
     'responsable_project_format_KO': 'El responsable solo puede contener letras, espacios, acentos y ñ',
     'responsable_project_min_size_KO': 'El responsable debe tener al menos 6 caracteres',
     'responsable_project_max_size_KO': 'El responsable no puede tener más de 60 caracteres',
 
-    'organization_project_required_KO': 'La organización es obligatoria',
     'organization_project_format_KO': 'La organización solo puede contener letras, espacios, acentos y ñ',
     'organization_project_min_size_KO': 'La organización debe tener al menos 6 caracteres',
     'organization_project_max_size_KO': 'La organización no puede tener más de 100 caracteres',
 
-    'description_project_required_KO': 'La descripción es obligatoria',
     'description_project_format_KO': 'La descripción contiene caracteres inválidos',
     'description_project_min_size_KO': 'La descripción debe tener al menos 30 caracteres',
     'description_project_max_size_KO': 'La descripción no puede tener más de 500 caracteres',
 
-    'file_project_required_KO': 'El archivo es obligatorio',
     'file_project_name_max_size_KO': 'El nombre del archivo no puede tener más de 100 caracteres',
     'file_project_name_format_KO': 'El nombre del archivo solo puede contener letras y punto',
     
@@ -207,17 +192,14 @@ const Textos_ES = {
     'nuevo_file_project_max_size_KO': 'El archivo no puede superar los 2MB',
     'nuevo_file_project_name_format_KO': 'El nombre del archivo solo puede contener letras y punto',
 
-    'code_project_required_KO': 'El código es obligatorio',
     'code_project_format_KO': 'El código contiene caracteres inválidos',
     'code_project_min_size_KO': 'El código debe tener al menos 6 caracteres',
     'code_project_max_size_KO': 'El código no puede tener más de 50 caracteres',
 
-    'acronym_project_required_KO': 'El acrónimo es obligatorio',
     'acronym_project_format_KO': 'El acrónimo contiene caracteres inválidos',
     'acronym_project_min_size_KO': 'El acrónimo debe tener al menos 6 caracteres',
     'acronym_project_max_size_KO': 'El acrónimo no puede tener más de 15 caracteres',
 
-    'id_sampling_methodology_required_KO': 'El ID de metodología es obligatorio',
     'id_sampling_methodology_format_KO': 'El ID de metodología debe ser numérico',
     'id_sampling_methodology_min_size_KO': 'El ID de metodología debe tener al menos 1 dígito',
     'id_sampling_methodology_max_size_KO': 'El ID de metodología no puede tener más de 11 dígitos',
@@ -234,22 +216,18 @@ const Textos_ES = {
     'nuevo_file_analysis_preparation': 'Nuevo Archivo',
 
     // Mensajes de error para Analysis Preparation
-    'id_analysis_preparation_required_KO': 'El ID es obligatorio',
     'id_analysis_preparation_format_KO': 'El ID debe ser numérico',
     'id_analysis_preparation_min_size_KO': 'El ID debe tener al menos 1 dígito',
     'id_analysis_preparation_max_size_KO': 'El ID no puede tener más de 9 dígitos',
 
-    'name_analysis_preparation_required_KO': 'El nombre es obligatorio',
     'name_analysis_preparation_format_KO': 'El nombre solo puede contener letras y espacios',
     'name_analysis_preparation_min_size_KO': 'El nombre debe tener al menos 8 caracteres',
     'name_analysis_preparation_max_size_KO': 'El nombre no puede tener más de 100 caracteres',
 
-    'description_analysis_preparation_required_KO': 'La descripción es obligatoria',
     'description_analysis_preparation_format_KO': 'La descripción contiene caracteres inválidos',
     'description_analysis_preparation_min_size_KO': 'La descripción debe tener al menos 80 caracteres',
     'description_analysis_preparation_max_size_KO': 'La descripción no puede tener más de 5000 caracteres',
 
-    'bib_analysis_preparation_required_KO': 'La referencia bibliográfica es obligatoria',
     'bib_analysis_preparation_format_KO': 'La referencia bibliográfica contiene caracteres inválidos',
     'bib_analysis_preparation_min_size_KO': 'La referencia debe tener al menos 6 caracteres',
     'bib_analysis_preparation_max_size_KO': 'La referencia no puede tener más de 200 caracteres',

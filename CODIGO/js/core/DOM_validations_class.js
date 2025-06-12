@@ -28,25 +28,15 @@ class DOM_validations extends DOM_class {
         const estructura = eval('estructura_' + this.entidad);
         if (!estructura || !estructura.attributes[campo]) {
             return true;
-        }
-
+        }        
         const validacionesCampo = estructura.attributes[campo].validation_rules?.[accion];
         if (!validacionesCampo) {
             return true;
-        }        
-        // Manejo especial para entradas de archivo
-        if (document.getElementById(campo).type === 'file') {
-            return this.comprobar_file_characteristic(campo, validacionesCampo);
         }        
         // Comprobar si el campo es requerido (excepto en modo SEARCH)
         if (estructura.attributes[campo].is_not_null && accion !== 'SEARCH') {
             const elem = document.getElementById(campo);
             const value = elem.value;
-            if (!value || value === '') {
-                this.mostrar_error_campo(campo, campo + '_required_KO');
-                elem.style.borderColor = 'red';
-                return false;
-            }
         }        
         // Validación de campo regular
         const elem = document.getElementById(campo);
@@ -108,7 +98,8 @@ class DOM_validations extends DOM_class {
     validate_field(fieldId, entity, action) {
         this.entidad = entity;
         return this.comprobarCampo(fieldId, action);
-    }    comprobar_submit() {
+    }    
+    comprobar_submit() {
         try {
             const campos = document.forms['IU_form'].elements;
             let resultadoValidacion = true;

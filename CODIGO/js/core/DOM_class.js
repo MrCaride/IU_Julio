@@ -144,7 +144,8 @@ class DOM_class {
         select.removeAttribute('onchange');
         
         setLang();
-    }    hacertabla() {
+    }    
+    hacertabla() {
         // Títulos
         let titleElement = document.getElementById("text_title_page");
         let titlePage = document.getElementById('title_page');
@@ -187,7 +188,8 @@ class DOM_class {
             // Procesar cada columna
             for (let atributo of this.atributos) {
                 let display = this.columnasamostrar.includes(atributo) ? '' : 'display:none;';
-                let valor = this.datos[i][atributo];                if (this.datosespecialestabla && this.datosespecialestabla.includes(atributo)) {
+                let valor = this.datos[i][atributo];                
+                if (this.datosespecialestabla && this.datosespecialestabla.includes(atributo)) {
                     // Usar change_value_IU del validador para modificar el valor
                     let valorcolumna = valor;
                     if (window.validar && typeof window.validar.change_value_IU === 'function') {
@@ -231,7 +233,8 @@ class DOM_class {
         if (typeof setLang === 'function') {
             setLang();
         }
-    }    crearboton(entidad, accion, parametros) {
+    }    
+    crearboton(entidad, accion, parametros) {
         let columna = document.createElement('td');
         let boton = document.createElement('button');
         boton.className = 'boton';
@@ -244,7 +247,9 @@ class DOM_class {
         boton.appendChild(opcion);
         columna.appendChild(boton);
         return columna.outerHTML;
-    }createForm(entidad, accion, parametros = null) {        window.accionActual = accion;
+    }
+    createForm(entidad, accion, parametros = null) {        
+        window.accionActual = accion;
         
         // Obtener los datos de estructura de la entidad
         let estructura = eval('estructura_' + entidad);
@@ -321,24 +326,37 @@ class DOM_class {
     }
       cargar_formulario_dinamico(entidad, estructura) {
         let formulario = '';
-        const accion = window.accionActual;          // Crear campos del formulario basados en la estructura
+        const accion = window.accionActual;
+        
+        // Crear campos del formulario basados en la estructura
         for (let nombreCampo in estructura.attributes) {
             const campo = estructura.attributes[nombreCampo];
             campo.nombre = nombreCampo;
 
-            // Excluir campos según la acción
-            if (accion === 'ADD') {
-                if ((campo.is_pk && campo.is_autoincrement) || nombreCampo.startsWith('file_')) {
+            // Filtrar campos según las reglas de validación y la acción
+            const tieneValidationRules = campo.validation_rules && campo.validation_rules[accion];
+            const esPKAutoincrement = campo.is_pk && campo.is_autoincrement;
+            const esPKNoAutoincrement = campo.is_pk && !campo.is_autoincrement;
+
+            // Para SHOWCURRENT y DELETE: mostrar TODOS los campos (es formulario de solo lectura)
+            if (accion === 'SHOWCURRENT' || accion === 'DELETE') {
+                // No excluir ningún campo - queremos mostrar toda la información
+            }
+            // Para ADD: excluir PKs autoincrement, incluir solo campos con validation_rules para ADD
+            else if (accion === 'ADD') {
+                if (esPKAutoincrement || !tieneValidationRules) {
                     continue;
                 }
-            } else if (accion === 'EDIT') {
-                if (nombreCampo.startsWith('nuevo_file_')) {
+            } 
+            // Para EDIT y SEARCH: incluir solo campos con validation_rules para esa acción específica
+            // o PKs no autoincrement (que siempre deben estar presentes para identificar el registro)
+            else {
+                if (!tieneValidationRules && !esPKNoAutoincrement) {
                     continue;
                 }
-            } else if (accion === 'SEARCH' || accion === 'DELETE' || accion === 'SHOWCURRENT') {
-                if (nombreCampo.startsWith('nuevo_file_')) {
-                    continue;                }
-            }            // Crear etiqueta primero
+            }
+
+            // Crear etiqueta primero
             formulario += `<div class="campo-container">`;
             formulario += `<label class="label_${campo.nombre}" id="label_${campo.nombre}" for="${campo.nombre}">${Textos[campo.nombre] || campo.nombre}:</label>`;
             
@@ -346,19 +364,17 @@ class DOM_class {
             if (campo.html.type === 'file' || campo.html.tag === 'file') {
                 formulario += `<div class="file-container" id="${campo.nombre}_container">`;
                 
-                // Para archivos existentes en EDIT
-                if (accion === 'EDIT') {
+                // Para archivos existentes: mostrar link en EDIT, SHOWCURRENT y DELETE
+                // Solo mostrar input file si es un campo de upload (type === 'file') y no estamos en modo readonly
+                if ((accion === 'EDIT' || accion === 'SHOWCURRENT' || accion === 'DELETE') && campo.html.type !== 'file') {
                     formulario += `<div id="${campo.nombre}_link"></div>`;
-                    // Solo mostrar input para nuevo_file en EDIT
-                    if (nombreCampo.startsWith('nuevo_file_')) {
-                        formulario += `<input type="file" name="${campo.nombre}" id="${campo.nombre}" `;
-                        formulario += `accept=".pdf,.doc,.docx">`;
-                    }
-                } else {
+                } else if (campo.html.type === 'file' && accion !== 'SHOWCURRENT' && accion !== 'DELETE') {
+                    // Para campos de input file (como nuevo_file_project) solo en ADD/EDIT
                     formulario += `<input type="file" name="${campo.nombre}" id="${campo.nombre}" `;
                     formulario += `accept=".pdf,.doc,.docx">`;
                 }
-                formulario += `</div>`;            } else {
+                formulario += `</div>`;
+            } else {
                 // Crear input basado en el tipo de campo
                 switch (campo.html.tag) {
                     case 'input':
@@ -416,29 +432,8 @@ class DOM_class {
             let valor = parametros[campo.id];
             if (window.accionActual === 'SHOWCURRENT' && typeof window.validar?.change_value_IU === 'function') {
                 valor = window.validar.change_value_IU(campo.id, valor) || valor;
-            }            // Manejo especial para archivos
-            if (elemento.type === 'file') {
-                const linkContainer = document.getElementById(campo.id + '_link');                if (linkContainer && valor) {
-                    // Crear enlace para ver archivo actual
-                    let link = document.createElement('a');
-                    link.href = `http://193.147.87.202/ET2/filesuploaded/files_${campo.id}/${valor}`;
-                    link.target = '_blank';
-                    link.className = 'file-link';
-                          // Añadir icono de archivo
-                    let img = document.createElement('img');
-                    img.src = './iconos/FILE.png';
-                    img.alt = 'Ver archivo';
-                    img.className = 'file-icon';
-                    
-                    link.appendChild(img);
-                    link.appendChild(document.createTextNode(valor));
-                    
-                    linkContainer.innerHTML = '';
-                    linkContainer.appendChild(link);
-                }
-                continue;
-            }
-              // Para otros tipos de campos
+            }            
+
             if (window.accionActual === 'SHOWCURRENT') {
                 // Para elementos select, encontrar y seleccionar la opción correcta
                 if (elemento.tagName === 'SELECT') {
@@ -472,7 +467,9 @@ class DOM_class {
 
             campo.setAttribute(evento, 'validar.comprobarCampo("' + campos[i].id + '", "' + accion + '");');
         }
-    }    colocarboton(accion) {
+    }    
+    
+    colocarboton(accion) {
         // No colocar botón de submit para SHOWCURRENT
         if (accion === 'SHOWCURRENT') {
             return;
@@ -495,7 +492,8 @@ class DOM_class {
     }
       ponernoactivoform(entidad, estructura, accion) {
         // Agregar pequeño retraso para asegurar que los elementos del DOM estén creados
-        setTimeout(() => {            const form = document.getElementById('IU_form');
+        setTimeout(() => {            
+            const form = document.getElementById('IU_form');
             if (!form) {
                 console.error('Formulario no encontrado');
                 return;
@@ -519,7 +517,10 @@ class DOM_class {
                     campo.setAttribute('readonly', true);
                     if (campo.tagName === 'SELECT') {
                         campo.disabled = true;
-                    }                }            } else if (accion === 'EDIT') {
+                    }                
+                }            
+            } 
+                    else if (accion === 'EDIT') {
                 // Para edit, hacer los campos PK de solo lectura pero visibles
                 for (let attr in estructura.attributes) {
                     if (estructura.attributes[attr].is_pk) {
@@ -528,14 +529,17 @@ class DOM_class {
                             campo.setAttribute('readonly', true);
                             campo.classList.add('readonly-field');
                         }                    }
-                }            } else if (accion === 'ADD') {
+                    }            
+                } 
+                else if (accion === 'ADD') {
                 // Para add, solo manejar las claves primarias autoincrement
                 for (let attr in estructura.attributes) {
                     const campo = document.getElementById(attr);
                     if (!campo) continue;
                     
                     if (estructura.attributes[attr].is_pk && estructura.attributes[attr].is_autoincrement) {
-                        campo.setAttribute('readonly', true);                        campo.style.display = 'none';
+                        campo.setAttribute('readonly', true);                        
+                        campo.style.display = 'none';
                         // También ocultar la etiqueta
                         const label = document.getElementById('label_' + attr);
                         if (label) {

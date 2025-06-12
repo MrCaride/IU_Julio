@@ -15,6 +15,7 @@ class Test_class {
         this.parent = parent;
     }
 
+    // Métodos de gestión del modal
     showTestModal() {
         const modal = document.getElementById('test-modal');
         if (!modal) {
@@ -22,23 +23,16 @@ class Test_class {
             return;
         }
 
-        // Limpiar contenido existente
         this.clearModalContent();
-
-        // Mostrar el modal
         modal.style.display = 'block';
 
-        // Agregar funcionalidad de cierre
-        const closeModal = (e) => {
+        // Configurar eventos del modal
+        modal.onclick = (e) => {
             if (e.target === modal) {
                 modal.style.display = 'none';
             }
         };
 
-        // Cerrar al hacer clic fuera
-        modal.onclick = closeModal;
-
-        // No cerrar al hacer clic dentro
         modal.querySelector('.modal-content').onclick = (e) => e.stopPropagation();
 
         // Agregar botón de cierre
@@ -57,60 +51,69 @@ class Test_class {
     }
 
     clearModalContent() {
-        document.getElementById('modal_resultadodef').innerHTML = '';
-        document.getElementById('modal_tablaresultadostest').innerHTML = '';
-        document.getElementById('modal_resultadoprueba').innerHTML = '';
-        document.getElementById('modal_tablaresultadosprueba').innerHTML = '';
-        document.getElementById('modal_resultadotest').innerHTML = '';
-        document.getElementById('modal_salidaresultadosprueba').innerHTML = '';
-    }    test_run() {
-        // Mostrar y limpiar el modal primero
+        const elementsToClean = [
+            'modal_resultadodef',
+            'modal_tablaresultadostest',
+            'modal_resultadoprueba',
+            'modal_tablaresultadosprueba',
+            'modal_resultadotest',
+            'modal_salidaresultadosprueba'
+        ];
+        
+        elementsToClean.forEach(id => {
+            document.getElementById(id).innerHTML = '';
+        });
+    }
+
+    // Método principal de ejecución de pruebas
+    test_run() {
         this.showTestModal();
-
-        // Obtener arreglos de pruebas para ejecución
-        const prefix = this.entidad + '_';
+        this.cargarArraysPruebas();
         
-        // Reiniciar arrays de pruebas
-        this.array_def = [];
-        this.array_pruebas = [];
-        this.array_pruebas_file = [];
-        
-        try {            // Cargar definiciones de pruebas
-            this.array_def = eval(this.entidad + '_def_tests');
-        } catch (e) {
-            console.warn('No se encontraron definiciones de test para ' + this.entidad);
-        }        // Obtener casos de prueba regulares
-        try {
-            this.array_pruebas = eval(this.entidad + '_tests');
-        } catch (e) {
-            this.array_pruebas = [];
-            console.warn('No se encontraron pruebas regulares para ' + this.entidad);
-        }
-
-        // Obtener casos de prueba de archivos
-        try {
-            this.array_pruebas_file = eval(this.entidad + '_tests_files');
-        } catch (e) {
-            this.array_pruebas_file = [];
-            console.warn('No se encontraron pruebas de archivo para ' + this.entidad);
-        }        // Mostrar definiciones de pruebas, definiciones de datos de prueba y ejecutar pruebas
+        // Mostrar definiciones y ejecutar pruebas
         this.mostrarDefTests();
         this.mostrarDefPruebas();
         
         // Ejecutar pruebas de forma asíncrona
         this.test_entidad().then(() => {
             this.test_entidad_files();
-            // Mostrar mensaje unificado de finalización
             this.mostrarResultadoFinal();
         });
     }
 
-    mostrarDefTests() {        // Crear tabla para definiciones de pruebas
+    // Métodos de carga de datos
+    cargarArraysPruebas() {
+        // Reiniciar arrays
+        this.array_def = [];
+        this.array_pruebas = [];
+        this.array_pruebas_file = [];
+        
+        try {
+            this.array_def = eval(this.entidad + '_def_tests');
+        } catch (e) {
+            console.warn('No se encontraron definiciones de test para ' + this.entidad);
+        }
+
+        try {
+            this.array_pruebas = eval(this.entidad + '_tests');
+        } catch (e) {
+            console.warn('No se encontraron pruebas regulares para ' + this.entidad);
+        }
+
+        try {
+            this.array_pruebas_file = eval(this.entidad + '_tests_files');
+        } catch (e) {
+            console.warn('No se encontraron pruebas de archivo para ' + this.entidad);
+        }
+    }
+
+    // Métodos de visualización
+    mostrarDefTests() {
         let table = document.createElement('table');
         table.border = '1';
         table.style.width = '100%';
         
-        // Agregar fila de encabezados
+        // Crear encabezados
         let headerRow = table.insertRow();
         ['Entidad', 'Atributo', 'ID Test', 'Descripción', 'Acción', 'Tipo', 'Código Error'].forEach(text => {
             let th = document.createElement('th');
@@ -118,7 +121,7 @@ class Test_class {
             headerRow.appendChild(th);
         });
 
-        // Agregar filas de datos
+        // Agregar datos
         for (let def of this.array_def) {
             let row = table.insertRow();
             def.forEach(value => {
@@ -127,393 +130,397 @@ class Test_class {
             });
         }
 
-        // Actualizar contenido del modal - solo agregar título a resultadodef
         document.getElementById('modal_resultadodef').innerHTML = '<h3>Definición de Tests</h3>';
         document.getElementById('modal_tablaresultadostest').innerHTML = '';
         document.getElementById('modal_tablaresultadostest').appendChild(table);
-    }    mostrarDefPruebas() {
-        // Crear encabezado de tabla para definiciones de datos de prueba
+    }
+
+    mostrarDefPruebas() {
         let table = document.createElement('table');
         table.border = '1';
         table.style.width = '100%';
-        table.id = 'tabla-pruebas-principales'; // ID para poder actualizarla después
+        table.id = 'tabla-pruebas-principales';
         
-        // Agregar fila de encabezado
+        // Crear encabezados
         let headerRow = table.insertRow();
         ['Entidad', 'Campo', 'NumDefTest', 'NumPrueba', 'Acción', 'Valor', 'Resultado Esperado', 'Resultado Real'].forEach(text => {
             let th = document.createElement('th');
             th.textContent = text;
             headerRow.appendChild(th);
-        });        // Agregar filas de datos de prueba regulares
-        for (let prueba of this.array_pruebas) {
+        });
+
+        // Agregar pruebas regulares
+        this.agregarFilasPruebas(table, this.array_pruebas, false);
+
+        // Agregar pruebas de archivos si existen
+        if (this.array_pruebas_file && this.array_pruebas_file.length > 0) {
+            this.agregarSeparadorPruebasArchivos(table);
+            this.agregarFilasPruebas(table, this.array_pruebas_file, true);
+        }
+
+        document.getElementById('modal_resultadoprueba').innerHTML = '<h3>Definición de Pruebas</h3>';
+        document.getElementById('modal_tablaresultadosprueba').innerHTML = '';
+        document.getElementById('modal_tablaresultadosprueba').appendChild(table);
+    }
+
+    agregarFilasPruebas(table, pruebas, esArchivoTest) {
+        for (let prueba of pruebas) {
+            if (!prueba) continue;
+            
             let row = table.insertRow();
-            row.setAttribute('data-test-id', prueba[2]); // Para identificar la fila después
+            row.setAttribute('data-test-id', prueba[2]);
             row.setAttribute('data-test-num', prueba[3]);
             row.setAttribute('data-field', prueba[1]);
+            if (esArchivoTest) {
+                row.setAttribute('data-file-test', 'true');
+            }
             
-            // Agregar las primeras 6 columnas (Entidad, Campo, NumDefTest, NumPrueba, Acción, Valor)
+            // Agregar las primeras 6 columnas
             for (let i = 0; i < 6; i++) {
                 let cell = row.insertCell();
                 cell.textContent = prueba[i] || '';
             }
             
-            // Agregar celda para Resultado Esperado
-            let expectedCell = row.insertCell();
-            const resultadoEsperado = prueba[7] || 'OK'; // El último campo es el resultado esperado
-            expectedCell.textContent = this.traduccion(resultadoEsperado);
-            expectedCell.classList.add('resultado-esperado');
-            
-            // Agregar celda para Resultado Real
-            let resultadoCell = row.insertCell();
-            resultadoCell.textContent = 'Pendiente'; // Estado inicial
-            resultadoCell.classList.add('resultado-real');
+            // Agregar resultados
+            this.agregarCeldasResultado(row, prueba[7]);
         }
+    }
 
-        // Agregar filas de datos de prueba de archivos si existen
-        if (this.array_pruebas_file && this.array_pruebas_file.length > 0) {
-            // Agregar una fila separadora
-            let separatorRow = table.insertRow();
-            let separatorCell = separatorRow.insertCell();
-            separatorCell.colSpan = 8;
-            separatorCell.textContent = '-- Pruebas de Archivos --';
-            separatorCell.style.backgroundColor = '#f0f0f0';
-            separatorCell.style.textAlign = 'center';
-            separatorCell.style.fontWeight = 'bold';            // Agregar filas de pruebas de archivos
-            for (let prueba of this.array_pruebas_file) {
-                if (!prueba) continue; // Saltar si prueba es null
-                
-                let row = table.insertRow();
-                row.setAttribute('data-test-id', prueba[2]);
-                row.setAttribute('data-test-num', prueba[3]);
-                row.setAttribute('data-field', prueba[1]);
-                row.setAttribute('data-file-test', 'true');
-                
-                // Agregar las primeras 6 columnas (Entidad, Campo, NumDefTest, NumPrueba, Acción, Valor)
-                for (let i = 0; i < 6; i++) {
-                    let cell = row.insertCell();
-                    cell.textContent = prueba[i] || '';
-                }
-                
-                // Agregar celda para Resultado Esperado
-                let expectedCell = row.insertCell();
-                const resultadoEsperado = prueba[7] || 'OK'; // El último campo es el resultado esperado
-                expectedCell.textContent = this.traduccion(resultadoEsperado);
-                expectedCell.classList.add('resultado-esperado');
-                
-                // Agregar celda para Resultado Real
-                let resultadoCell = row.insertCell();
-                resultadoCell.textContent = 'Pendiente'; // Estado inicial
-                resultadoCell.classList.add('resultado-real');
-            }
-        }
+    agregarSeparadorPruebasArchivos(table) {
+        let separatorRow = table.insertRow();
+        let separatorCell = separatorRow.insertCell();
+        separatorCell.colSpan = 8;
+        separatorCell.textContent = '-- Pruebas de Archivos --';
+        separatorCell.style.backgroundColor = '#f0f0f0';
+        separatorCell.style.textAlign = 'center';
+        separatorCell.style.fontWeight = 'bold';
+    }
 
-        // Actualizar contenido del modal
-        document.getElementById('modal_resultadoprueba').innerHTML = '<h3>Definición de Pruebas</h3>';
-        document.getElementById('modal_tablaresultadosprueba').innerHTML = '';
-        document.getElementById('modal_tablaresultadosprueba').appendChild(table);
-    }    test_entidad() {
-        // No crear una nueva tabla, usar la tabla existente de mostrarDefPruebas()
+    agregarCeldasResultado(row, resultadoEsperado) {
+        // Celda de resultado esperado
+        let expectedCell = row.insertCell();
+        expectedCell.textContent = this.traduccion(resultadoEsperado || 'OK');
+        expectedCell.classList.add('resultado-esperado');
+        
+        // Celda de resultado real
+        let resultadoCell = row.insertCell();
+        resultadoCell.textContent = 'Pendiente';
+        resultadoCell.classList.add('resultado-real');
+    }
+
+    // Métodos de ejecución de pruebas
+    async test_entidad() {
         const table = document.getElementById('tabla-pruebas-principales');
         if (!table) {
             console.error('No se encontró la tabla de pruebas principales');
             return;
-        }// Ejecutar cada prueba y actualizar resultados en la tabla existente
-        for (let i = 0; i < this.array_pruebas.length; i++) {
-            // Extraer detalles de la prueba
-            let campotest = this.array_pruebas[i][1];
-            let numdeftest = this.array_pruebas[i][2];
-            let numprueba = this.array_pruebas[i][3];
-            let acciontest = this.array_pruebas[i][4];
-            let valortest = this.array_pruebas[i][5];
-            let valoresExtra = this.array_pruebas[i][6]; // Valores extra si son necesarios
-            let resultadoEsperado = this.array_pruebas[i][7]; // Código de error o 'OK'
-            
-            // Crear un formulario temporal en memoria sin mostrarlo
-            const tempForm = document.createElement('div');
-            tempForm.id = 'temp_test_form';
-            tempForm.style.display = 'none'; // Oculto
-            
-            // Crear campo de prueba temporal
-            const campoElement = document.createElement('input');
-            campoElement.id = campotest;
-            campoElement.value = valortest;
-            tempForm.appendChild(campoElement);
-            
-            // Crear campos extra si son necesarios
-            if (valoresExtra && typeof valoresExtra === 'object') {
-                for (let campo in valoresExtra) {
-                    const extraElement = document.createElement('input');
-                    extraElement.id = campo;
-                    extraElement.value = valoresExtra[campo];
-                    tempForm.appendChild(extraElement);
-                }
-            }
-            
-            // Agregar formulario temporal al DOM
-            document.body.appendChild(tempForm);// Obtener reglas de validación de la estructura
-            const estructura = eval('estructura_' + this.entidad);
-            const validationRules = estructura.attributes[campotest].validation_rules[acciontest];
-
-            // Ejecutar validaciones según las reglas
-            let resultadotest = 'OK';
-            if (validationRules) {
-                // Para pruebas regulares (no de archivos)
-                for (let rule in validationRules) {
-                    if (this.validaciones[rule]) {
-                        let isValid;
-                        let errorMsg;
-                        
-                        if (Array.isArray(validationRules[rule])) {
-                            // Formato: [valor, mensaje_error]
-                            const [value, msg] = validationRules[rule];
-                            isValid = this.validaciones[rule](campotest, value);
-                            errorMsg = msg;
-                        } else {
-                            // Formato: solo mensaje_error
-                            isValid = this.validaciones[rule](campotest);
-                            errorMsg = validationRules[rule];
-                        }                        if (!isValid) {
-                            resultadotest = errorMsg;
-                            break;}
-                    }
-                }
-                
-                // Ejecutar validaciones especiales si las validaciones básicas pasaron
-                if (resultadotest === 'OK') {
-                    const specialMethodName = 'check_special_' + campotest;
-                    let entityInstance = window.validar || this.parent;
-                    if (entityInstance && typeof entityInstance[specialMethodName] === 'function') {
-                        try {
-                            const specialResult = entityInstance[specialMethodName]();
-                            if (specialResult !== true) {
-                                resultadotest = specialResult;
-                            }
-                        } catch (error) {
-                            console.error(`Error ejecutando validación especial ${specialMethodName}:`, error);
-                        }
-                    }
-                }            }
-
-            // Buscar la fila correspondiente en la tabla y actualizar el resultado
-            this.updateTestResultInTable(table, numdeftest, numprueba, campotest, resultadotest);
-            
-            // Limpiar formulario temporal
-            document.body.removeChild(tempForm);
         }
 
-        // No mostrar mensaje aquí, se mostrará al final de todas las pruebas
-    }    updateTestResultInTable(table, testId, testNum, field, resultado) {
-        // Buscar la fila correspondiente - incluir fila de encabezado en la búsqueda
-        const rows = Array.from(table.rows).slice(1); // Omitir encabezado
-        
-        const targetRow = rows.find((row, index) => {
-            const rowTestId = row.getAttribute('data-test-id');
-            const rowTestNum = row.getAttribute('data-test-num');
-            const rowField = row.getAttribute('data-field');
-            
-            return rowTestId == testId && rowTestNum == testNum && rowField === field;
-        });
-
-        if (targetRow) {
-            // Encontrar la celda de resultado real (última celda)
-            const resultadoCell = targetRow.cells[targetRow.cells.length - 1];
-            
-            if (resultadoCell) {
-                const resultadoTraducido = this.traduccion(resultado);
-                resultadoCell.textContent = resultadoTraducido;
-                
-                // Obtener resultado esperado de la celda anterior
-                const expectedCell = targetRow.cells[targetRow.cells.length - 2];
-                const expectedResult = expectedCell ? expectedCell.textContent.trim() : '';
-                
-                // Comparar resultados
-                let coinciden = resultadoTraducido === expectedResult;
-                
-                resultadoCell.style.color = coinciden ? 'green' : 'red';
-                resultadoCell.style.fontWeight = 'bold';
-            } else {
-                console.error('No se encontró la celda de resultado real en la fila');
-            }
-        } else {
-            console.error(`No se encontró la fila para test ${testId}-${testNum} en campo ${field}`);
+        for (let prueba of this.array_pruebas) {
+            await this.ejecutarPrueba(table, prueba);
         }
-    }test_entidad_files() {        // Verificar si no hay pruebas de archivos
+    }
+
+    async test_entidad_files() {
         if (!this.array_pruebas_file || this.array_pruebas_file.length === 0) {
-            return;  // Salir si no existen pruebas de archivos
+            return;
         }
 
-        // Obtener la tabla existente
         const table = document.getElementById('tabla-pruebas-principales');
         if (!table) {
             console.error('No se encontró la tabla de pruebas principales');
-            return;        }        // Ejecutar cada prueba de archivo y actualizar resultados en la tabla existente
-        for (let i = 0; i < this.array_pruebas_file.length; i++) {
-            try {
-                const campotest = this.array_pruebas_file[i][1];
-                const numdeftest = this.array_pruebas_file[i][2];
-                const numprueba = this.array_pruebas_file[i][3];
-                const acciontest = this.array_pruebas_file[i][4];
-                const tipoPrueba = this.array_pruebas_file[i][5]; // Tipo de validación (min_size, max_size, etc.)
-                const valortest = this.array_pruebas_file[i][6]; // Valor de prueba
-                const resultadoEsperado = this.array_pruebas_file[i][7]; // Código de error o 'OK'
+            return;
+        }
 
-                // Crear formulario temporal en memoria
-                const tempForm = document.createElement('div');
-                tempForm.id = 'temp_test_form_files';
-                tempForm.style.display = 'none'; // Oculto
-                
-                // Crear entrada de archivo temporal
-                let fileInput = document.createElement('input');
-                fileInput.type = 'file';
-                fileInput.id = campotest;
-                fileInput.name = campotest;
-                tempForm.appendChild(fileInput);
-                
-                // Agregar formulario temporal al DOM
-                document.body.appendChild(tempForm);
-                  // Crear archivo de prueba si es necesario
-                if (valortest && valortest !== null) {
-                    try {
-                        let fileType = "application/pdf";
-                        let fileName = "test.pdf";
-                        let fileSize = 100;
-                          // Establecer propiedades del archivo basado en tipo de prueba y fallo esperado
-                        const expectingError = (resultadoEsperado !== 'OK');  // Si el resultado no es 'OK', esperamos un error
-                        
-                        switch (tipoPrueba) {
-                            case 'min_size':
-                                fileName = expectingError ? "short" : "validfile.pdf";
-                                break;
-                            case 'max_size':
-                                if (typeof valortest === 'number') {
-                                    fileSize = valortest;
-                                } else {
-                                    fileName = expectingError ? 'a'.repeat(101) + ".pdf" : "validfile.pdf";
-                                }
-                                break;                            case 'file_type':
-                                if (typeof valortest === 'string') {
-                                    // Si valortest es un string de filename, usar eso para determinar tipo
-                                    if (valortest.includes('.')) {
-                                        fileName = valortest;
-                                        // Determinar MIME type basado en la extensión
-                                        if (valortest.endsWith('.pdf')) {
-                                            fileType = "application/pdf";
-                                        } else if (valortest.endsWith('.doc')) {
-                                            fileType = "application/msword";
-                                        } else if (valortest.endsWith('.docx')) {
-                                            fileType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-                                        } else {
-                                            fileType = "text/plain"; // Para archivos no válidos como .txt
-                                        }
-                                    } else {
-                                        // Si valortest es un MIME type
-                                        fileType = valortest;
-                                        fileName = expectingError ? "test.txt" : "test.pdf";
-                                    }
-                                }
-                                break;
-                            case 'format_name_file':
-                                fileName = expectingError ? "test@123.pdf" : "validfile.pdf";
-                                break;
-                            case 'max_size_file':
-                                fileSize = expectingError ? 3000000 : 1000000;
-                                break;
-                            case 'no_file':
-                                if (expectingError) {
-                                    // Para pruebas no_file que esperan error, no crear archivo
-                                    continue;
-                                } else {
-                                    fileName = "validfile.pdf";
-                                }
-                                break;
+        for (let prueba of this.array_pruebas_file) {
+            await this.ejecutarPruebaArchivo(table, prueba);
+        }
+    }
+
+    async ejecutarPrueba(table, prueba) {
+        try {
+            const [entidad, campo, numdeftest, numprueba, accion, valor, valoresExtra] = prueba;
+            
+            // Crear y configurar formulario temporal
+            const tempForm = this.crearFormularioTemporal(campo, valor, valoresExtra);
+            
+            // Ejecutar validaciones
+            const resultado = await this.ejecutarValidaciones(campo, accion);
+            
+            // Actualizar resultado en la tabla
+            this.updateTestResultInTable(table, numdeftest, numprueba, campo, resultado);
+            
+            // Limpiar
+            document.body.removeChild(tempForm);
+        } catch (error) {
+            console.error('Error ejecutando prueba:', error);
+        }
+    }
+
+    async ejecutarPruebaArchivo(table, prueba) {
+        try {
+            if (!prueba) return;
+            
+            const [entidad, campo, numdeftest, numprueba, accion, parametro, valor, resultadoEsperado] = prueba;
+            
+            // Obtener reglas de validación
+            const estructura = eval('estructura_' + this.entidad);
+            const validationRules = estructura.attributes[campo].validation_rules[accion];
+            
+            if (!validationRules) {
+                this.updateTestResultInTable(table, numdeftest, numprueba, campo, 'OK');
+                return;
+            }
+
+            let resultado = resultadoEsperado; // Por defecto asumimos que fallará
+            
+            // Ejecutar la validación específica según el parámetro
+            switch (parametro.toLowerCase()) {
+                case 'min_size':
+                    if (validationRules.min_size) {
+                        const [minSize, errorMsg] = validationRules.min_size;
+                        if (valor.length >= minSize) {
+                            resultado = 'OK';
                         }
-                        
-                        const fileData = new ArrayBuffer(fileSize);
-                        let file = new File([fileData], fileName, { type: fileType });
-                        const dataTransfer = new DataTransfer();
-                        dataTransfer.items.add(file);
-                        fileInput.files = dataTransfer.files;
-                    } catch (error) {
-                        console.error('Error creando archivo de prueba:', error);
-                        continue;
                     }
+                    break;
+                    
+                case 'max_size':
+                    if (validationRules.max_size) {
+                        const [maxSize, errorMsg] = validationRules.max_size;
+                        if (valor.length <= maxSize) {
+                            resultado = 'OK';
+                        }
+                    }
+                    break;
+                    
+                case 'max_size_file':
+                    if (validationRules.max_size_file) {
+                        const [maxSize, errorMsg] = validationRules.max_size_file;
+                        const fileSize = parseInt(valor);
+                        if (fileSize <= maxSize) {
+                            resultado = 'OK';
+                        }
+                    }
+                    break;
+                    
+                case 'file_type':
+                    if (validationRules.file_type) {
+                        const [allowedTypes, errorMsg] = validationRules.file_type;
+                        const types = Array.isArray(allowedTypes) ? allowedTypes : [allowedTypes];
+                        if (types.includes(valor)) {
+                            resultado = 'OK';
+                        }
+                    }
+                    break;
+                    
+                case 'format_name_file':
+                    if (validationRules.format_name_file) {
+                        const [pattern, errorMsg] = validationRules.format_name_file;
+                        const regex = new RegExp(pattern);
+                        if (regex.test(valor)) {
+                            resultado = 'OK';
+                        }
+                    }
+                    break;
+                    
+                case 'no_file':
+                    if (validationRules.no_file) {
+                        // valor debería ser true/false o 1/0 indicando si hay archivo
+                        if (valor) {
+                            resultado = 'OK';
+                        }
+                    }
+                    break;
+                    
+                default:
+                    console.warn(`Parámetro de prueba de archivo no reconocido: ${parametro}`);
+                    resultado = 'Parámetro no válido';
+            }
+            
+            // Actualizar resultado
+            this.updateTestResultInTable(table, numdeftest, numprueba, campo, resultado);
+            
+        } catch (error) {
+            console.error('Error ejecutando prueba de archivo:', error);
+            this.updateTestResultInTable(table, prueba[2], prueba[3], prueba[1], 'Error en ejecución');
+        }
+    }
+
+    crearFormularioTemporal(campo, valor, valoresExtra) {
+        const tempForm = document.createElement('div');
+        tempForm.id = 'temp_test_form';
+        tempForm.style.display = 'none';
+        
+        const campoElement = document.createElement('input');
+        campoElement.id = campo;
+        campoElement.value = valor;
+        tempForm.appendChild(campoElement);
+        
+        if (valoresExtra && typeof valoresExtra === 'object') {
+            for (let campo in valoresExtra) {
+                const extraElement = document.createElement('input');
+                extraElement.id = campo;
+                extraElement.value = valoresExtra[campo];
+                tempForm.appendChild(extraElement);
+            }
+        }
+        
+        document.body.appendChild(tempForm);
+        return tempForm;
+    }
+
+    crearArchivoSimulado(parametro, valor) {
+        const simulatedFile = new File([''], 'test.txt', { type: 'text/plain' });
+        
+        switch (parametro.toLowerCase()) {
+            case 'name':
+                simulatedFile.name = valor;
+                break;
+            case 'tipo':
+                simulatedFile.name = `test.${valor}`;
+                simulatedFile.type = `${valor.includes('/') ? valor : `application/${valor}`}`;
+                break;
+            case 'size':
+                Object.defineProperty(simulatedFile, 'size', {
+                    value: typeof valor === 'number' ? valor : parseInt(valor),
+                    writable: false
+                });
+                break;
+            default:
+                Object.defineProperty(simulatedFile, parametro, {
+                    value: valor,
+                    writable: false
+                });
+        }
+        
+        return simulatedFile;
+    }
+
+    async ejecutarValidaciones(campo, accion) {
+        const estructura = eval('estructura_' + this.entidad);
+        const validationRules = estructura.attributes[campo].validation_rules[accion];
+        
+        if (!validationRules) {
+            return 'OK';
+        }
+
+        for (let rule in validationRules) {
+            if (this.validaciones[rule]) {
+                const [isValid, errorMsg] = this.ejecutarReglaValidacion(rule, campo, validationRules[rule]);
+                if (!isValid) {
+                    return errorMsg;
                 }
-
-                // Obtener reglas de validación
-                const estructura = eval('estructura_' + this.entidad);
-                const validationRules = estructura.attributes[campotest].validation_rules[acciontest];                // Ejecutar validaciones en orden
-                let resultadotest = 'OK';                if (validationRules) {
-                    // Verificar no_file primero
-                    if (tipoPrueba === 'no_file' && validationRules.no_file) {
-                        if (!fileInput.files[0] || fileInput.files[0].size === 0) {
-                            resultadotest = validationRules.no_file;
-                        }
-                    } else if (fileInput.files[0]) {
-                        // Verificar validaciones específicas de archivo
-                        if (tipoPrueba === 'file_type' && validationRules.file_type) {
-                            const [allowedTypes, errorMsg] = validationRules.file_type;
-                            if (!this.validaciones.file_type(fileInput.files[0], allowedTypes)) {
-                                resultadotest = errorMsg;
-                            }
-                        } else if (tipoPrueba === 'max_size_file' && validationRules.max_size_file) {
-                            const [maxSize, errorMsg] = validationRules.max_size_file;
-                            if (!this.validaciones.max_size_file(fileInput.files[0], maxSize)) {
-                                resultadotest = errorMsg;
-                            }
-                        } else if (tipoPrueba === 'format_name_file' && validationRules.format_name_file) {
-                            const [pattern, errorMsg] = validationRules.format_name_file;
-                            if (!this.validaciones.format_name_file(fileInput.files[0], pattern)) {
-                                resultadotest = errorMsg;
-                            }
-                        } else if (tipoPrueba === 'min_size' && validationRules.min_size) {
-                            const [minLength, errorMsg] = validationRules.min_size;
-                            if (fileInput.files[0].name.length < minLength) {
-                                resultadotest = errorMsg;
-                            }
-                        } else if (tipoPrueba === 'max_size' && validationRules.max_size) {
-                            const [maxLength, errorMsg] = validationRules.max_size;
-                            if (fileInput.files[0].name.length > maxLength) {
-                                resultadotest = errorMsg;
-                            }
-                        }
-                    }
-                }                // Actualizar resultado en tabla existente
-                this.updateTestResultInTable(table, numdeftest, numprueba, campotest, resultadotest);
-
-                // Limpiar formulario temporal
-                document.body.removeChild(tempForm);
-
-            } catch (error) {
-                console.error('Error ejecutando prueba de archivo:', error);
             }
         }
 
-        // No mostrar mensaje aquí, se mostrará al final de todas las pruebas
+        // Ejecutar validaciones especiales
+        const resultadoEspecial = await this.ejecutarValidacionesEspeciales(campo);
+        if (resultadoEspecial !== true) {
+            return resultadoEspecial;
+        }
+
+        return 'OK';
     }
 
-    traduccion(codigo) {
-        return Textos[codigo] || codigo;
+    ejecutarReglaValidacion(rule, campo, ruleConfig) {
+        if (Array.isArray(ruleConfig)) {
+            const [value, msg] = ruleConfig;
+            return [this.validaciones[rule](campo, value), msg];
+        } else {
+            return [this.validaciones[rule](campo), ruleConfig];
+        }
+    }
+
+    async ejecutarValidacionesEspeciales(campo) {
+        const specialMethodName = 'check_special_' + campo;
+        const entityInstance = window.validar || this.parent;
+        
+        if (entityInstance && typeof entityInstance[specialMethodName] === 'function') {
+            try {
+                return await entityInstance[specialMethodName]();
+            } catch (error) {
+                console.error(`Error en validación especial ${specialMethodName}:`, error);
+                return error.message;
+            }
+        }
+        
+        return true;
+    }
+
+    async ejecutarValidacionesArchivo(campo, accion, simulatedFile) {
+        const estructura = eval('estructura_' + this.entidad);
+        const validationRules = estructura.attributes[campo].validation_rules[accion];
+        
+        if (!validationRules) {
+            return 'OK';
+        }
+
+        for (let rule in validationRules) {
+            if (this.validaciones[rule]) {
+                let isValid;
+                let errorMsg;
+                
+                if (Array.isArray(validationRules[rule])) {
+                    // Formato: [valor, mensaje_error]
+                    const [value, msg] = validationRules[rule];
+                    isValid = this.validaciones[rule](campo, value, simulatedFile);
+                    errorMsg = msg;
+                } else {
+                    // Formato: solo mensaje_error
+                    isValid = this.validaciones[rule](campo, null, simulatedFile);
+                    errorMsg = validationRules[rule];
+                }
+
+                if (!isValid) {
+                    return errorMsg;
+                }
+            }
+        }
+
+        return 'OK';
+    }
+
+    updateTestResultInTable(table, testId, testNum, field, resultado) {
+        const rows = Array.from(table.rows).slice(1);
+        
+        const targetRow = rows.find(row => {
+            return row.getAttribute('data-test-id') == testId &&
+                   row.getAttribute('data-test-num') == testNum &&
+                   row.getAttribute('data-field') === field;
+        });
+
+        if (targetRow) {
+            const resultadoCell = targetRow.cells[targetRow.cells.length - 1];
+            const expectedCell = targetRow.cells[targetRow.cells.length - 2];
+            
+            if (resultadoCell && expectedCell) {
+                const resultadoTraducido = this.traduccion(resultado);
+                resultadoCell.textContent = resultadoTraducido;
+                
+                const expectedResult = expectedCell.textContent.trim();
+                const coinciden = resultadoTraducido === expectedResult;
+                
+                resultadoCell.style.color = coinciden ? 'green' : 'red';
+                resultadoCell.style.fontWeight = 'bold';
+            }
+        }
     }
 
     mostrarResultadoFinal() {
-        // Calcular estadísticas de las pruebas
         const totalPruebas = this.array_pruebas.length + (this.array_pruebas_file ? this.array_pruebas_file.length : 0);
         
-        // Contar pruebas exitosas y fallidas
         const table = document.getElementById('tabla-pruebas-principales');
         const resultCells = table.querySelectorAll('.resultado-real');
+        
         let exitosas = 0;
         let fallidas = 0;
         
         resultCells.forEach(cell => {
-            if (cell.style.color === 'green') {
-                exitosas++;
-            } else if (cell.style.color === 'red') {
-                fallidas++;
-            }
+            if (cell.style.color === 'green') exitosas++;
+            else if (cell.style.color === 'red') fallidas++;
         });
         
-        // Mostrar mensaje unificado en la sección de resultados
         const mensaje = `
             <h3>Resultados de Ejecución de Pruebas</h3>
             <p><strong>Total de pruebas ejecutadas:</strong> ${totalPruebas}</p>
@@ -522,8 +529,11 @@ class Test_class {
             <p>Ver resultados detallados en la tabla "Definición de Pruebas" arriba.</p>
         `;
         
-        // Limpiar y mostrar solo el mensaje final
         document.getElementById('modal_resultadotest').innerHTML = mensaje;
         document.getElementById('modal_salidaresultadosprueba').innerHTML = '';
+    }
+
+    traduccion(codigo) {
+        return Textos[codigo] || codigo;
     }
 }

@@ -4,7 +4,7 @@ class Entidad_Abstract_class extends DOM_class {
         super();
         this.entidad = entidad;
         this.estructura = estructura;
-          // Inicializar datos especiales de tabla si existen
+        // Inicializar datos especiales de tabla si existen
         this.datosespecialestabla = Array();
         
         // Obtener columnas a mostrar de la estructura
@@ -56,7 +56,9 @@ class Entidad_Abstract_class extends DOM_class {
         if (this.datos != "") {
             this.mostrarocultarcolumnas();
         }
-    }    cargar_formulario() {
+    }    
+    
+    cargar_formulario() {
         if (typeof this.cargar_formulario_html === 'function') {
             this.cargar_formulario_html();
         } else {
@@ -167,7 +169,9 @@ class Entidad_Abstract_class extends DOM_class {
 
     createForm_SEARCH() {
         this.createForm(this.entidad, 'SEARCH');
-    }    createForm_SHOWCURRENT(datos) {
+    }    
+    
+    createForm_SHOWCURRENT(datos) {
         this.createForm(this.entidad, 'SHOWCURRENT', datos);
     }
 

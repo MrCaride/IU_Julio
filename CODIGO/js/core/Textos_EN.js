@@ -29,7 +29,6 @@ const Textos_EN = {
     'new_file': 'New File',
 
     // Form labels and validation messages
-    'required_field': 'This field is required',
     'min_length': 'Minimum length not reached',
     'max_length': 'Maximum length exceeded',
     'format_error': 'Incorrect format',
@@ -61,37 +60,31 @@ const Textos_EN = {
     'id_sampling_methodology': 'Methodology ID',
 
     // Error messages for Project
-    'id_project_required_KO': 'ID is required',
     'id_project_format_KO': 'ID must be numeric',
     'id_project_min_size_KO': 'ID must have at least 1 digit',
     'id_project_max_size_KO': 'ID cannot have more than 11 digits',
 
-    'name_project_required_KO': 'Name is required',
     'name_project_format_KO': 'Name can only contain letters and spaces',
     'name_project_min_size_KO': 'Name must be at least 15 characters',
-    'name_project_max_size_KO': 'Name cannot be longer than 100 characters',    'start_date_project_required_KO': 'Start date is required',
+    'name_project_max_size_KO': 'Name cannot be longer than 100 characters',   
     'start_date_project_format_KO': 'Date only accepts numbers and hyphens in format dd-mm-yyyy',
     'start_date_project_valid_KO': 'Date must be valid',
 
-    'end_date_project_required_KO': 'End date is required',
     'end_date_project_format_KO': 'Date only accepts numbers and hyphens in format dd-mm-yyyy',
     'end_date_project_valid_KO': 'Date must be valid',
-    'end_date_project_greater_than_start_KO': 'End date cannot be earlier than start date',    'responsable_project_required_KO': 'Manager is required',
+    'end_date_project_greater_than_start_KO': 'End date cannot be earlier than start date',   
     'responsable_project_format_KO': 'Manager can only contain letters, spaces, accents and ñ',
     'responsable_project_min_size_KO': 'Manager must be at least 6 characters',
     'responsable_project_max_size_KO': 'Manager cannot be longer than 60 characters',
 
-    'organization_project_required_KO': 'Organization is required',
     'organization_project_format_KO': 'Organization can only contain letters, spaces, accents and ñ',
     'organization_project_min_size_KO': 'Organization must be at least 6 characters',
     'organization_project_max_size_KO': 'Organization cannot be longer than 100 characters',
 
-    'description_project_required_KO': 'Description is required',
     'description_project_format_KO': 'Description contains invalid characters',
     'description_project_min_size_KO': 'Description must have at least 30 characters',
     'description_project_max_size_KO': 'Description cannot be longer than 500 characters',
 
-    'file_project_required_KO': 'File is required',
     'file_project_name_max_size_KO': 'File name cannot be longer than 100 characters',
     'file_project_name_format_KO': 'File name can only contain letters and dot',
     
@@ -192,22 +185,18 @@ const Textos_EN = {
     'nuevo_file_analysis_preparation': 'New File',
 
     // Error messages for Analysis Preparation
-    'id_analysis_preparation_required_KO': 'ID is required',
     'id_analysis_preparation_format_KO': 'ID must be numeric',
     'id_analysis_preparation_min_size_KO': 'ID must have at least 1 digit',
     'id_analysis_preparation_max_size_KO': 'ID cannot have more than 9 digits',
 
-    'name_analysis_preparation_required_KO': 'Name is required',
     'name_analysis_preparation_format_KO': 'Name can only contain letters and spaces',
     'name_analysis_preparation_min_size_KO': 'Name must be at least 8 characters',
     'name_analysis_preparation_max_size_KO': 'Name cannot be longer than 100 characters',
 
-    'description_analysis_preparation_required_KO': 'Description is required',
     'description_analysis_preparation_format_KO': 'Description contains invalid characters',
     'description_analysis_preparation_min_size_KO': 'Description must have at least 80 characters',
     'description_analysis_preparation_max_size_KO': 'Description cannot be longer than 5000 characters',
 
-    'bib_analysis_preparation_required_KO': 'Bibliographic reference is required',
     'bib_analysis_preparation_format_KO': 'Bibliographic reference contains invalid characters',
     'bib_analysis_preparation_min_size_KO': 'Reference must be at least 6 characters',
     'bib_analysis_preparation_max_size_KO': 'Reference cannot be longer than 200 characters',
@@ -227,35 +216,28 @@ const Textos_EN = {
     'nuevo_file_characteristic': 'Upload File',
 
     // Error messages for Characteristic
-    'id_characteristic_required_KO': 'ID is required',
     'id_characteristic_format_KO': 'ID must be numeric',
     'id_characteristic_min_size_KO': 'ID must have at least 1 digit',
     'id_characteristic_max_size_KO': 'ID cannot have more than 11 digits',
 
-    'name_characteristic_required_KO': 'Name is required',
     'name_characteristic_format_KO': 'Name can only contain letters and spaces',
     'name_characteristic_min_size_KO': 'Name must be at least 8 characters',
     'name_characteristic_max_size_KO': 'Name cannot be longer than 100 characters',
 
-    'description_characteristic_required_KO': 'Description is required',
     'description_characteristic_format_KO': 'Description contains invalid characters',
     'description_characteristic_min_size_KO': 'Description must have at least 80 characters',
     'description_characteristic_max_size_KO': 'Description cannot be longer than 5000 characters',
 
-    'data_type_characteristic_required_KO': 'Data type is required',
     'data_type_characteristic_format_KO': 'Invalid data type',
 
-    'category_characteristic_required_KO': 'Category is required',
     'category_characteristic_format_KO': 'Category can only contain letters and spaces',
     'category_characteristic_min_size_KO': 'Category must have at least 6 characters',
     'category_characteristic_max_size_KO': 'Category cannot be longer than 50 characters',
 
-    'bibref_characteristic_required_KO': 'Bibliographic reference is required',
     'bibref_characteristic_format_KO': 'Bibliographic reference contains invalid characters',
     'bibref_characteristic_min_size_KO': 'Reference must have at least 16 characters',
     'bibref_characteristic_max_size_KO': 'Reference cannot be longer than 200 characters',
 
-    'file_characteristic_required_KO': 'File is required',
     'file_characteristic_type_KO': 'Invalid file type (must be PDF or DOC)',
     'file_characteristic_size_KO': 'File is too large (max 2MB)',
     'file_characteristic_format_KO': 'Invalid file format',
@@ -270,7 +252,6 @@ const Textos_EN = {
     'file_characteristic_OK': 'Valid file',
 
     // Messages for nuevo_file_characteristic
-    'nuevo_file_characteristic_required_KO': 'You must attach a file',
     'nuevo_file_characteristic_name_min_size_KO': 'File name must be at least 7 characters',
     'nuevo_file_characteristic_name_max_size_KO': 'File name cannot be longer than 100 characters',
     'nuevo_file_characteristic_no_file_KO': 'You must select a real file',

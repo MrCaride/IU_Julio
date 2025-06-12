@@ -37,7 +37,8 @@ class Validaciones_Atomicas{
             return false;
         }
         return true;
-    }    reg_exp(id, parametro){
+    }    
+    reg_exp(id, parametro){
         const valor = document.getElementById(id)?.value; 
         // Verificar que el campo existe y tiene valor
         if (!valor) {
@@ -46,7 +47,8 @@ class Validaciones_Atomicas{
         }
         const expresionregular = new RegExp(parametro, 'u'); // Agregar bandera 'u' para Unicode
         return expresionregular.test(valor);
-    }    max_size_file(objfile, maxsize){
+    }    
+    max_size_file(objfile, maxsize){
         // Validar que el tamaño del archivo no exceda el máximo
         if (!objfile || typeof objfile.size === 'undefined') {
             return false;
@@ -55,7 +57,8 @@ class Validaciones_Atomicas{
             return false;
         }
         return true;
-    }file_type(objfile, array_tipos){
+    }
+    file_type(objfile, array_tipos){
         // Validar que el tipo de archivo esté permitido
         if (!objfile || !objfile.type) {
             return false;
@@ -64,7 +67,8 @@ class Validaciones_Atomicas{
             return false;
         }
         return true;
-    }    format_name_file(objfile, exprreg){
+    }    
+    format_name_file(objfile, exprreg){
         // Validar formato del nombre del archivo
         if (!objfile || !objfile.name) {
             return false;
@@ -72,7 +76,8 @@ class Validaciones_Atomicas{
         let expresionregular = new RegExp(exprreg);
         let valor = objfile.name;
         return expresionregular.test(valor);
-    }    min_size_name_file(objfile,param){
+    }    
+    min_size_name_file(objfile,param){
         // Validar tamaño mínimo del nombre del archivo
         if (!objfile || !objfile.name) {
             return false;
@@ -82,7 +87,8 @@ class Validaciones_Atomicas{
             return false;
         }
         return true;
-    }    max_size_name_file(objfile,param){
+    }    
+    max_size_name_file(objfile,param){
         // Validar tamaño máximo del nombre del archivo
         if (!objfile || !objfile.name) {
             return false;
@@ -92,10 +98,9 @@ class Validaciones_Atomicas{
             return false;
         }
         return true;
-    }no_file(objfile){
-        // Validar que se haya seleccionado un archivo
-        // En modo EDIT, si ya existe un archivo, no es necesario subir uno nuevo
-        
+    }
+    no_file(objfile){
+
         // Si hay archivo seleccionado, validación exitosa
         if (objfile && objfile.size > 0){
             return true;
