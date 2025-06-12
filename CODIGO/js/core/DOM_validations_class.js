@@ -25,25 +25,54 @@ class DOM_validations extends DOM_class {
         }
     }    
     comprobarCampo(campo, accion) {
+        console.log(`Validating field ${campo} for action ${accion}`);
+        
         const estructura = eval('estructura_' + this.entidad);
+        console.log('Field structure:', {
+            field: campo,
+            hasStructure: !!estructura,
+            hasAttributes: estructura && !!estructura.attributes[campo]
+        });
+        
         if (!estructura || !estructura.attributes[campo]) {
+            console.log('No structure found for field, skipping validation');
             return true;
-        }        
+        }
+        
         const validacionesCampo = estructura.attributes[campo].validation_rules?.[accion];
+        console.log('Validation rules:', {
+            field: campo,
+            action: accion,
+            rules: validacionesCampo
+        });
+        
         if (!validacionesCampo) {
+            console.log('No validation rules found for this action');
             return true;
-        }        
+        }
+        
         // Comprobar si el campo es requerido (excepto en modo SEARCH)
         if (estructura.attributes[campo].is_not_null && accion !== 'SEARCH') {
             const elem = document.getElementById(campo);
-            const value = elem.value;
+            console.log('Required field check:', {
+                field: campo,
+                value: elem.value,
+                type: elem.type
+            });
         }        
         // Validación de campo regular
         const elem = document.getElementById(campo);
         const fieldValue = elem?.value || '';
         
+        console.log('Starting field validation:', {
+            field: campo,
+            value: fieldValue,
+            type: elem?.type
+        });
+        
         // En modo SEARCH, saltarse validaciones si el campo está vacío
         if (accion === 'SEARCH' && (!fieldValue || fieldValue.trim() === '')) {
+            console.log('Empty field in SEARCH mode, skipping validation');
             this.mostrar_exito_campo(campo);
             return true;
         }
@@ -51,7 +80,14 @@ class DOM_validations extends DOM_class {
         for (let regla in validacionesCampo) {
             if (typeof this.validacionesatomicas[regla] === 'function') {
                 const [valor, mensajeError] = validacionesCampo[regla];
+                console.log(`Executing validation rule: ${regla}`, {
+                    field: campo,
+                    parameter: valor,
+                    errorMessage: mensajeError
+                });
+                
                 if (!this.validacionesatomicas[regla](campo, valor)) {
+                    console.log(`Validation failed for rule ${regla}`);
                     this.mostrar_error_campo(campo, mensajeError);
                     return false;
                 }

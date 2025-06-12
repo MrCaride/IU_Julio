@@ -413,7 +413,7 @@ window.characteristic_tests_files = Array(
     Array('characteristic', 'nuevo_file_characteristic', 31, 62, 'ADD', 'no_file', 'validfile.pdf', 'OK'),
     Array('characteristic', 'nuevo_file_characteristic', 32, 63, 'ADD', 'file_type', 'invalid.txt', 'nuevo_file_characteristic_file_type_KO'),
     Array('characteristic', 'nuevo_file_characteristic', 32, 64, 'ADD', 'file_type', 'valid.pdf', 'OK'),
-    Array('characteristic', 'nuevo_file_characteristic', 33, 65, 'ADD', 'max_size_file', 2000001, 'nuevo_file_characteristic_max_size_KO'),
+    Array('characteristic', 'nuevo_file_characteristic', 33, 65, 'ADD', 'max_size_file', 20000001, 'nuevo_file_characteristic_max_size_KO'),
     Array('characteristic', 'nuevo_file_characteristic', 33, 66, 'ADD', 'max_size_file', 1000000, 'OK'),
     Array('characteristic', 'nuevo_file_characteristic', 34, 67, 'ADD', 'format_name_file', 'invalid@file.pdf', 'nuevo_file_characteristic_name_format_KO'),
     Array('characteristic', 'nuevo_file_characteristic', 34, 68, 'ADD', 'format_name_file', 'valid.pdf', 'OK'),    // Pruebas de Nuevo File Characteristic - EDIT

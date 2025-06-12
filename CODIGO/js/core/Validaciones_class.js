@@ -9,13 +9,19 @@ class Validaciones_Atomicas{
 
     constructor(){
 
-    }
-
-    min_size(id, parametro){
+    }    min_size(id, parametro){
         const valor = document.getElementById(id)?.value; 
+        
+        // For file inputs, check if there's a file selected
+        if (document.getElementById(id)?.type === 'file') {
+            const fileInput = document.getElementById(id);
+            if (!fileInput.files || fileInput.files.length === 0) {
+                return false;
+            }
+        }
+        
         // Verificar que el campo existe y tiene valor
-        if (!valor) {
-            console.warn(`El campo con id "${id}" no existe o no tiene valor.`);
+        if (!valor && valor !== '') {
             return false;
         }
         
@@ -47,35 +53,42 @@ class Validaciones_Atomicas{
         }
         const expresionregular = new RegExp(parametro, 'u'); // Agregar bandera 'u' para Unicode
         return expresionregular.test(valor);
-    }    
-    max_size_file(objfile, maxsize){
-        // Validar que el tamaño del archivo no exceda el máximo
-        if (!objfile || typeof objfile.size === 'undefined') {
+    }      max_size_file(id, maxsize) {
+        const fileInput = document.getElementById(id);
+        if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
             return false;
         }
-        if (objfile.size > maxsize){
+        
+        const file = fileInput.files[0];
+        if (!file) {
             return false;
         }
-        return true;
-    }
-    file_type(objfile, array_tipos){
-        // Validar que el tipo de archivo esté permitido
-        if (!objfile || !objfile.type) {
+        
+        return file.size <= maxsize;
+    }    file_type(id, array_tipos) {
+        const fileInput = document.getElementById(id);
+        if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
             return false;
         }
-        if (!(array_tipos.includes(objfile.type))){
+        
+        const file = fileInput.files[0];
+        if (!file || !file.type) {
             return false;
         }
-        return true;
-    }    
-    format_name_file(objfile, exprreg){
-        // Validar formato del nombre del archivo
-        if (!objfile || !objfile.name) {
+        
+        return array_tipos.includes(file.type);
+    }      format_name_file(id, exprreg) {
+        const fileInput = document.getElementById(id);
+        if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
             return false;
         }
-        let expresionregular = new RegExp(exprreg);
-        let valor = objfile.name;
-        return expresionregular.test(valor);
+        
+        const fileName = fileInput.files[0].name;
+        // Extraer el nombre del archivo sin la extensión
+        const fileNameWithoutExt = fileName.substring(0, fileName.lastIndexOf('.'));
+        
+        const expresionregular = new RegExp(exprreg);
+        return expresionregular.test(fileNameWithoutExt);
     }    
     min_size_name_file(objfile,param){
         // Validar tamaño mínimo del nombre del archivo
@@ -98,42 +111,17 @@ class Validaciones_Atomicas{
             return false;
         }
         return true;
-    }
-    no_file(objfile){
+    }    no_file(id, parametro) {
+        const fileInput = document.getElementById(id);
+        if (!fileInput || fileInput.type !== 'file') {
+            return false;
+        }
 
-        // Si hay archivo seleccionado, validación exitosa
-        if (objfile && objfile.size > 0){
-            return true;
-        }
+        // Si el parámetro es 'n', significa que NO debe haber archivo
+        // Si el parámetro es 'y', significa que SÍ debe haber archivo
+        const shouldHaveFile = parametro.toLowerCase() === 'y';
+        const hasFile = fileInput.files && fileInput.files.length > 0;
         
-        // Si no hay archivo seleccionado y estamos en modo EDIT, verificar si ya existe uno
-        if (window.accionActual === 'EDIT') {
-            // Buscar campos de archivo existente en el formulario
-            const form = document.forms['IU_form'];
-            if (form) {
-                const formData = new FormData(form);
-                
-                // Buscar campos que terminen en '_link' (donde se muestran archivos existentes)
-                const linkElements = document.querySelectorAll('[id$="_link"]');
-                for (let linkElement of linkElements) {
-                    if (linkElement.innerHTML.trim() !== '') {
-                        // Hay un archivo existente mostrado
-                        return true;
-                    }
-                }
-                
-                // También buscar campos de tipo texto que contengan nombres de archivo
-                for (let element of form.elements) {
-                    if (element.id && element.id.startsWith('file_') && 
-                        element.type === 'text' && element.value.trim() !== '') {
-                        // Hay un archivo existente en el campo de texto
-                        return true;
-                    }
-                }
-            }
-        }
-        
-        // Si llegamos aquí, no hay archivo ni seleccionado ni existente
-        return false;
+        return shouldHaveFile === hasFile;
     }
 }
