@@ -8,11 +8,10 @@ class Characteristic extends Entidad_Abstract_class {
                 return Textos['no_file'] || 'Sin archivo';
             }
             
-            // Poner el enlace con icono ANTES del texto del archivo
-            let texto = `<a id="link_file_characteristic" href="http://193.147.87.202/ET2/filesuploaded/files_file_characteristic/`;
-            texto += valoratributo;
-            texto += `"><img src="./iconos/FILE.png" /></a>`;
-            texto += ` ${valoratributo}`; // Agregar el nombre del archivo después del icono
+            // Construir el enlace completo con icono y nombre de archivo
+            let texto = `<a id="link_file_characteristic" href="http://193.147.87.202/ET2/filesuploaded/files_file_characteristic/${valoratributo}">`;
+            texto += `<img src="./iconos/FILE.png" alt="Archivo" /> ${valoratributo}`;
+            texto += `</a>`;
 
             return texto;
         }

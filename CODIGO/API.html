@@ -1363,11 +1363,9 @@ class Project extends Entidad_Abstract_class {
         return true;
     }
 }</code></pre>
-                </div>
-
-                <div class="method-description">
+                </div>                <div class="method-description">
                     <p><strong>2. Definir tests con valores extra para validaciones especiales:</strong></p>
-                    <pre><code>// En tests_project.js
+                    <pre><code>// En test_definitions.js
 window.project_tests = Array(
     // Test que falla por fecha fin anterior a fecha inicio
     Array('project', 'end_date_project', 19, 37, 'ADD', '31/12/2020', 

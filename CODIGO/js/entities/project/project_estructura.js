@@ -1,7 +1,7 @@
 window.estructura_project = {
     attributes_list: ['id_project', 'name_project', 'start_date_project', 'end_date_project', 'responsable_project', 'organization_project', 'description_project', 'file_project','nuevo_file_project', 'code_project', 'acronym_project','id_sampling_methodology'],
     columnas_visibles_tabla : ['id_project', 'name_project','start_date_project','end_date_project', 'file_project'],
-    columnas_modificadas_tabla: ['file_project'],
+    columnas_modificadas_tabla: ['file_project', 'start_date_project', 'end_date_project'],
     attributes: {
         id_project: {
             html: {
@@ -46,18 +46,17 @@ window.estructura_project = {
                 type: 'text',
             },
             is_not_null: true,
-            validation_rules: {
-                ADD:{
+            validation_rules: {                ADD:{
                     reg_exp : ['^[0-9/]*$', 'start_date_project_format_KO'],
-                    valid_date : ['start_date_project_valid_KO']
+                    valid_date : "start_date_project_valid_KO"
                 },
                 EDIT:{
                     reg_exp : ['^[0-9/]*$', 'start_date_project_format_KO'],
-                    valid_date : ['start_date_project_valid_KO']
+                    valid_date : "start_date_project_valid_KO"
                 },
                 SEARCH:{
                     reg_exp : ['^[0-9/]*$', 'start_date_project_format_KO'],
-                    valid_date : ['start_date_project_valid_KO']
+                    valid_date : "start_date_project_valid_KO"
                 }
             }
         },
@@ -66,21 +65,19 @@ window.estructura_project = {
                 tag: 'input',
                 type: 'text',
             },
-            is_not_null: true,
-            validation_rules: {
-                ADD:{
+            is_not_null: true,            validation_rules: {                ADD:{
                     reg_exp : ['^[0-9/]*$', 'end_date_project_format_KO'],
-                    valid_date : ['end_date_project_valid_KO'],
-                    greater_date : ['start_date_project','end_date_project_greater_than_start_KO']
+                    valid_date : "end_date_project_valid_KO",
+                    greater_date : "end_date_project_greater_than_start_KO($start_date_project)"
                 },
                 EDIT:{
                     reg_exp : ['^[0-9/]*$', 'end_date_project_format_KO'],
-                    valid_date : ['end_date_project_valid_KO'],
-                    greater_date : ['start_date_project','end_date_project_greater_than_start_KO']
+                    valid_date : "end_date_project_valid_KO",
+                    greater_date : "end_date_project_greater_than_start_KO($start_date_project)"
                 },
                 SEARCH:{
                     reg_exp : ['^[0-9/]*$', 'end_date_project_format_KO'],
-                    valid_date : ['end_date_project_valid_KO']
+                    valid_date : "end_date_project_valid_KO"
                 }
             }
         },

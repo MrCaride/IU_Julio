@@ -183,11 +183,14 @@ class DOM_class {
         let textolineadatos = '';
         for (let i = 0; i < this.datos.length; i++) {
             textolineadatos += '<tr>';
-            
-            // Procesar cada columna
+              // Procesar cada columna
             for (let atributo of this.atributos) {
                 let display = this.columnasamostrar.includes(atributo) ? '' : 'display:none;';
-                let valor = this.datos[i][atributo];                if (this.datosespecialestabla && this.datosespecialestabla.includes(atributo)) {
+                let valor = this.datos[i][atributo];
+
+                // Verificar si el atributo está en columnas_modificadas_tabla de la estructura
+                const columnasModificadas = this.estructura.columnas_modificadas_tabla || [];
+                if (columnasModificadas.includes(atributo)) {
                     // Usar change_value_IU del validador para modificar el valor
                     let valorcolumna = valor;
                     if (window.validar && typeof window.validar.change_value_IU === 'function') {
@@ -321,44 +324,51 @@ class DOM_class {
     }
       cargar_formulario_dinamico(entidad, estructura) {
         let formulario = '';
-        const accion = window.accionActual;          // Crear campos del formulario basados en la estructura
+        const accion = window.accionActual;        // Crear campos del formulario basados en la estructura
         for (let nombreCampo in estructura.attributes) {
             const campo = estructura.attributes[nombreCampo];
             campo.nombre = nombreCampo;
 
-            // Excluir campos según la acción
-            if (accion === 'ADD') {
-                if ((campo.is_pk && campo.is_autoincrement) || nombreCampo.startsWith('file_')) {
-                    continue;
-                }
-            } else if (accion === 'EDIT') {
-                if (nombreCampo.startsWith('nuevo_file_')) {
-                    continue;
-                }
-            } else if (accion === 'SEARCH' || accion === 'DELETE' || accion === 'SHOWCURRENT') {
-                if (nombreCampo.startsWith('nuevo_file_')) {
-                    continue;                }
-            }            // Crear etiqueta primero
+            // Verificar si el campo tiene reglas de validación para esta acción
+            const tieneReglasParaAccion = campo.validation_rules && campo.validation_rules[accion];
+            
+            // Excluir campos que no tienen reglas para esta acción
+            if (!tieneReglasParaAccion) {
+                continue;
+            }
+            
+            // Excluir campos PK autoincrement en ADD
+            if (accion === 'ADD' && campo.is_pk && campo.is_autoincrement) {
+                continue;
+            }// Crear etiqueta primero
             formulario += `<div class="campo-container">`;
             formulario += `<label class="label_${campo.nombre}" id="label_${campo.nombre}" for="${campo.nombre}">${Textos[campo.nombre] || campo.nombre}:</label>`;
-            
-            // Manejar campos de archivo
+              // Manejar campos de archivo
             if (campo.html.type === 'file' || campo.html.tag === 'file') {
                 formulario += `<div class="file-container" id="${campo.nombre}_container">`;
                 
-                // Para archivos existentes en EDIT
-                if (accion === 'EDIT') {
+                // Para campos de archivo existente (file_*) en EDIT/SHOWCURRENT, mostrar enlace
+                if ((accion === 'EDIT' || accion === 'SHOWCURRENT') && nombreCampo.startsWith('file_')) {
                     formulario += `<div id="${campo.nombre}_link"></div>`;
-                    // Solo mostrar input para nuevo_file en EDIT
-                    if (nombreCampo.startsWith('nuevo_file_')) {
+                }
+                
+                // Para campos nuevo_file_*, siempre mostrar input
+                // Para campos file_* en SEARCH, mostrar input de texto
+                if (nombreCampo.startsWith('nuevo_file_') || (nombreCampo.startsWith('file_') && accion === 'SEARCH')) {
+                    if (nombreCampo.startsWith('file_') && accion === 'SEARCH') {
+                        // Para búsqueda de archivos, usar input de texto
+                        formulario += `<input type="text" name="${campo.nombre}" id="${campo.nombre}" `;
+                        if (campo.validation_rules && campo.validation_rules[accion] && campo.validation_rules[accion].max_size) {
+                            formulario += `maxlength="${campo.validation_rules[accion].max_size[0]}" `;
+                        }
+                        formulario += `>`;
+                    } else {
+                        // Para nuevo_file_*, usar input de archivo
                         formulario += `<input type="file" name="${campo.nombre}" id="${campo.nombre}" `;
                         formulario += `accept=".pdf,.doc,.docx">`;
                     }
-                } else {
-                    formulario += `<input type="file" name="${campo.nombre}" id="${campo.nombre}" `;
-                    formulario += `accept=".pdf,.doc,.docx">`;
                 }
-                formulario += `</div>`;            } else {
+                formulario += `</div>`;} else {
                 // Crear input basado en el tipo de campo
                 switch (campo.html.tag) {
                     case 'input':
@@ -410,13 +420,14 @@ class DOM_class {
             const campo = campos[i];
             const elemento = document.getElementById(campo.id);
             
-            if (!elemento) continue;
-            
-            // Obtener el valor, posiblemente transformado
+            if (!elemento) continue;            // Obtener el valor, posiblemente transformado
             let valor = parametros[campo.id];
-            if (window.accionActual === 'SHOWCURRENT' && typeof window.validar?.change_value_IU === 'function') {
+            
+            // Verificar si el campo está en columnas_modificadas_tabla de la estructura
+            const columnasModificadas = this.estructura.columnas_modificadas_tabla || [];
+            if (columnasModificadas.includes(campo.id) && typeof window.validar?.change_value_IU === 'function') {
                 valor = window.validar.change_value_IU(campo.id, valor) || valor;
-            }            // Manejo especial para archivos
+            }// Manejo especial para archivos
             if (elemento.type === 'file') {
                 const linkContainer = document.getElementById(campo.id + '_link');                if (linkContainer && valor) {
                     // Crear enlace para ver archivo actual
@@ -590,9 +601,7 @@ class DOM_class {
         // Ocultar el contenedor del formulario
         const formContainer = document.getElementById("div_IU_form");
         if (formContainer) {
-            formContainer.style.display = 'none';        }
-
-        // Eliminar acción actual
+            formContainer.style.display = 'none';        }        // Eliminar acción actual
         window.accionActual = null;
     }
 }

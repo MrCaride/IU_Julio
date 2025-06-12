@@ -96,11 +96,13 @@ class Test_class {
         }        // Mostrar definiciones de pruebas, definiciones de datos de prueba y ejecutar pruebas
         this.mostrarDefTests();
         this.mostrarDefPruebas();
-        this.test_entidad();
-        this.test_entidad_files();
         
-        // Mostrar mensaje unificado de finalización
-        this.mostrarResultadoFinal();
+        // Ejecutar pruebas de forma asíncrona
+        this.test_entidad().then(() => {
+            this.test_entidad_files();
+            // Mostrar mensaje unificado de finalización
+            this.mostrarResultadoFinal();
+        });
     }
 
     mostrarDefTests() {        // Crear tabla para definiciones de pruebas
@@ -215,40 +217,44 @@ class Test_class {
         if (!table) {
             console.error('No se encontró la tabla de pruebas principales');
             return;
-        }
-
-        // Ejecutar cada prueba y actualizar resultados en la tabla existente
+        }// Ejecutar cada prueba y actualizar resultados en la tabla existente
         for (let i = 0; i < this.array_pruebas.length; i++) {
-            // Cargar formulario limpio para cada prueba
-            this.parent.cargar_formulario();
-
-            // Agregar botón de enviar para mensajes de validación
-            let botonSubmit = document.createElement('input');
-            botonSubmit.id = 'submit_button';
-            document.getElementById('IU_form').append(botonSubmit);            // Extraer detalles de la prueba
+            // Extraer detalles de la prueba
             let campotest = this.array_pruebas[i][1];
             let numdeftest = this.array_pruebas[i][2];
             let numprueba = this.array_pruebas[i][3];
             let acciontest = this.array_pruebas[i][4];
             let valortest = this.array_pruebas[i][5];
             let valoresExtra = this.array_pruebas[i][6]; // Valores extra si son necesarios
-            let resultadoEsperado = this.array_pruebas[i][7]; // Código de error o 'OK'           
-            // Establecer valor de prueba en el campo
-            document.getElementById(campotest).value = valortest;
-
-            // Establecer valores extra si son necesarios para validaciones especiales
+            let resultadoEsperado = this.array_pruebas[i][7]; // Código de error o 'OK'
+            
+            // Crear un formulario temporal en memoria sin mostrarlo
+            const tempForm = document.createElement('div');
+            tempForm.id = 'temp_test_form';
+            tempForm.style.display = 'none'; // Oculto
+            
+            // Crear campo de prueba temporal
+            const campoElement = document.createElement('input');
+            campoElement.id = campotest;
+            campoElement.value = valortest;
+            tempForm.appendChild(campoElement);
+            
+            // Crear campos extra si son necesarios
             if (valoresExtra && typeof valoresExtra === 'object') {
                 for (let campo in valoresExtra) {
-                    const campoElement = document.getElementById(campo);
-                    if (campoElement) {
-                        campoElement.value = valoresExtra[campo];
-                    }
+                    const extraElement = document.createElement('input');
+                    extraElement.id = campo;
+                    extraElement.value = valoresExtra[campo];
+                    tempForm.appendChild(extraElement);
                 }
             }
-
-            // Obtener reglas de validación de la estructura
+            
+            // Agregar formulario temporal al DOM
+            document.body.appendChild(tempForm);// Obtener reglas de validación de la estructura
             const estructura = eval('estructura_' + this.entidad);
-            const validationRules = estructura.attributes[campotest].validation_rules[acciontest];// Ejecutar validaciones según las reglas
+            const validationRules = estructura.attributes[campotest].validation_rules[acciontest];
+
+            // Ejecutar validaciones según las reglas
             let resultadotest = 'OK';
             if (validationRules) {
                 // Para pruebas regulares (no de archivos)
@@ -266,39 +272,41 @@ class Test_class {
                             // Formato: solo mensaje_error
                             isValid = this.validaciones[rule](campotest);
                             errorMsg = validationRules[rule];
-                        }
-                        
-                        if (!isValid) {
+                        }                        if (!isValid) {
                             resultadotest = errorMsg;
-                            break;
-                        }
+                            break;}
                     }
                 }
-            }            // Ejecutar validaciones especiales si existen
-            if (resultadotest === 'OK') {
-                const specialMethodName = 'check_special_' + campotest;
-                // Buscar primero en window.validar, luego en this.parent
-                let entityInstance = window.validar || this.parent;
-                if (entityInstance && typeof entityInstance[specialMethodName] === 'function') {
-                    try {
-                        const specialResult = entityInstance[specialMethodName]();
-                        if (specialResult !== true) {
-                            // El método retorna directamente el código de error o false
-                            resultadotest = specialResult;
+                
+                // Ejecutar validaciones especiales si las validaciones básicas pasaron
+                if (resultadotest === 'OK') {
+                    const specialMethodName = 'check_special_' + campotest;
+                    let entityInstance = window.validar || this.parent;
+                    if (entityInstance && typeof entityInstance[specialMethodName] === 'function') {
+                        try {
+                            const specialResult = entityInstance[specialMethodName]();
+                            if (specialResult !== true) {
+                                resultadotest = specialResult;
+                            }
+                        } catch (error) {
+                            console.error(`Error ejecutando validación especial ${specialMethodName}:`, error);
                         }
-                    } catch (error) {
-                        console.error(`Error ejecutando validación especial ${specialMethodName}:`, error);
                     }
-                }
-            }// Buscar la fila correspondiente en la tabla y actualizar el resultado
+                }            }
+
+            // Buscar la fila correspondiente en la tabla y actualizar el resultado
             this.updateTestResultInTable(table, numdeftest, numprueba, campotest, resultadotest);
+            
+            // Limpiar formulario temporal
+            document.body.removeChild(tempForm);
         }
 
         // No mostrar mensaje aquí, se mostrará al final de todas las pruebas
     }    updateTestResultInTable(table, testId, testNum, field, resultado) {
-        // Buscar la fila correspondiente
-        const rows = Array.from(table.rows);
-        const targetRow = rows.find(row => {
+        // Buscar la fila correspondiente - incluir fila de encabezado en la búsqueda
+        const rows = Array.from(table.rows).slice(1); // Omitir encabezado
+        
+        const targetRow = rows.find((row, index) => {
             const rowTestId = row.getAttribute('data-test-id');
             const rowTestNum = row.getAttribute('data-test-num');
             const rowField = row.getAttribute('data-field');
@@ -309,43 +317,39 @@ class Test_class {
         if (targetRow) {
             // Encontrar la celda de resultado real (última celda)
             const resultadoCell = targetRow.cells[targetRow.cells.length - 1];
-            if (resultadoCell && resultadoCell.classList.contains('resultado-real')) {
+            
+            if (resultadoCell) {
                 const resultadoTraducido = this.traduccion(resultado);
                 resultadoCell.textContent = resultadoTraducido;
-                  // Obtener resultado esperado de la celda anterior
+                
+                // Obtener resultado esperado de la celda anterior
                 const expectedCell = targetRow.cells[targetRow.cells.length - 2];
                 const expectedResult = expectedCell ? expectedCell.textContent.trim() : '';
                 
-                // Mejorar la comparación de resultados
-                // Ambos valores ya están traducidos, por lo que la comparación debe ser directa
+                // Comparar resultados
                 let coinciden = resultadoTraducido === expectedResult;
                 
                 resultadoCell.style.color = coinciden ? 'green' : 'red';
                 resultadoCell.style.fontWeight = 'bold';
-                
-                // Agregar debug information
-                console.log(`Test ${testId}-${testNum}: Esperado="${expectedResult}", Obtenido="${resultadoTraducido}", Coinciden=${coinciden}`);
             } else {
-                console.error('No se encontró la celda de resultado real');
+                console.error('No se encontró la celda de resultado real en la fila');
             }
         } else {
             console.error(`No se encontró la fila para test ${testId}-${testNum} en campo ${field}`);
         }
-    }    test_entidad_files() {        // Verificar si no hay pruebas de archivos
+    }test_entidad_files() {        // Verificar si no hay pruebas de archivos
         if (!this.array_pruebas_file || this.array_pruebas_file.length === 0) {
-            console.log('No hay pruebas de archivos para ejecutar');            return;  // Salir si no existen pruebas de archivos
+            return;  // Salir si no existen pruebas de archivos
         }
 
         // Obtener la tabla existente
         const table = document.getElementById('tabla-pruebas-principales');
         if (!table) {
             console.error('No se encontró la tabla de pruebas principales');
-            return;        }
-
-        // Ejecutar cada prueba de archivo y actualizar resultados en la tabla existente
+            return;        }        // Ejecutar cada prueba de archivo y actualizar resultados en la tabla existente
         for (let i = 0; i < this.array_pruebas_file.length; i++) {
             try {
-                this.parent.cargar_formulario();                const campotest = this.array_pruebas_file[i][1];
+                const campotest = this.array_pruebas_file[i][1];
                 const numdeftest = this.array_pruebas_file[i][2];
                 const numprueba = this.array_pruebas_file[i][3];
                 const acciontest = this.array_pruebas_file[i][4];
@@ -353,17 +357,20 @@ class Test_class {
                 const valortest = this.array_pruebas_file[i][6]; // Valor de prueba
                 const resultadoEsperado = this.array_pruebas_file[i][7]; // Código de error o 'OK'
 
-                // Agregar botón de envío
-                let botonSubmit = document.createElement('input');
-                botonSubmit.id = 'submit_button';
-                document.getElementById('IU_form').append(botonSubmit);
-
-                // Crear entrada de archivo
+                // Crear formulario temporal en memoria
+                const tempForm = document.createElement('div');
+                tempForm.id = 'temp_test_form_files';
+                tempForm.style.display = 'none'; // Oculto
+                
+                // Crear entrada de archivo temporal
                 let fileInput = document.createElement('input');
                 fileInput.type = 'file';
                 fileInput.id = campotest;
                 fileInput.name = campotest;
-                document.getElementById('IU_form').appendChild(fileInput);
+                tempForm.appendChild(fileInput);
+                
+                // Agregar formulario temporal al DOM
+                document.body.appendChild(tempForm);
                   // Crear archivo de prueba si es necesario
                 if (valortest && valortest !== null) {
                     try {
@@ -470,8 +477,11 @@ class Test_class {
                             }
                         }
                     }
-                }// Actualizar resultado en tabla existente
+                }                // Actualizar resultado en tabla existente
                 this.updateTestResultInTable(table, numdeftest, numprueba, campotest, resultadotest);
+
+                // Limpiar formulario temporal
+                document.body.removeChild(tempForm);
 
             } catch (error) {
                 console.error('Error ejecutando prueba de archivo:', error);

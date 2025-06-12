@@ -203,12 +203,26 @@ const Textos_ES = {
     'file_project_name_max_size_KO': 'El nombre del archivo no puede tener más de 100 caracteres',
     'file_project_name_format_KO': 'El nombre del archivo solo puede contener letras y punto',
     
-    'nuevo_file_project_name_min_size_KO': 'El nombre del archivo debe tener al menos 6 caracteres',
-    'nuevo_file_project_name_max_size_KO': 'El nombre del archivo no puede tener más de 100 caracteres',
+    'nuevo_file_project_name_min_size_KO': 'El nombre del archivo debe tener al menos 6 caracteres',    'nuevo_file_project_name_max_size_KO': 'El nombre del archivo no puede tener más de 100 caracteres',
     'nuevo_file_project_no_file_KO': 'Debe seleccionar un archivo real',
     'nuevo_file_project_file_type_KO': 'El archivo debe ser PDF o DOC/DOCX',
     'nuevo_file_project_max_size_KO': 'El archivo no puede superar los 2MB',
     'nuevo_file_project_name_format_KO': 'El nombre del archivo solo puede contener letras y punto',
+
+    'code_project_required_KO': 'El código es obligatorio',
+    'code_project_format_KO': 'El código contiene caracteres inválidos',
+    'code_project_min_size_KO': 'El código debe tener al menos 6 caracteres',
+    'code_project_max_size_KO': 'El código no puede tener más de 50 caracteres',
+
+    'acronym_project_required_KO': 'El acrónimo es obligatorio',
+    'acronym_project_format_KO': 'El acrónimo contiene caracteres inválidos',
+    'acronym_project_min_size_KO': 'El acrónimo debe tener al menos 6 caracteres',
+    'acronym_project_max_size_KO': 'El acrónimo no puede tener más de 15 caracteres',
+
+    'id_sampling_methodology_required_KO': 'El ID de metodología es obligatorio',
+    'id_sampling_methodology_format_KO': 'El ID de metodología debe ser numérico',
+    'id_sampling_methodology_min_size_KO': 'El ID de metodología debe tener al menos 1 dígito',
+    'id_sampling_methodology_max_size_KO': 'El ID de metodología no puede tener más de 11 dígitos',
 
     // Específico de la entidad - Analysis Preparation
     'analysis_preparation': 'Preparación de Análisis',
