@@ -164,14 +164,12 @@ const Textos_ES = {
 
     'name_project_format_KO': 'El nombre solo puede contener letras y espacios',
     'name_project_min_size_KO': 'El nombre debe tener al menos 15 caracteres',
-    'name_project_max_size_KO': 'El nombre no puede tener más de 100 caracteres',   
-    'start_date_project_format_KO': 'La fecha solo acepta números y guiones en formato dd-mm-aaaa',
+    'name_project_max_size_KO': 'El nombre no puede tener más de 100 caracteres',     'start_date_project_format_KO': 'La fecha debe estar en formato dd/mm/aaaa (ej: 15/11/2010)',
     'start_date_project_valid_KO': 'La fecha debe ser válida',
 
-    'end_date_project_format_KO': 'La fecha solo acepta números y guiones en formato dd-mm-aaaa',
+    'end_date_project_format_KO': 'La fecha debe estar en formato dd/mm/aaaa (ej: 15/12/2010)',
     'end_date_project_valid_KO': 'La fecha debe ser válida',
-    'end_date_project_greater_than_start_KO': 'La fecha de fin no puede ser anterior a la fecha de inicio',    'responsable_project__KO': 'El responsable es obligatorio',
-    'responsable_project_format_KO': 'El responsable solo puede contener letras, espacios, acentos y ñ',
+    'end_date_project_greater_than_start_KO': 'La fecha de fin debe ser posterior a la fecha de inicio',    'responsable_project_format_KO': 'El responsable solo puede contener letras, espacios, acentos y ñ',
     'responsable_project_min_size_KO': 'El responsable debe tener al menos 6 caracteres',
     'responsable_project_max_size_KO': 'El responsable no puede tener más de 60 caracteres',
 

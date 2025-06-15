@@ -6,9 +6,7 @@ class ExternalAccess {
         var datos;
         
         if (formulario === '') {
-            datos = new FormData();
-        }
-        else {
+            datos = new FormData();        }        else {
             let formElement = document.getElementById(formulario);
             datos = new FormData(formElement);
             
@@ -22,9 +20,7 @@ class ExternalAccess {
                     datos.append(input.name, input.files[0]);
                 }
             });
-        }
-    
-        datos.append('controlador', controlador);
+        }        datos.append('controlador', controlador);
         datos.append('action', action);
     
         if (datosextra != null) {
@@ -32,19 +28,18 @@ class ExternalAccess {
                 datos.append(clave, datosextra[clave]);
             }
         }
-        
-        return new Promise(function(resolve) { 
+          return new Promise(function(resolve) { 
             $.ajax({
                 type: "POST",
                 url: "http://193.147.87.202/ET2/index.php",
                 data: datos,
-                processData: false,                contentType: false
-            })
-            .done(res => {
+                processData: false,
+                contentType: false
+            })            .done(res => {
                 resolve(res);
             })
             .fail(res => {
-                alert('error : ' + res.status);
+                // Error silencioso - la aplicación manejará los errores según la respuesta
             });
         });
     }

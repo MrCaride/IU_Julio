@@ -66,13 +66,12 @@ const Textos_EN = {
 
     'name_project_format_KO': 'Name can only contain letters and spaces',
     'name_project_min_size_KO': 'Name must be at least 15 characters',
-    'name_project_max_size_KO': 'Name cannot be longer than 100 characters',   
-    'start_date_project_format_KO': 'Date only accepts numbers and hyphens in format dd-mm-yyyy',
+    'name_project_max_size_KO': 'Name cannot be longer than 100 characters',     'start_date_project_format_KO': 'Date must be in format dd/mm/yyyy (e.g: 15/11/2010)',
     'start_date_project_valid_KO': 'Date must be valid',
 
-    'end_date_project_format_KO': 'Date only accepts numbers and hyphens in format dd-mm-yyyy',
+    'end_date_project_format_KO': 'Date must be in format dd/mm/yyyy (e.g: 15/12/2010)',
     'end_date_project_valid_KO': 'Date must be valid',
-    'end_date_project_greater_than_start_KO': 'End date cannot be earlier than start date',   
+    'end_date_project_greater_than_start_KO': 'End date must be later than start date',
     'responsable_project_format_KO': 'Manager can only contain letters, spaces, accents and ñ',
     'responsable_project_min_size_KO': 'Manager must be at least 6 characters',
     'responsable_project_max_size_KO': 'Manager cannot be longer than 60 characters',
@@ -117,16 +116,8 @@ const Textos_EN = {
     'name_project_max_size_KO': 'Name exceeds maximum number of characters (100)',
     'name_project_format_KO': 'Name can only contain letters and spaces (no accents or ñ)',
 
-    // Description Project
-    'description_project_min_size_KO': 'Description must have at least 30 characters',
-    'description_project_max_size_KO': 'Description exceeds maximum number of characters (500)',    // Start Date Project
-    'start_date_project_format_KO': 'Date only accepts numbers and hyphens in format dd-mm-yyyy',
-    'start_date_project_valid_KO': 'Date must be valid',
-
-    // End Date Project
-    'end_date_project_format_KO': 'Date only accepts numbers and hyphens in format dd-mm-yyyy',
-    'end_date_project_valid_KO': 'Date must be valid',
-    'end_date_project_greater_than_start_KO': 'End date cannot be earlier than start date',
+    // Description Project    'description_project_min_size_KO': 'Description must have at least 30 characters',
+    'description_project_max_size_KO': 'Description exceeds maximum number of characters (500)',
 
     // Responsible Project
     'responsable_project_min_size_KO': 'Manager must have at least 6 characters',

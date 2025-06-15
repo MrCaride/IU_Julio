@@ -1,4 +1,4 @@
-const estructura_characteristic = {
+window.estructura_characteristic = {
     attributes_list: ['id_characteristic', 'name_characteristic', 'description_characteristic', 'data_type_characteristic', 'category_characteristic', 'bibref_characteristic', 'file_characteristic', 'nuevo_file_characteristic'],
     columnas_visibles_tabla : ['id_characteristic', 'name_characteristic','data_type_characteristic','category_characteristic', 'file_characteristic'],
     columnas_modificadas_tabla: ['file_characteristic'],

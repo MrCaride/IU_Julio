@@ -328,6 +328,16 @@ class DOM_class {
         let formulario = '';
         const accion = window.accionActual;
         
+        // Si es una operación que requiere ID, añadir campos ocultos para las PKs
+        if (accion === 'EDIT' || accion === 'DELETE') {
+            for (let nombreCampo in estructura.attributes) {
+                const campo = estructura.attributes[nombreCampo];
+                if (campo.is_pk) {
+                    formulario += `<input type="hidden" id="${nombreCampo}" name="${nombreCampo}">`;
+                }
+            }
+        }
+        
         // Crear campos del formulario basados en la estructura
         for (let nombreCampo in estructura.attributes) {
             const campo = estructura.attributes[nombreCampo];
@@ -336,11 +346,15 @@ class DOM_class {
             // Filtrar campos según las reglas de validación y la acción
             const tieneValidationRules = campo.validation_rules && campo.validation_rules[accion];
             const esPKAutoincrement = campo.is_pk && campo.is_autoincrement;
-            const esPKNoAutoincrement = campo.is_pk && !campo.is_autoincrement;
-
-            // Para SHOWCURRENT y DELETE: mostrar TODOS los campos (es formulario de solo lectura)
-            if (accion === 'SHOWCURRENT' || accion === 'DELETE') {
+            const esPKNoAutoincrement = campo.is_pk && !campo.is_autoincrement;            // Para SHOWCURRENT: mostrar TODOS los campos (es formulario de solo lectura)
+            // Para DELETE: solo mostrar campos no-PK (las PKs ya están como hidden)
+            if (accion === 'SHOWCURRENT') {
                 // No excluir ningún campo - queremos mostrar toda la información
+            } else if (accion === 'DELETE') {
+                // En DELETE, excluir PKs porque ya están como campos hidden
+                if (campo.is_pk) {
+                    continue;
+                }
             }
             // Para ADD: excluir PKs autoincrement, incluir solo campos con validation_rules para ADD
             else if (accion === 'ADD') {
@@ -426,13 +440,11 @@ class DOM_class {
             const campo = campos[i];
             const elemento = document.getElementById(campo.id);
             
-            if (!elemento) continue;
-            
-            // Obtener el valor, posiblemente transformado
+            if (!elemento) continue;            // Obtener el valor, posiblemente transformado
             let valor = parametros[campo.id];
             if (window.accionActual === 'SHOWCURRENT' && typeof window.validar?.change_value_IU === 'function') {
                 valor = window.validar.change_value_IU(campo.id, valor) || valor;
-            }            
+            }
 
             if (window.accionActual === 'SHOWCURRENT') {
                 // Para elementos select, encontrar y seleccionar la opción correcta

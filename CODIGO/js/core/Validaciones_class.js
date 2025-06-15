@@ -35,7 +35,6 @@ class Validaciones_Atomicas{
         const valor = document.getElementById(id)?.value;
         // Verificar que el campo existe y tiene valor 
         if (!valor) {
-            console.warn(`El campo con id "${id}" no existe o no tiene valor.`);
             return false;
         }
 
@@ -44,16 +43,17 @@ class Validaciones_Atomicas{
         }
         return true;
     }    
+
     reg_exp(id, parametro){
         const valor = document.getElementById(id)?.value; 
         // Verificar que el campo existe y tiene valor
         if (!valor) {
-            console.warn(`El campo con id "${id}" no existe o no tiene valor.`);
             return false;
         }
         const expresionregular = new RegExp(parametro, 'u'); // Agregar bandera 'u' para Unicode
-        return expresionregular.test(valor);
-    }      max_size_file(id, maxsize) {
+        const result = expresionregular.test(valor);
+        return result;
+    }max_size_file(id, maxsize) {
         const fileInput = document.getElementById(id);
         if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
             return false;
@@ -119,7 +119,7 @@ class Validaciones_Atomicas{
 
         // Si el parámetro es 'n', significa que NO debe haber archivo
         // Si el parámetro es 'y', significa que SÍ debe haber archivo
-        const shouldHaveFile = parametro.toLowerCase() === 'y';
+        const shouldHaveFile = parametro === 'y';
         const hasFile = fileInput.files && fileInput.files.length > 0;
         
         return shouldHaveFile === hasFile;

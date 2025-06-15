@@ -23,75 +23,55 @@ class DOM_validations extends DOM_class {
             // Agregar el evento
             campo.addEventListener(eventType, this._validateField);
         }
-    }    
-    comprobarCampo(campo, accion) {
-        console.log(`Validating field ${campo} for action ${accion}`);
-        
+    }    comprobarCampo(campo, accion) {
         const estructura = eval('estructura_' + this.entidad);
-        console.log('Field structure:', {
-            field: campo,
-            hasStructure: !!estructura,
-            hasAttributes: estructura && !!estructura.attributes[campo]
-        });
         
         if (!estructura || !estructura.attributes[campo]) {
-            console.log('No structure found for field, skipping validation');
             return true;
         }
         
         const validacionesCampo = estructura.attributes[campo].validation_rules?.[accion];
-        console.log('Validation rules:', {
-            field: campo,
-            action: accion,
-            rules: validacionesCampo
-        });
         
         if (!validacionesCampo) {
-            console.log('No validation rules found for this action');
             return true;
         }
         
         // Comprobar si el campo es requerido (excepto en modo SEARCH)
         if (estructura.attributes[campo].is_not_null && accion !== 'SEARCH') {
             const elem = document.getElementById(campo);
-            console.log('Required field check:', {
-                field: campo,
-                value: elem.value,
-                type: elem.type
-            });
-        }        
+        }
+        
         // Validación de campo regular
         const elem = document.getElementById(campo);
         const fieldValue = elem?.value || '';
         
-        console.log('Starting field validation:', {
-            field: campo,
-            value: fieldValue,
-            type: elem?.type
-        });
-        
         // En modo SEARCH, saltarse validaciones si el campo está vacío
         if (accion === 'SEARCH' && (!fieldValue || fieldValue.trim() === '')) {
-            console.log('Empty field in SEARCH mode, skipping validation');
             this.mostrar_exito_campo(campo);
             return true;
-        }
-        
-        for (let regla in validacionesCampo) {
+        }        for (let regla in validacionesCampo) {
             if (typeof this.validacionesatomicas[regla] === 'function') {
-                const [valor, mensajeError] = validacionesCampo[regla];
-                console.log(`Executing validation rule: ${regla}`, {
-                    field: campo,
-                    parameter: valor,
-                    errorMessage: mensajeError
-                });
+                let valor, mensajeError;
+                
+                // Manejar diferentes formatos de reglas de validación
+                if (regla === 'no_file') {
+                    // Para no_file en ADD/EDIT, queremos que haya archivo
+                    valor = 'y';
+                    mensajeError = validacionesCampo[regla];
+                } else if (Array.isArray(validacionesCampo[regla])) {
+                    [valor, mensajeError] = validacionesCampo[regla];
+                } else {
+                    valor = validacionesCampo[regla];
+                    mensajeError = regla + '_KO';
+                }
                 
                 if (!this.validacionesatomicas[regla](campo, valor)) {
-                    console.log(`Validation failed for rule ${regla}`);
                     this.mostrar_error_campo(campo, mensajeError);
                     return false;
                 }
             }
+            // Las reglas que no son métodos atómicos se ignoran aquí
+            // Se manejarán en check_special_tests si tienen método check_special_nombreatributo
         }
 
         // Ejecutar validaciones especiales si existen en la entidad
@@ -103,13 +83,31 @@ class DOM_validations extends DOM_class {
         return true;
     }    
     
-
-
     check_special_tests(fieldId) {
-        // Verificar si existe un método check_special_NOMBREATRIBUTO en la instancia actual
+        // Verificar si existe un método check_special_NOMBREATRIBUTO en la instancia actual de la entidad
         const specialMethodName = 'check_special_' + fieldId;
         
-        // Buscar el método en la instancia de validación actual (window.validar)
+        // Primero buscar en la instancia de la entidad actual (window[this.entidad])
+        const entityInstance = window[this.entidad];
+        if (entityInstance && typeof entityInstance[specialMethodName] === 'function') {
+            try {
+                const result = entityInstance[specialMethodName]();
+                if (result !== true) {
+                    // Si el resultado no es true, puede ser un código de error o false
+                    if (typeof result === 'string') {
+                        // Es un código de error, mostrar el error (solo si no se ha mostrado ya)
+                        this.mostrar_error_campo(fieldId, result);
+                    }
+                    return false;
+                }
+                return true;
+            } catch (error) {
+                console.error(`Error ejecutando validación especial ${specialMethodName} en entidad:`, error);
+                return false;
+            }
+        }
+        
+        // Si no se encuentra en la entidad, buscar en window.validar (compatibilidad hacia atrás)
         if (window.validar && typeof window.validar[specialMethodName] === 'function') {
             try {
                 const result = window.validar[specialMethodName]();
