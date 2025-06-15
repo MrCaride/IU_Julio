@@ -27,10 +27,8 @@ class Entidad_Abstract_class extends DOM_class {
 
     comprobarCampo(campo, accion) {
         return this.validaciones.comprobarCampo(campo, accion);
-    }
-
-    comprobar_submit() {
-        return this.validaciones.comprobar_submit();
+    }    submit_test() {
+        return this.validaciones.submit_test();
     }
 
     comprobar_submit_SEARCH() {
@@ -101,11 +99,12 @@ class Entidad_Abstract_class extends DOM_class {
                     document.getElementById("div_IU_form").style.display = 'none';
                 }
                 this.cargar_formulario();
-                this.hacertabla();
+                // Refrescar datos desde el servidor para actualización en tiempo real
+                this.SEARCH();
             }
             setLang();
         });
-    }    async DELETE() {
+    }async DELETE() {
         await this.access_functions.peticionBackGeneral('IU_form', this.entidad, 'DELETE')
         .then((respuesta) => {
             if (respuesta['ok']) {
@@ -115,7 +114,7 @@ class Entidad_Abstract_class extends DOM_class {
             }
             setLang();
         });
-    }async EDIT() {
+    }    async EDIT() {
         await this.access_functions.peticionBackGeneral('IU_form', this.entidad, 'EDIT')
         .then((respuesta) => {
             if (respuesta['ok']) {
@@ -129,7 +128,8 @@ class Entidad_Abstract_class extends DOM_class {
                     document.getElementById("div_IU_form").style.display = 'none';
                 }
                 this.cargar_formulario();
-                this.hacertabla();
+                // Refrescar datos desde el servidor para actualización en tiempo real
+                this.SEARCH();
             }
             setLang();
         });

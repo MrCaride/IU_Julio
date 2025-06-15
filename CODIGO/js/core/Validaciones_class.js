@@ -1,15 +1,10 @@
 class Validaciones_Atomicas{
-    /*Los métodos estándar en la clase validacionesatomicas son:
-    - min_size(): Validar tamaño mínimo
-    - max_size(): Validar tamaño máximo
-    - reg_exp(): Validar expresión regular
-    - max_size_file(): Validar tamaño máximo de archivo
-    - type_file(): Validar tipo de archivo 
-    - format_name_file(): Validar formato de nombre de archivo */
+
 
     constructor(){
 
-    }    min_size(id, parametro){
+    }    
+    min_size(id, parametro){
         const valor = document.getElementById(id)?.value; 
         
         // For file inputs, check if there's a file selected
@@ -53,7 +48,8 @@ class Validaciones_Atomicas{
         const expresionregular = new RegExp(parametro, 'u'); // Agregar bandera 'u' para Unicode
         const result = expresionregular.test(valor);
         return result;
-    }max_size_file(id, maxsize) {
+    }
+    max_size_file(id, maxsize) {
         const fileInput = document.getElementById(id);
         if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
             return false;
@@ -65,7 +61,8 @@ class Validaciones_Atomicas{
         }
         
         return file.size <= maxsize;
-    }    file_type(id, array_tipos) {
+    }    
+    file_type(id, array_tipos) {
         const fileInput = document.getElementById(id);
         if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
             return false;
@@ -77,7 +74,8 @@ class Validaciones_Atomicas{
         }
         
         return array_tipos.includes(file.type);
-    }      format_name_file(id, exprreg) {
+    }      
+    format_name_file(id, exprreg) {
         const fileInput = document.getElementById(id);
         if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
             return false;
@@ -111,7 +109,8 @@ class Validaciones_Atomicas{
             return false;
         }
         return true;
-    }    no_file(id, parametro) {
+    }    
+    no_file(id, parametro) {
         const fileInput = document.getElementById(id);
         if (!fileInput || fileInput.type !== 'file') {
             return false;

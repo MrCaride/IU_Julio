@@ -241,5 +241,9 @@ const Textos_ES = {
 
     // Mensajes de file_analysis_preparation
     'file_analysis_preparation_name_max_size_KO': 'El nombre del archivo no puede tener más de 100 caracteres',
-    'file_analysis_preparation_name_format_KO': 'El nombre del archivo solo puede contener letras y punto'
+    'file_analysis_preparation_name_format_KO': 'El nombre del archivo solo puede contener letras y punto',
+
+    // Mensajes de error para archivos de proyecto
+    'file_project_es_nulo_KO': 'El archivo del proyecto no puede estar vacío',
+    'nuevo_file_project_es_nulo_KO': 'Debe seleccionar un nuevo archivo del proyecto'
 };

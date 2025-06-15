@@ -23,7 +23,8 @@ class DOM_validations extends DOM_class {
             // Agregar el evento
             campo.addEventListener(eventType, this._validateField);
         }
-    }    comprobarCampo(campo, accion) {
+    }    
+    comprobarCampo(campo, accion) {
         const estructura = eval('estructura_' + this.entidad);
         
         if (!estructura || !estructura.attributes[campo]) {
@@ -132,8 +133,8 @@ class DOM_validations extends DOM_class {
     validate_field(fieldId, entity, action) {
         this.entidad = entity;
         return this.comprobarCampo(fieldId, action);
-    }    
-    comprobar_submit() {
+    }      
+    submit_test() {
         try {
             const campos = document.forms['IU_form'].elements;
             let resultadoValidacion = true;
@@ -163,9 +164,9 @@ class DOM_validations extends DOM_class {
             
             return resultadoValidacion;
         } catch (error) {
-            console.error('Error en comprobar_submit:', error);
+            console.error('Error en submit_test:', error);
             return false;
-        }
+        }    
     }
 
     comprobar_submit_SEARCH() {

@@ -66,7 +66,8 @@ const Textos_EN = {
 
     'name_project_format_KO': 'Name can only contain letters and spaces',
     'name_project_min_size_KO': 'Name must be at least 15 characters',
-    'name_project_max_size_KO': 'Name cannot be longer than 100 characters',     'start_date_project_format_KO': 'Date must be in format dd/mm/yyyy (e.g: 15/11/2010)',
+    'name_project_max_size_KO': 'Name cannot be longer than 100 characters',     
+    'start_date_project_format_KO': 'Date must be in format dd/mm/yyyy (e.g: 15/11/2010)',
     'start_date_project_valid_KO': 'Date must be valid',
 
     'end_date_project_format_KO': 'Date must be in format dd/mm/yyyy (e.g: 15/12/2010)',
@@ -116,7 +117,8 @@ const Textos_EN = {
     'name_project_max_size_KO': 'Name exceeds maximum number of characters (100)',
     'name_project_format_KO': 'Name can only contain letters and spaces (no accents or ñ)',
 
-    // Description Project    'description_project_min_size_KO': 'Description must have at least 30 characters',
+    // Description Project    
+    'description_project_min_size_KO': 'Description must have at least 30 characters',
     'description_project_max_size_KO': 'Description exceeds maximum number of characters (500)',
 
     // Responsible Project
@@ -287,6 +289,10 @@ const Textos_EN = {
     'nuevo_file_analysis_preparation_OK': 'File uploaded successfully',    // Messages for file_analysis_preparation
     'file_analysis_preparation_name_max_size_KO': 'File name cannot be longer than 100 characters',
     'file_analysis_preparation_name_format_KO': 'File name can only contain letters and dot',
+
+    // Messages for project file errors
+    'file_project_es_nulo_KO': 'Project file cannot be empty',
+    'nuevo_file_project_es_nulo_KO': 'You must select a new project file',
 
     // File messages
     'no_file': 'No file'

@@ -26,9 +26,9 @@ class ExternalAccess {
         if (datosextra != null) {
             for(var clave in datosextra) {
                 datos.append(clave, datosextra[clave]);
-            }
-        }
-          return new Promise(function(resolve) { 
+            }        }
+        
+          return new Promise(function(resolve) {
             $.ajax({
                 type: "POST",
                 url: "http://193.147.87.202/ET2/index.php",
@@ -39,6 +39,10 @@ class ExternalAccess {
                 resolve(res);
             })
             .fail(res => {
+                console.error(`=== AJAX ERROR ===`);
+                console.error(`Status: ${res.status}`);
+                console.error(`Response Text:`, res.responseText);
+                console.error(`================`);
                 // Error silencioso - la aplicación manejará los errores según la respuesta
             });
         });

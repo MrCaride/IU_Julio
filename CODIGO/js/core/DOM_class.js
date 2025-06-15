@@ -247,8 +247,7 @@ class DOM_class {
         boton.appendChild(opcion);
         columna.appendChild(boton);
         return columna.outerHTML;
-    }
-    createForm(entidad, accion, parametros = null) {        
+    }    createForm(entidad, accion, parametros = null) {        
         window.accionActual = accion;
         
         // Obtener los datos de estructura de la entidad
@@ -280,15 +279,14 @@ class DOM_class {
         // Establecer atributos necesarios basados en la acción
         form.onsubmit = (e) => {
             e.preventDefault();
-            
-            switch(accion) {
+              switch(accion) {
                 case 'ADD':
-                    if (validar.comprobar_submit()) {
+                    if (validar.submit_test()) {
                         validar.ADD();
                     }
                     break;
                 case 'EDIT':
-                    if (validar.comprobar_submit()) {
+                    if (validar.submit_test()) {
                         validar.EDIT();
                     }
                     break;
@@ -324,7 +322,8 @@ class DOM_class {
             }
         }, 0);
     }
-      cargar_formulario_dinamico(entidad, estructura) {
+      
+    cargar_formulario_dinamico(entidad, estructura) {
         let formulario = '';
         const accion = window.accionActual;
         
@@ -336,9 +335,7 @@ class DOM_class {
                     formulario += `<input type="hidden" id="${nombreCampo}" name="${nombreCampo}">`;
                 }
             }
-        }
-        
-        // Crear campos del formulario basados en la estructura
+        }        // Crear campos del formulario basados en la estructura
         for (let nombreCampo in estructura.attributes) {
             const campo = estructura.attributes[nombreCampo];
             campo.nombre = nombreCampo;
@@ -347,9 +344,13 @@ class DOM_class {
             const tieneValidationRules = campo.validation_rules && campo.validation_rules[accion];
             const esPKAutoincrement = campo.is_pk && campo.is_autoincrement;
             const esPKNoAutoincrement = campo.is_pk && !campo.is_autoincrement;            // Para SHOWCURRENT: mostrar TODOS los campos (es formulario de solo lectura)
+            // Excepto campos de tipo file que no tienen sentido en modo readonly
             // Para DELETE: solo mostrar campos no-PK (las PKs ya están como hidden)
             if (accion === 'SHOWCURRENT') {
-                // No excluir ningún campo - queremos mostrar toda la información
+                // Excluir campos de subida de archivos (type='file') en modo readonly
+                if (campo.html.type === 'file') {
+                    continue;
+                }
             } else if (accion === 'DELETE') {
                 // En DELETE, excluir PKs porque ya están como campos hidden
                 if (campo.is_pk) {
@@ -361,20 +362,16 @@ class DOM_class {
                 if (esPKAutoincrement || !tieneValidationRules) {
                     continue;
                 }
-            } 
-            // Para EDIT y SEARCH: incluir solo campos con validation_rules para esa acción específica
-            // o PKs no autoincrement (que siempre deben estar presentes para identificar el registro)
-            else {
-                if (!tieneValidationRules && !esPKNoAutoincrement) {
+            }
+            
+            else if (accion === 'EDIT' || accion === 'SEARCH') {
+                const esCampoEspecial = accion === 'EDIT' && this.datosespecialestabla && this.datosespecialestabla.includes(campo.nombre) && campo.html.type === 'text';
+                if (!tieneValidationRules && !esPKNoAutoincrement && !esCampoEspecial) {
                     continue;
                 }
-            }
-
-            // Crear etiqueta primero
+            }            // Crear etiqueta primero
             formulario += `<div class="campo-container">`;
-            formulario += `<label class="label_${campo.nombre}" id="label_${campo.nombre}" for="${campo.nombre}">${Textos[campo.nombre] || campo.nombre}:</label>`;
-            
-            // Manejar campos de archivo
+            formulario += `<label class="label_${campo.nombre}" id="label_${campo.nombre}" for="${campo.nombre}">${Textos[campo.nombre] || campo.nombre}:</label>`;            // Manejar campos de archivo
             if (campo.html.type === 'file' || campo.html.tag === 'file') {
                 formulario += `<div class="file-container" id="${campo.nombre}_container">`;
                 
@@ -382,10 +379,27 @@ class DOM_class {
                 // Solo mostrar input file si es un campo de upload (type === 'file') y no estamos en modo readonly
                 if ((accion === 'EDIT' || accion === 'SHOWCURRENT' || accion === 'DELETE') && campo.html.type !== 'file') {
                     formulario += `<div id="${campo.nombre}_link"></div>`;
+                    // En EDIT, agregar campo oculto para mantener el valor actual del archivo
+                    if (accion === 'EDIT') {
+                        formulario += `<input type="hidden" name="${campo.nombre}" id="${campo.nombre}">`;
+                    }
                 } else if (campo.html.type === 'file' && accion !== 'SHOWCURRENT' && accion !== 'DELETE') {
                     // Para campos de input file (como nuevo_file_project) solo en ADD/EDIT
                     formulario += `<input type="file" name="${campo.nombre}" id="${campo.nombre}" `;
                     formulario += `accept=".pdf,.doc,.docx">`;
+                }
+                formulario += `</div>`;              } else if (this.datosespecialestabla && this.datosespecialestabla.includes(campo.nombre) && campo.html.type === 'text' && campo.nombre.includes('file_')) {
+                // Manejar campos especiales de archivos que están definidos como text (como archivos existentes)
+                formulario += `<div class="file-container" id="${campo.nombre}_container">`;                  if (accion === 'EDIT' || accion === 'SHOWCURRENT' || accion === 'DELETE') {
+                    formulario += `<div id="${campo.nombre}_link"></div>`;
+                    // En EDIT, agregar campo oculto para mantener el valor actual del archivo
+                    if (accion === 'EDIT') {
+                        formulario += `<input type="hidden" name="${campo.nombre}" id="${campo.nombre}">`;
+                    }
+                    // En SHOWCURRENT, agregar campo oculto para archivos existentes
+                    if (accion === 'SHOWCURRENT') {
+                        formulario += `<input type="text" name="${campo.nombre}" id="${campo.nombre}" style="display:none;">`;
+                    }
                 }
                 formulario += `</div>`;
             } else {
@@ -428,25 +442,31 @@ class DOM_class {
             formulario += `</div>`;
         }
         
-        document.getElementById("IU_form").innerHTML = formulario;
-    }      load_data(parametros) {
+        document.getElementById("IU_form").innerHTML = formulario;    }      load_data(parametros) {
         if (!parametros) return;
-    
-    // Obtener campos del formulario
-        let campos = document.forms['IU_form'].elements;
+        // Obtener campos del formulario
+        let campos = document.querySelectorAll('#IU_form input, #IU_form select, #IU_form textarea');
         
         // Rellenar campos del formulario con datos
         for (let i = 0; i < campos.length; i++) {
             const campo = campos[i];
             const elemento = document.getElementById(campo.id);
             
-            if (!elemento) continue;            // Obtener el valor, posiblemente transformado
+            if (!elemento) continue;
+
+            // Obtener el valor, posiblemente transformado
             let valor = parametros[campo.id];
             if (window.accionActual === 'SHOWCURRENT' && typeof window.validar?.change_value_IU === 'function') {
-                valor = window.validar.change_value_IU(campo.id, valor) || valor;
-            }
+                    valor = window.validar.change_value_IU(campo.id, valor) || valor;
 
-            if (window.accionActual === 'SHOWCURRENT') {
+            }              // Para EDIT, aplicar transformaciones específicas usando datosespecialestabla
+            if (window.accionActual === 'EDIT' && typeof window.validar?.change_value_IU === 'function') {
+                // Solo para campos marcados como especiales que NO sean archivos
+                // Los archivos se procesan más tarde en el div del link
+                if (window.validar.datosespecialestabla && window.validar.datosespecialestabla.includes(campo.id) && !campo.id.includes('file_')) {
+                    valor = window.validar.change_value_IU(campo.id, valor) || valor;
+                }
+            }if (window.accionActual === 'SHOWCURRENT') {
                 // Para elementos select, encontrar y seleccionar la opción correcta
                 if (elemento.tagName === 'SELECT') {
                     for (let i = 0; i < elemento.options.length; i++) {
@@ -454,16 +474,66 @@ class DOM_class {
                             elemento.selectedIndex = i;
                             break;
                         }
-                    }                } else {
+                    }                  
+                } else if (window.validar && window.validar.datosespecialestabla && window.validar.datosespecialestabla.includes(campo.id)) {
+                    // Para campos especiales en SHOWCURRENT, solo reemplazar con div si contienen HTML (archivos)
+                    // Las fechas y otros campos que devuelven texto simple se muestran como inputs readonly
+                    if (valor && (valor.includes('<a') || valor.includes('<img'))) {
+                        // Es un archivo con HTML, reemplazar el input con un div que muestre HTML
+                        const container = elemento.parentElement;
+                        if (container) {
+                            // Crear un div para mostrar el contenido HTML
+                            const displayDiv = document.createElement('div');
+                            displayDiv.id = elemento.id + '_display';
+                            displayDiv.innerHTML = valor || 'Sin contenido';
+                            displayDiv.style.border = '1px solid #ccc';
+                            displayDiv.style.padding = '8px';
+                            displayDiv.style.backgroundColor = '#f9f9f9';
+                            displayDiv.style.borderRadius = '4px';
+                            displayDiv.style.minHeight = '20px';
+                              // Reemplazar el input con el div
+                            container.replaceChild(displayDiv, elemento);
+                        }                    } else {
+                        // Es una fecha u otro campo especial sin HTML
+                        // En SHOWCURRENT: readonly, en otros modos: editable
+                        elemento.value = valor || '';
+                        if (window.accionActual === 'SHOWCURRENT') {
+                            elemento.setAttribute('readonly', 'readonly');
+                        }
+                    }
+                } else {
+                    // Para campos normales
+                    elemento.value = valor || '';
+                    if (window.accionActual === 'SHOWCURRENT') {
+                        elemento.setAttribute('readonly', 'readonly');
+                    }
+                }
+                // Para selects, aplicar disabled si aún existe el elemento
+                const currentElement = document.getElementById(campo.id);
+                if (currentElement && currentElement.tagName === 'SELECT') {
+                    currentElement.disabled = true;
+                }} else {
+                // Si es un campo de archivo especial, solo usar el div del link, no el input
+                if (window.validar && window.validar.datosespecialestabla && window.validar.datosespecialestabla.includes(campo.id) && (elemento.type === 'hidden' || elemento.type === 'text')) {
+                    const linkDiv = document.getElementById(campo.id + '_link');
+                    if (linkDiv && valor && typeof window.validar?.change_value_IU === 'function') {
+                        // Solo actualizar el div del link si el valor transformado contiene HTML (archivos)
+                        const valorTransformado = window.validar.change_value_IU(campo.id, valor);
+                        if (valorTransformado && (valorTransformado.includes('<a') || valorTransformado.includes('<img'))) {
+                            linkDiv.innerHTML = valorTransformado;
+                            // Para archivos, poner solo el nombre del archivo en el input (sin HTML)
+                            elemento.value = valor || '';
+                        } else {
+                            // Para campos especiales que no son archivos (como fechas), usar el input normal
+                            elemento.value = valor || '';
+                        }
+                    } else {
+                        elemento.value = valor || '';
+                    }
+                } else {
+                    // Para campos normales, usar el input
                     elemento.value = valor || '';
                 }
-                // Hacer que todos los campos sean de solo lectura en SHOWCURRENT
-                elemento.setAttribute('readonly', 'readonly');
-                if (elemento.tagName === 'SELECT') {
-                    elemento.disabled = true;
-                }
-            } else {
-                elemento.value = valor || '';
             }
         }
     }
@@ -595,7 +665,9 @@ class DOM_class {
                 element.innerHTML = '';
             }
         });
-    }    cerrar_formulario() {
+    }    
+    
+    cerrar_formulario() {
         // Obtener los elementos del formulario
         const form = document.getElementById("IU_form");
         if (form) {

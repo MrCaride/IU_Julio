@@ -2,23 +2,42 @@ class Project extends Entidad_Abstract_class {
     constructor() {
         super('project', window.estructura_project);
         this.datosespecialestabla = ['file_project', 'start_date_project', 'end_date_project'];
-    }    
-    
-      change_value_IU(atributo, valoratributo){
+    }      change_value_IU(atributo, valoratributo){
         if (atributo === 'file_project'){
-            if (valoratributo === ''){
+            if (valoratributo === '' || !valoratributo){
                 return "no hay fichero";
             }
-            let baseUrl = "http://193.147.87.202/ET2/filesuploaded/files_file_project/";
-            let texto = `<a href="${baseUrl}${encodeURIComponent(valoratributo)}" target="_blank">`;
-            texto += `<img src="./iconos/FILE.png" alt="Fichero"/>${valoratributo}</a>`;
-            return texto;
+            
+            // Verificar si estamos en un contexto de solo lectura (SHOWCURRENT o DELETE)
+            const isReadOnlyContext = window.accionActual === 'SHOWCURRENT' || window.accionActual === 'DELETE';
+            
+            if (isReadOnlyContext) {
+                // Para contextos de solo lectura, construir el enlace con icono
+                let baseUrl = "http://193.147.87.202/ET2/filesuploaded/files_file_project/";
+                let texto = `<a href="${baseUrl}${encodeURIComponent(valoratributo)}" target="_blank">`;
+                texto += `<img src="./iconos/FILE.png" alt="Fichero"/> ${valoratributo}</a>`;
+                return texto;
+            } else {
+                // Para tabla y otros contextos, construir el enlace completo con icono
+                let baseUrl = "http://193.147.87.202/ET2/filesuploaded/files_file_project/";
+                let texto = `<a href="${baseUrl}${encodeURIComponent(valoratributo)}" target="_blank">`;
+                texto += `<img src="./iconos/FILE.png" alt="Fichero"/> ${valoratributo}</a>`;
+                return texto;
+            }
         }
         if (['start_date_project', 'end_date_project'].includes(atributo)){
-			let fech = valoratributo.split('-');
-            let fechaformateada = fech[2] + '/' + fech[1] + '/' + fech[0];
-            return fechaformateada;
-		}
+            // Si viene en formato yyyy-mm-dd (de la base de datos), convertir a dd/mm/yyyy
+            if (valoratributo && valoratributo.includes('-')) {
+                let fech = valoratributo.split('-');
+                if (fech.length === 3) {
+                    let fechaformateada = fech[2] + '/' + fech[1] + '/' + fech[0];
+                    return fechaformateada;
+                }
+            }
+            // Si ya está en formato dd/mm/yyyy o no tiene formato reconocible, devolverlo tal como está
+            return valoratributo;
+        }
+        return valoratributo;
     }
 
     // Validación especial para start_date_project (formato dd/mm/yyyy)
@@ -107,46 +126,6 @@ class Project extends Entidad_Abstract_class {
                     }
                 }
             }
-        }
+        }        return true;    }
 
-        return true;    }
-
-    // Convertir fechas antes del envío para evitar errores PHP
-    convertDatesBeforeSubmit() {
-        const startField = document.getElementById('start_date_project');
-        const endField = document.getElementById('end_date_project');
-        
-        if (startField && startField.value) {
-            // Si está en formato yyyy-mm-dd, convertir a dd/mm/yyyy
-            const dbMatch = startField.value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-            if (dbMatch) {
-                const [, year, month, day] = dbMatch;
-                startField.value = `${day}/${month}/${year}`;
-            }
-        }
-        
-        if (endField && endField.value) {
-            // Si está en formato yyyy-mm-dd, convertir a dd/mm/yyyy
-            const dbMatch = endField.value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-            if (dbMatch) {
-                const [, year, month, day] = dbMatch;
-                endField.value = `${day}/${month}/${year}`;
-            }
-        }
-    }
-
-    async ADD() {
-        this.convertDatesBeforeSubmit();
-        return super.ADD();
-    }
-
-    async EDIT() {
-        this.convertDatesBeforeSubmit();
-        return super.EDIT();
-    }
-
-    async DELETE() {
-        this.convertDatesBeforeSubmit();
-        return super.DELETE();
-    }
 }
