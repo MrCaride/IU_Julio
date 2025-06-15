@@ -159,10 +159,8 @@ class DOM_class {
             this.atributos = this.estructura.attributes_list;
         }
         if (!this.columnasamostrar || this.columnasamostrar.length === 0) {
-            this.columnasamostrar = this.estructura.columnas_visibles_tabla;
-        }        if (!this.datosespecialestabla) {
-            this.datosespecialestabla = [];
-        }
+            this.columnasamostrar = this.estructura.columnas_visibles_tabla;        }        // Los campos especiales se obtienen de la estructura
+        // No necesitamos datosespecialestabla en la clase
 
         // Construir selector de columnas
         this.construirSelect();        // Crear encabezado de tabla
@@ -189,7 +187,7 @@ class DOM_class {
             for (let atributo of this.atributos) {
                 let display = this.columnasamostrar.includes(atributo) ? '' : 'display:none;';
                 let valor = this.datos[i][atributo];                
-                if (this.datosespecialestabla && this.datosespecialestabla.includes(atributo)) {
+                if (this.estructura.columnas_modificadas_tabla && this.estructura.columnas_modificadas_tabla.includes(atributo)) {
                     // Usar change_value_IU del validador para modificar el valor
                     let valorcolumna = valor;
                     if (window.validar && typeof window.validar.change_value_IU === 'function') {
@@ -365,7 +363,7 @@ class DOM_class {
             }
             
             else if (accion === 'EDIT' || accion === 'SEARCH') {
-                const esCampoEspecial = accion === 'EDIT' && this.datosespecialestabla && this.datosespecialestabla.includes(campo.nombre) && campo.html.type === 'text';
+                const esCampoEspecial = accion === 'EDIT' && this.estructura.columnas_modificadas_tabla && this.estructura.columnas_modificadas_tabla.includes(campo.nombre) && campo.html.type === 'text';
                 if (!tieneValidationRules && !esPKNoAutoincrement && !esCampoEspecial) {
                     continue;
                 }
@@ -388,7 +386,7 @@ class DOM_class {
                     formulario += `<input type="file" name="${campo.nombre}" id="${campo.nombre}" `;
                     formulario += `accept=".pdf,.doc,.docx">`;
                 }
-                formulario += `</div>`;              } else if (this.datosespecialestabla && this.datosespecialestabla.includes(campo.nombre) && campo.html.type === 'text' && campo.nombre.includes('file_')) {
+                formulario += `</div>`;              } else if (this.estructura.columnas_modificadas_tabla && this.estructura.columnas_modificadas_tabla.includes(campo.nombre) && campo.html.type === 'text' && campo.nombre.includes('file_')) {
                 // Manejar campos especiales de archivos que están definidos como text (como archivos existentes)
                 formulario += `<div class="file-container" id="${campo.nombre}_container">`;                  if (accion === 'EDIT' || accion === 'SHOWCURRENT' || accion === 'DELETE') {
                     formulario += `<div id="${campo.nombre}_link"></div>`;
@@ -460,10 +458,9 @@ class DOM_class {
                     valor = window.validar.change_value_IU(campo.id, valor) || valor;
 
             }              // Para EDIT, aplicar transformaciones específicas usando datosespecialestabla
-            if (window.accionActual === 'EDIT' && typeof window.validar?.change_value_IU === 'function') {
-                // Solo para campos marcados como especiales que NO sean archivos
+            if (window.accionActual === 'EDIT' && typeof window.validar?.change_value_IU === 'function') {                // Solo para campos marcados como especiales que NO sean archivos
                 // Los archivos se procesan más tarde en el div del link
-                if (window.validar.datosespecialestabla && window.validar.datosespecialestabla.includes(campo.id) && !campo.id.includes('file_')) {
+                if (window.validar.estructura.columnas_modificadas_tabla && window.validar.estructura.columnas_modificadas_tabla.includes(campo.id) && !campo.id.includes('file_')) {
                     valor = window.validar.change_value_IU(campo.id, valor) || valor;
                 }
             }if (window.accionActual === 'SHOWCURRENT') {
@@ -475,7 +472,7 @@ class DOM_class {
                             break;
                         }
                     }                  
-                } else if (window.validar && window.validar.datosespecialestabla && window.validar.datosespecialestabla.includes(campo.id)) {
+                } else if (window.validar && window.validar.estructura.columnas_modificadas_tabla && window.validar.estructura.columnas_modificadas_tabla.includes(campo.id)) {
                     // Para campos especiales en SHOWCURRENT, solo reemplazar con div si contienen HTML (archivos)
                     // Las fechas y otros campos que devuelven texto simple se muestran como inputs readonly
                     if (valor && (valor.includes('<a') || valor.includes('<img'))) {
@@ -512,9 +509,8 @@ class DOM_class {
                 const currentElement = document.getElementById(campo.id);
                 if (currentElement && currentElement.tagName === 'SELECT') {
                     currentElement.disabled = true;
-                }} else {
-                // Si es un campo de archivo especial, solo usar el div del link, no el input
-                if (window.validar && window.validar.datosespecialestabla && window.validar.datosespecialestabla.includes(campo.id) && (elemento.type === 'hidden' || elemento.type === 'text')) {
+                }} else {                // Si es un campo de archivo especial, solo usar el div del link, no el input
+                if (window.validar && window.validar.estructura.columnas_modificadas_tabla && window.validar.estructura.columnas_modificadas_tabla.includes(campo.id) && (elemento.type === 'hidden' || elemento.type === 'text')) {
                     const linkDiv = document.getElementById(campo.id + '_link');
                     if (linkDiv && valor && typeof window.validar?.change_value_IU === 'function') {
                         // Solo actualizar el div del link si el valor transformado contiene HTML (archivos)

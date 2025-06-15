@@ -1,8 +1,9 @@
 class Analysis_preparation extends Entidad_Abstract_class {
     constructor() {
         super('analysis_preparation', window.estructura_analysis_preparation);
-        this.datosespecialestabla = ['file_analysis_preparation'];
-    }    change_value_IU(atributo, valoratributo) {        
+    }
+    
+    change_value_IU(atributo, valoratributo) {        
         if (atributo === 'file_analysis_preparation') {
             if (valoratributo === '' || !valoratributo) {
                 return "no hay fichero";
