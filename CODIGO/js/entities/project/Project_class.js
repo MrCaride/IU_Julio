@@ -127,7 +127,10 @@ class Project extends Entidad_Abstract_class {
                     }
                 }
             }
-        }        return true;    }    // Validación especial para nuevo_file_project en EDIT
+        }        return true;    
+    }    
+    
+    // Validación especial para nuevo_file_project en EDIT
     check_special_nuevo_file_project() {
         // En EDIT, si el campo de subida está vacío, se permite (archivo opcional)
         if (window.accionActual === 'EDIT') {

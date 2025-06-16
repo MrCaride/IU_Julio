@@ -147,48 +147,33 @@ class DOM_validations extends DOM_class {
     validate_field(fieldId, entity, action) {
         this.entidad = entity;
         return this.comprobarCampo(fieldId, action);
-    }        submit_test() {
-        console.log('=== SUBMIT_TEST ejecutándose ===');
+    }    submit_test() {
         try {
             const campos = document.forms['IU_form'].elements;
             let resultadoValidacion = true;
             
             // Obtener la acción actual
             const accion = window.accionActual || 'ADD';
-            console.log('Acción actual en submit_test:', accion);
-            console.log('Total de campos a validar:', campos.length);
             
             // Validar todos los campos
             for (let i = 0; i < campos.length; i++) {
                 const campo = campos[i];
                 if (campo.type === 'submit' || !campo.id) continue;
                 
-                console.log('Validando campo:', campo.id);
-                const resultadoCampo = this.comprobarCampo(campo.id, accion);
-                console.log('Resultado validación', campo.id, ':', resultadoCampo);
-                
-                if (!resultadoCampo) {
-                    console.log('CAMPO FALLÓ VALIDACIÓN:', campo.id);
+                if (!this.comprobarCampo(campo.id, accion)) {
                     resultadoValidacion = false;
                 }
             }            
             // Ejecutar validaciones especiales adicionales para todos los campos
-            console.log('Ejecutando validaciones especiales adicionales...');
             for (let i = 0; i < campos.length; i++) {
                 const campo = campos[i];
                 if (campo.type === 'submit' || !campo.id) continue;
                 
-                console.log('Validación especial para:', campo.id);
-                const resultadoEspecial = this.check_special_tests(campo.id);
-                console.log('Resultado validación especial', campo.id, ':', resultadoEspecial);
-                
-                if (!resultadoEspecial) {
-                    console.log('VALIDACIÓN ESPECIAL FALLÓ:', campo.id);
+                if (!this.check_special_tests(campo.id)) {
                     resultadoValidacion = false;
                 }
             }
             
-            console.log('RESULTADO FINAL SUBMIT_TEST:', resultadoValidacion);
             return resultadoValidacion;
         } catch (error) {
             console.error('Error en submit_test:', error);

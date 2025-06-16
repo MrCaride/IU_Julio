@@ -235,8 +235,8 @@ class Test_class {
         for (let prueba of this.array_pruebas_file) {
             await this.ejecutarPruebaArchivo(table, prueba);
         }
-    }
-
+    }    
+    
     async ejecutarPrueba(table, prueba) {
         try {
             const [entidad, campo, numdeftest, numprueba, accion, valor, valoresExtra] = prueba;
@@ -345,23 +345,26 @@ class Test_class {
             console.error('Error ejecutando prueba de archivo:', error);
             this.updateTestResultInTable(table, prueba[2], prueba[3], prueba[1], 'Error en ejecución');
         }
-    }
-
+    }    
+    
     crearFormularioTemporal(campo, valor, valoresExtra) {
+        // Usar ID único para evitar conflictos con elementos existentes
+        const tempFieldId = 'temp_test_' + campo;
+        
         const tempForm = document.createElement('div');
         tempForm.id = 'temp_test_form';
         tempForm.style.display = 'none';
         
         const campoElement = document.createElement('input');
-        campoElement.id = campo;
+        campoElement.id = tempFieldId;  // ID único
         campoElement.value = valor;
         tempForm.appendChild(campoElement);
         
         if (valoresExtra && typeof valoresExtra === 'object') {
-            for (let campo in valoresExtra) {
+            for (let campoExtra in valoresExtra) {
                 const extraElement = document.createElement('input');
-                extraElement.id = campo;
-                extraElement.value = valoresExtra[campo];
+                extraElement.id = 'temp_test_' + campoExtra;  // ID único
+                extraElement.value = valoresExtra[campoExtra];
                 tempForm.appendChild(extraElement);
             }
         }
@@ -395,8 +398,7 @@ class Test_class {
         }
         
         return simulatedFile;
-    }
-
+    }    
     async ejecutarValidaciones(campo, accion) {
         const estructura = eval('estructura_' + this.entidad);
         const validationRules = estructura.attributes[campo].validation_rules[accion];
@@ -426,23 +428,161 @@ class Test_class {
     ejecutarReglaValidacion(rule, campo, ruleConfig) {
         if (Array.isArray(ruleConfig)) {
             const [value, msg] = ruleConfig;
-            return [this.validaciones[rule](campo, value), msg];
+            // Usar ID único para buscar el elemento de prueba
+            const tempFieldId = 'temp_test_' + campo;
+            const resultado = this.validaciones[rule](tempFieldId, value);
+            return [resultado, msg];
         } else {
-            return [this.validaciones[rule](campo), ruleConfig];
-        }
-    }
-
-    async ejecutarValidacionesEspeciales(campo) {
-        const specialMethodName = 'check_special_' + campo;
-        const entityInstance = window.validar || this.parent;
+            const tempFieldId = 'temp_test_' + campo;
+            const resultado = this.validaciones[rule](tempFieldId);
+            return [resultado, ruleConfig];
+        }    
+    }    
         
-        if (entityInstance && typeof entityInstance[specialMethodName] === 'function') {
-            try {
-                return await entityInstance[specialMethodName]();
+    async ejecutarValidacionesEspeciales(campo) {
+
+        
+        const specialMethodName = 'check_special_' + campo;
+        
+        // Buscar clases disponibles en window que contengan la entidad
+        const availableClasses = Object.keys(window).filter(key => 
+            key.toLowerCase().includes(this.entidad.toLowerCase()) && 
+            typeof window[key] === 'function'
+        );
+        
+        // Intentar múltiples patrones de nombres
+        const possibleNames = [
+            this.entidad.charAt(0).toUpperCase() + this.entidad.slice(1) + '_class', // Project_class
+            this.entidad.charAt(0).toUpperCase() + this.entidad.slice(1), // Project
+            this.entidad + '_class', // project_class
+            this.entidad, // project
+        ];
+        
+        
+        let EntityClass = null;
+        let foundClassName = null;
+        
+        for (const name of possibleNames) {
+            if (window[name] && typeof window[name] === 'function') {
+                EntityClass = window[name];
+                foundClassName = name;
+                break;
+            }
+        }
+        
+        if (EntityClass) {
+
+            // Si existe el método en el prototipo, crear una instancia temporal
+            if (typeof EntityClass.prototype[specialMethodName] === 'function') {
+                try {
+                    const tempInstance = new EntityClass();
+                    
+                    // Configurar la acción actual para las validaciones especiales de archivos
+                    const accionAnterior = window.accionActual;
+                    window.accionActual = 'ADD'; // Default para tests
+                    
+                    const resultado = await tempInstance[specialMethodName]();
+                    
+                    // Restaurar acción anterior
+                    window.accionActual = accionAnterior;
+                    
+                    return resultado;
+                } catch (error) {
+                    return error.message;
+                }
+            }
+        }
+        
+        // Fallback: buscar en window.validar o this.parent (compatibilidad hacia atrás)
+        const fallbackInstance = window.validar || this.parent;
+
+        if (fallbackInstance && typeof fallbackInstance[specialMethodName] === 'function') {
+
+            // Verificar si el elemento temporal existe
+            const tempFieldId = 'temp_test_' + campo;
+            const tempElement = document.getElementById(tempFieldId);
+            const originalElement = document.getElementById(campo);
+           try {
+                let valorOriginalBackup = null;
+                let elementoRestaurar = null;
+                let elementosExtraCreados = [];
+                
+                if (tempElement) {
+                    if (originalElement) {
+                        // Si existe el elemento original, guardar su valor y actualizarlo
+                        valorOriginalBackup = originalElement.value;
+                        originalElement.value = tempElement.value;
+                        elementoRestaurar = originalElement;
+                    } else {
+                        // Si no existe, crear elemento temporal con ID original
+                        elementoRestaurar = document.createElement('input');
+                        elementoRestaurar.id = campo;
+                        elementoRestaurar.value = tempElement.value;
+                        elementoRestaurar.style.display = 'none';
+                        document.body.appendChild(elementoRestaurar);
+                    }
+                }
+                
+                // Crear elementos temporales para valores extra (ej: start_date_project para comparaciones)
+                const valoresExtraContainer = document.getElementById('temp_test_form');
+                if (valoresExtraContainer) {
+                    const elementosExtra = valoresExtraContainer.querySelectorAll('input[id^="temp_test_"]');
+                    elementosExtra.forEach(elementoExtra => {
+                        const idOriginal = elementoExtra.id.replace('temp_test_', '');
+                        if (idOriginal !== campo) { // No duplicar el campo principal
+                            const elementoExtraOriginal = document.getElementById(idOriginal);
+                            if (!elementoExtraOriginal) {
+                                const nuevoElementoExtra = document.createElement('input');
+                                nuevoElementoExtra.id = idOriginal;
+                                nuevoElementoExtra.value = elementoExtra.value;
+                                nuevoElementoExtra.style.display = 'none';
+                                document.body.appendChild(nuevoElementoExtra);
+                                elementosExtraCreados.push(nuevoElementoExtra);
+                            } else {
+                                // Si existe, actualizar valor 
+                                const valorAnterior = elementoExtraOriginal.value;
+                                elementoExtraOriginal.value = elementoExtra.value;
+                                elementosExtraCreados.push({element: elementoExtraOriginal, originalValue: valorAnterior});
+                            }
+                        }
+                    });
+                }
+                
+                // Configurar contexto para la validación especial
+                const accionAnterior = window.accionActual;
+                window.accionActual = 'ADD'; // Default para tests
+
+                const resultado = await fallbackInstance[specialMethodName]();
+
+                // Restaurar valores originales y limpiar elementos extra
+                if (elementoRestaurar) {
+                    if (valorOriginalBackup !== null) {
+                        // Restaurar valor original
+                        originalElement.value = valorOriginalBackup;
+                    } else {
+                        // Eliminar elemento temporal creado
+                        document.body.removeChild(elementoRestaurar);
+                    }
+                }
+                
+                // Limpiar elementos extra
+                elementosExtraCreados.forEach(item => {
+                    if (item.nodeType) {
+                        // Es un elemento DOM creado
+                        document.body.removeChild(item);
+                    } else {
+                        // Es un objeto con element y originalValue
+                        item.element.value = item.originalValue;
+                    }
+                });
+                
+                // Restaurar acción anterior
+                window.accionActual = accionAnterior;
+                
+                return resultado;
             } catch (error) {
                 console.error(`Error en validación especial ${specialMethodName}:`, error);
-                return error.message;
-            }
+                return error.message;}
         }
         
         return true;
@@ -479,8 +619,8 @@ class Test_class {
         }
 
         return 'OK';
-    }
-
+    }    
+    
     updateTestResultInTable(table, testId, testNum, field, resultado) {
         const rows = Array.from(table.rows).slice(1);
         
@@ -531,9 +671,7 @@ class Test_class {
         
         document.getElementById('modal_resultadotest').innerHTML = mensaje;
         document.getElementById('modal_salidaresultadosprueba').innerHTML = '';
-    }
-
-    traduccion(codigo) {
+    }    traduccion(codigo) {
         return Textos[codigo] || codigo;
     }
 }
