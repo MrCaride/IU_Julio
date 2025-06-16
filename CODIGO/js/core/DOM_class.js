@@ -440,7 +440,9 @@ class DOM_class {
             formulario += `</div>`;
         }
         
-        document.getElementById("IU_form").innerHTML = formulario;    }      load_data(parametros) {
+        document.getElementById("IU_form").innerHTML = formulario;    }      
+        
+        load_data(parametros) {
         if (!parametros) return;
         // Obtener campos del formulario
         let campos = document.querySelectorAll('#IU_form input, #IU_form select, #IU_form textarea');
@@ -457,10 +459,21 @@ class DOM_class {
             if (window.accionActual === 'SHOWCURRENT' && typeof window.validar?.change_value_IU === 'function') {
                     valor = window.validar.change_value_IU(campo.id, valor) || valor;
 
-            }              // Para EDIT, aplicar transformaciones específicas usando datosespecialestabla
-            if (window.accionActual === 'EDIT' && typeof window.validar?.change_value_IU === 'function') {                // Solo para campos marcados como especiales que NO sean archivos
+            }            // Para EDIT, aplicar transformaciones específicas usando columnas_modificadas_tabla
+            if (window.accionActual === 'EDIT' && typeof window.validar?.change_value_IU === 'function') {
+                // Solo para campos marcados como especiales que NO sean archivos
                 // Los archivos se procesan más tarde en el div del link
-                if (window.validar.estructura.columnas_modificadas_tabla && window.validar.estructura.columnas_modificadas_tabla.includes(campo.id) && !campo.id.includes('file_')) {
+                // Identificamos archivos de forma abstracta: si change_value_IU devuelve HTML, es un archivo
+                let esCampoDeArchivo = false;
+                if (window.validar.estructura.columnas_modificadas_tabla?.includes(campo.id)) {
+                    const valorTransformado = window.validar.change_value_IU(campo.id, valor);
+                    esCampoDeArchivo = valorTransformado && 
+                                      (valorTransformado.includes('<a') || valorTransformado.includes('<img'));
+                }
+                
+                if (window.validar.estructura.columnas_modificadas_tabla && 
+                    window.validar.estructura.columnas_modificadas_tabla.includes(campo.id) && 
+                    !esCampoDeArchivo) {
                     valor = window.validar.change_value_IU(campo.id, valor) || valor;
                 }
             }if (window.accionActual === 'SHOWCURRENT') {
