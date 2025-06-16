@@ -452,14 +452,17 @@ class DOM_class {
             const campo = campos[i];
             const elemento = document.getElementById(campo.id);
             
-            if (!elemento) continue;
-
-            // Obtener el valor, posiblemente transformado
+            if (!elemento) continue;            // Obtener el valor, posiblemente transformado
             let valor = parametros[campo.id];
             if (window.accionActual === 'SHOWCURRENT' && typeof window.validar?.change_value_IU === 'function') {
                     valor = window.validar.change_value_IU(campo.id, valor) || valor;
 
-            }            // Para EDIT, aplicar transformaciones específicas usando columnas_modificadas_tabla
+            }
+            
+            // Para DELETE, también aplicar transformaciones usando change_value_IU (especialmente para fechas)
+            if (window.accionActual === 'DELETE' && typeof window.validar?.change_value_IU === 'function') {
+                valor = window.validar.change_value_IU(campo.id, valor) || valor;
+            }// Para EDIT, aplicar transformaciones específicas usando columnas_modificadas_tabla
             if (window.accionActual === 'EDIT' && typeof window.validar?.change_value_IU === 'function') {
                 // Solo para campos marcados como especiales que NO sean archivos
                 // Los archivos se procesan más tarde en el div del link
