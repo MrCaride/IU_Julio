@@ -141,7 +141,8 @@ window.estructura_characteristic = {
             },
             is_not_null: true,
             validation_rules: {
-                ADD:{                    min_size : [7, 'nuevo_file_characteristic_name_min_size_KO'],
+                ADD:{                    
+                    min_size : [7, 'nuevo_file_characteristic_name_min_size_KO'],
 				    max_size: [100,'nuevo_file_characteristic_name_max_size_KO'],
                     no_file: ['y', 'nuevo_file_characteristic_no_file_KO'],                    file_type: [["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"],"nuevo_file_characteristic_file_type_KO"],                    max_size_file: [2097152, "nuevo_file_characteristic_max_size_KO"], // 2MB exactos (2 * 1024 * 1024)
                     format_name_file: ["^[A-Za-z]+$","nuevo_file_characteristic_name_format_KO"] // Solo letras en el nombre, sin incluir la extensión

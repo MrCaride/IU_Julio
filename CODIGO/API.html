@@ -462,8 +462,7 @@
                     </div>
                 </div>
                 
-                <div class="method">
-                    <h4 class="method-name">load_data(parametros)</h4>
+                <div class="method">                    <h4 class="method-name">load_data(parametros)</h4>
                     <p class="method-description">Carga datos en los campos del formulario.</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong></p>
@@ -718,6 +717,25 @@
                         </ul>
                     </div>
                 </div>
+
+                <div class="method">
+                    <h4 class="method-name">check_special_nuevo_file_characteristic()</h4>
+                    <p class="method-description">Validación especial para campos de subida de archivo en modo EDIT. Permite que el campo esté vacío (archivo opcional).</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - true si es válido (siempre true en EDIT con campo vacío).</p>
+                    </div>
+                    <div class="notes">
+                        <p><strong>Comportamiento:</strong></p>
+                        <ul>
+                            <li><strong>En modo EDIT + campo vacío:</strong> Archivo opcional, conserva el existente.</li>
+                            <li><strong>En modo EDIT + archivo seleccionado:</strong> Valida el nuevo archivo.</li>
+                            <li><strong>En modo ADD:</strong> Aplica validaciones regulares (archivo requerido).</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
             <div class="class">
@@ -799,13 +817,31 @@
                                     <li>Formato: letras, espacios y signos de puntuación</li>
                                     <li>Campo obligatorio</li>
                                 </ul>
-                            </li>
-                            <li><strong>file_analysis_preparation:</strong>
+                            </li>                            <li><strong>file_analysis_preparation:</strong>
                                 <ul>
                                     <li>Longitud máxima: 100 caracteres</li>
                                     <li>Formato: solo letras con extensión .pdf, .doc o .docx</li>
                                 </ul>
                             </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">check_special_nuevo_file_analysis_preparation()</h4>
+                    <p class="method-description">Validación especial para campos de subida de archivo en modo EDIT. Permite que el campo esté vacío (archivo opcional).</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - true si es válido (siempre true en EDIT con campo vacío).</p>
+                    </div>
+                    <div class="notes">
+                        <p><strong>Comportamiento:</strong></p>
+                        <ul>
+                            <li><strong>En modo EDIT + campo vacío:</strong> Archivo opcional, conserva el existente.</li>
+                            <li><strong>En modo EDIT + archivo seleccionado:</strong> Valida el nuevo archivo.</li>
+                            <li><strong>En modo ADD:</strong> Aplica validaciones regulares (archivo requerido).</li>
                         </ul>
                     </div>
                 </div>
@@ -851,9 +887,7 @@
                     <div class="return-value">
                         <p><strong>Devuelve:</strong> <span class="return-type">boolean|string</span> - true si es válida, código de error si no lo es.</p>
                     </div>
-                </div>
-
-                <div class="method">
+                </div>                <div class="method">
                     <h4 class="method-name">check_special_end_date_project()</h4>
                     <p class="method-description">Validación especial para el campo end_date_project. Verifica formato válido y que la fecha de fin sea posterior a la fecha de inicio del proyecto.</p>
                     <div class="parameters">
@@ -861,6 +895,25 @@
                     </div>
                     <div class="return-value">
                         <p><strong>Devuelve:</strong> <span class="return-type">boolean|string</span> - true si es válida, código de error si no lo es.</p>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h4 class="method-name">check_special_nuevo_file_project()</h4>
+                    <p class="method-description">Validación especial para campos de subida de archivo en modo EDIT. Permite que el campo esté vacío (archivo opcional).</p>
+                    <div class="parameters">
+                        <p><strong>Parámetros:</strong> Ninguno</p>
+                    </div>
+                    <div class="return-value">
+                        <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - true si es válido (siempre true en EDIT con campo vacío).</p>
+                    </div>
+                    <div class="notes">
+                        <p><strong>Comportamiento:</strong></p>
+                        <ul>
+                            <li><strong>En modo EDIT + campo vacío:</strong> Archivo opcional, conserva el existente.</li>
+                            <li><strong>En modo EDIT + archivo seleccionado:</strong> Valida el nuevo archivo.</li>
+                            <li><strong>En modo ADD:</strong> Aplica validaciones regulares (archivo requerido).</li>
+                        </ul>
                     </div>
                 </div>
 
@@ -1232,8 +1285,7 @@
                     </div>
                 </div>
 
-                <div class="method">
-                    <h4 class="method-name">comprobarCampo(campo, accion)</h4>
+                <div class="method">                    <h4 class="method-name">comprobarCampo(campo, accion)</h4>
                     <p class="method-description">Valida un campo específico del formulario aplicando las reglas de validación definidas en la estructura de la entidad.</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong></p>
@@ -1246,6 +1298,15 @@
                     </div>
                     <div class="return-value">
                         <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - true si la validación pasa, false en caso contrario.</p>
+                    </div>
+                    <div class="notes">
+                        <p><strong>Lógica especial:</strong></p>
+                        <ul>
+                            <li><strong>Campos de archivo en EDIT:</strong> Ejecuta validaciones especiales ANTES que las regulares.</li>
+                            <li><strong>Identificación abstracta:</strong> Identifica archivos por estructura.attributes[campo].html.type === 'file'.</li>
+                            <li><strong>Campo vacío en EDIT:</strong> Si validación especial pasa y campo vacío, saltea validaciones regulares.</li>
+                            <li><strong>Validaciones regulares:</strong> Se ejecutan normalmente para otros casos.</li>
+                        </ul>
                     </div>
                 </div>
 
@@ -1309,14 +1370,22 @@ check_special_end_date_project() {
                     <div class="return-value">
                         <p><strong>Devuelve:</strong> <span class="return-type">boolean</span></p>
                     </div>
-                </div>                <div class="method">
-                    <h4 class="method-name">submit_test()</h4>
+                </div>                <div class="method">                    <h4 class="method-name">submit_test()</h4>
                     <p class="method-description">Valida todos los campos del formulario antes del envío, incluyendo validaciones especiales. Si todos los datos son correctos permite realizar la llamada al BACK.</p>
                     <div class="parameters">
                         <p><strong>Parámetros:</strong> Ninguno</p>
                     </div>
                     <div class="return-value">
                         <p><strong>Devuelve:</strong> <span class="return-type">boolean</span> - true si todas las validaciones pasan, false en caso contrario.</p>
+                    </div>
+                    <div class="notes">
+                        <p><strong>Comportamiento:</strong></p>
+                        <ul>
+                            <li><strong>Validación por campo:</strong> Ejecuta comprobarCampo() para cada elemento del formulario.</li>
+                            <li><strong>Validaciones especiales:</strong> Ejecuta check_special_tests() adicionales para todos los campos.</li>
+                            <li><strong>Archivos en EDIT:</strong> Para campos tipo 'file', ejecuta validaciones especiales ANTES que las regulares.</li>
+                            <li><strong>Logging:</strong> Incluye logs detallados para debugging de validaciones.</li>
+                        </ul>
                     </div>
                 </div>
 

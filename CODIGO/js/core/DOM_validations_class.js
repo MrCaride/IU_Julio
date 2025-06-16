@@ -23,8 +23,7 @@ class DOM_validations extends DOM_class {
             // Agregar el evento
             campo.addEventListener(eventType, this._validateField);
         }
-    }    
-    comprobarCampo(campo, accion) {
+    }      comprobarCampo(campo, accion) {
         const estructura = eval('estructura_' + this.entidad);
         
         if (!estructura || !estructura.attributes[campo]) {
@@ -35,6 +34,21 @@ class DOM_validations extends DOM_class {
         
         if (!validacionesCampo) {
             return true;
+        }
+          // CASO ESPECIAL: Para campos de archivo en EDIT, ejecutar validaciones especiales PRIMERO
+        // Identificamos campos de archivo de forma abstracta: tipo 'file' en la estructura
+        if (accion === 'EDIT' && estructura.attributes[campo]?.html?.type === 'file') {
+            const specialResult = this.check_special_tests(campo);
+            if (specialResult === true) {
+                // Si la validación especial dice que está OK (campo vacío permitido), 
+                // saltarse las validaciones regulares
+                const elem = document.getElementById(campo);
+                const fieldValue = elem?.value || '';
+                if (!fieldValue || fieldValue.trim() === '') {
+                    this.mostrar_exito_campo(campo);
+                    return true;
+                }
+            }
         }
         
         // Comprobar si el campo es requerido (excepto en modo SEARCH)
@@ -133,35 +147,48 @@ class DOM_validations extends DOM_class {
     validate_field(fieldId, entity, action) {
         this.entidad = entity;
         return this.comprobarCampo(fieldId, action);
-    }      
-    submit_test() {
+    }        submit_test() {
+        console.log('=== SUBMIT_TEST ejecutándose ===');
         try {
             const campos = document.forms['IU_form'].elements;
             let resultadoValidacion = true;
             
             // Obtener la acción actual
             const accion = window.accionActual || 'ADD';
+            console.log('Acción actual en submit_test:', accion);
+            console.log('Total de campos a validar:', campos.length);
             
             // Validar todos los campos
             for (let i = 0; i < campos.length; i++) {
                 const campo = campos[i];
                 if (campo.type === 'submit' || !campo.id) continue;
                 
-                if (!this.comprobarCampo(campo.id, accion)) {
+                console.log('Validando campo:', campo.id);
+                const resultadoCampo = this.comprobarCampo(campo.id, accion);
+                console.log('Resultado validación', campo.id, ':', resultadoCampo);
+                
+                if (!resultadoCampo) {
+                    console.log('CAMPO FALLÓ VALIDACIÓN:', campo.id);
                     resultadoValidacion = false;
                 }
-            }
-            
+            }            
             // Ejecutar validaciones especiales adicionales para todos los campos
+            console.log('Ejecutando validaciones especiales adicionales...');
             for (let i = 0; i < campos.length; i++) {
                 const campo = campos[i];
                 if (campo.type === 'submit' || !campo.id) continue;
                 
-                if (!this.check_special_tests(campo.id)) {
+                console.log('Validación especial para:', campo.id);
+                const resultadoEspecial = this.check_special_tests(campo.id);
+                console.log('Resultado validación especial', campo.id, ':', resultadoEspecial);
+                
+                if (!resultadoEspecial) {
+                    console.log('VALIDACIÓN ESPECIAL FALLÓ:', campo.id);
                     resultadoValidacion = false;
                 }
             }
             
+            console.log('RESULTADO FINAL SUBMIT_TEST:', resultadoValidacion);
             return resultadoValidacion;
         } catch (error) {
             console.error('Error en submit_test:', error);
