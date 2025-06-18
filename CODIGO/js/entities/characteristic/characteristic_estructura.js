@@ -61,7 +61,8 @@ window.estructura_characteristic = {
                     reg_exp : ['^[A-Za-z\\s]*$', 'description_characteristic_format_KO'],
                 }
             }
-        },        data_type_characteristic: {
+        },        
+        data_type_characteristic: {
             html: {
                 tag: 'select',
                 options: ['','number','text','set'],
@@ -79,7 +80,8 @@ window.estructura_characteristic = {
                     reg_exp : ['^(number|text|set|)$', 'data_type_characteristic_format_KO'],
                 }
             }
-        },        category_characteristic: {
+        },        
+        category_characteristic: {
             html: {
                 tag: 'select',
                 options: ["","soil_site", "soil_chem", "soil_bio"],
@@ -139,14 +141,14 @@ window.estructura_characteristic = {
                 tag: 'input',
                 type: 'file',
             },
-            is_not_null: true,
-            validation_rules: {
+            is_not_null: true,            validation_rules: {
                 ADD:{                    
+                    no_file: "nuevo_file_characteristic_no_file_KO",                    
                     min_size : [7, 'nuevo_file_characteristic_name_min_size_KO'],
 				    max_size: [100,'nuevo_file_characteristic_name_max_size_KO'],
-                    no_file: ['y', 'nuevo_file_characteristic_no_file_KO'],                    file_type: [["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"],"nuevo_file_characteristic_file_type_KO"],                    max_size_file: [2097152, "nuevo_file_characteristic_max_size_KO"], // 2MB exactos (2 * 1024 * 1024)
+                    file_type: [["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"],"nuevo_file_characteristic_file_type_KO"],                    max_size_file: [2097152, "nuevo_file_characteristic_max_size_KO"], // 2MB exactos (2 * 1024 * 1024)
                     format_name_file: ["^[A-Za-z]+$","nuevo_file_characteristic_name_format_KO"] // Solo letras en el nombre, sin incluir la extensión
-                },                
+                },
                 EDIT:{
                     min_size : [7, 'nuevo_file_characteristic_name_min_size_KO'],
 				    max_size: [100,'nuevo_file_characteristic_name_max_size_KO'],

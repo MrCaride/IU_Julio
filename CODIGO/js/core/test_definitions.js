@@ -11,175 +11,218 @@
 // Definiciones de tests para characteristic
 window.characteristic_def_tests = Array(
     // Pruebas de ID Characteristic
-    Array('characteristic', 'id_characteristic', 1, 'Validar formato SEARCH', 'SEARCH', 'string', 'id_characteristic_format_KO'),
-    Array('characteristic', 'id_characteristic', 2, 'Validar tamaño máximo SEARCH', 'SEARCH', 'string', 'id_characteristic_max_size_KO'),
+    Array('characteristic', 'id_characteristic', 1, 'Validar formato SEARCH', 'SEARCH', 'El ID debe ser numérico', 'id_characteristic_format_KO'),
+    Array('characteristic', 'id_characteristic', 2, 'Validar tamaño máximo SEARCH', 'SEARCH', 'El ID no puede tener más de 11 dígitos', 'id_characteristic_max_size_KO'),
 
     // Pruebas de Name Characteristic
-    Array('characteristic', 'name_characteristic', 3, 'Validar longitud mínima ADD', 'ADD', 'string', 'name_characteristic_min_size_KO'),
-    Array('characteristic', 'name_characteristic', 4, 'Validar longitud máxima ADD', 'ADD', 'string', 'name_characteristic_max_size_KO'),
-    Array('characteristic', 'name_characteristic', 5, 'Validar formato ADD', 'ADD', 'string', 'name_characteristic_format_KO'),
-    Array('characteristic', 'name_characteristic', 6, 'Validar longitud mínima EDIT', 'EDIT', 'string', 'name_characteristic_min_size_KO'),
-    Array('characteristic', 'name_characteristic', 7, 'Validar longitud máxima EDIT', 'EDIT', 'string', 'name_characteristic_max_size_KO'),
-    Array('characteristic', 'name_characteristic', 8, 'Validar formato EDIT', 'EDIT', 'string', 'name_characteristic_format_KO'),
-    Array('characteristic', 'name_characteristic', 9, 'Validar longitud máxima SEARCH', 'SEARCH', 'string', 'name_characteristic_max_size_KO'),
-    Array('characteristic', 'name_characteristic', 10, 'Validar formato SEARCH', 'SEARCH', 'string', 'name_characteristic_format_KO'),
-
+    Array('characteristic', 'name_characteristic', 3, 'Validar longitud mínima ADD', 'ADD', 'El nombre debe tener al menos 8 caracteres', 'name_characteristic_min_size_KO'),
+    Array('characteristic', 'name_characteristic', 4, 'Validar longitud máxima ADD', 'ADD', 'El nombre no puede tener más de 100 caracteres', 'name_characteristic_max_size_KO'),
+    Array('characteristic', 'name_characteristic', 5, 'Validar formato ADD', 'ADD', 'El nombre solo puede contener letras y espacios', 'name_characteristic_format_KO'),
+    Array('characteristic', 'name_characteristic', 6, 'Validar longitud mínima EDIT', 'EDIT', 'El nombre debe tener al menos 8 caracteres', 'name_characteristic_min_size_KO'),
+    Array('characteristic', 'name_characteristic', 7, 'Validar longitud máxima EDIT', 'EDIT', 'El nombre no puede tener más de 100 caracteres', 'name_characteristic_max_size_KO'),
+    Array('characteristic', 'name_characteristic', 8, 'Validar formato EDIT', 'EDIT', 'El nombre solo puede contener letras y espacios', 'name_characteristic_format_KO'),
+    Array('characteristic', 'name_characteristic', 9, 'Validar longitud máxima SEARCH', 'SEARCH', 'El nombre no puede tener más de 100 caracteres', 'name_characteristic_max_size_KO'),
+    Array('characteristic', 'name_characteristic', 10, 'Validar formato SEARCH', 'SEARCH', 'El nombre solo puede contener letras y espacios', 'name_characteristic_format_KO'),    
+   
     // Pruebas de Description Characteristic
-    Array('characteristic', 'description_characteristic', 11, 'Validar longitud mínima ADD', 'ADD', 'string', 'description_characteristic_min_size_KO'),
-    Array('characteristic', 'description_characteristic', 12, 'Validar longitud máxima ADD', 'ADD', 'string', 'description_characteristic_max_size_KO'),
-    Array('characteristic', 'description_characteristic', 13, 'Validar formato ADD', 'ADD', 'string', 'description_characteristic_format_KO'),
-    Array('characteristic', 'description_characteristic', 14, 'Validar longitud mínima EDIT', 'EDIT', 'string', 'description_characteristic_min_size_KO'),
-    Array('characteristic', 'description_characteristic', 15, 'Validar longitud máxima EDIT', 'EDIT', 'string', 'description_characteristic_max_size_KO'),
-    Array('characteristic', 'description_characteristic', 16, 'Validar formato EDIT', 'EDIT', 'string', 'description_characteristic_format_KO'),
-    Array('characteristic', 'description_characteristic', 17, 'Validar longitud máxima SEARCH', 'SEARCH', 'string', 'description_characteristic_max_size_KO'),
-    Array('characteristic', 'description_characteristic', 18, 'Validar formato SEARCH', 'SEARCH', 'string', 'description_characteristic_format_KO'),
+    Array('characteristic', 'description_characteristic', 11, 'Validar longitud mínima ADD', 'ADD', 'La descripción debe tener al menos 80 caracteres', 'description_characteristic_min_size_KO'),
+    Array('characteristic', 'description_characteristic', 12, 'Validar longitud máxima ADD', 'ADD', 'La descripción no puede tener más de 5000 caracteres', 'description_characteristic_max_size_KO'),
+    Array('characteristic', 'description_characteristic', 13, 'Validar formato ADD', 'ADD', 'La descripción solo puede contener letras sin acento y espacios.', 'description_characteristic_format_KO'),
+    Array('characteristic', 'description_characteristic', 14, 'Validar longitud mínima EDIT', 'EDIT', 'La descripción debe tener al menos 80 caracteres', 'description_characteristic_min_size_KO'),
+    Array('characteristic', 'description_characteristic', 15, 'Validar longitud máxima EDIT', 'EDIT', 'La descripción no puede tener más de 5000 caracteres', 'description_characteristic_max_size_KO'),
+    Array('characteristic', 'description_characteristic', 16, 'Validar formato EDIT', 'EDIT', 'La descripción solo puede contener letras sin acento y espacios.', 'description_characteristic_format_KO'),
+    Array('characteristic', 'description_characteristic', 17, 'Validar longitud máxima SEARCH', 'SEARCH', 'La descripción no puede tener más de 5000 caracteres', 'description_characteristic_max_size_KO'),
+    Array('characteristic', 'description_characteristic', 18, 'Validar formato SEARCH', 'SEARCH', 'La descripción solo puede contener letras sin acento y espacios.', 'description_characteristic_format_KO'),    
+      // Pruebas de Data Type Characteristic
+    Array('characteristic', 'data_type_characteristic', 40, 'Validar formato ADD', 'ADD', 'Tipo de dato inválido', 'data_type_characteristic_format_KO'),
+    Array('characteristic', 'data_type_characteristic', 41, 'Validar formato EDIT', 'EDIT', 'Tipo de dato inválido', 'data_type_characteristic_format_KO'),
+    Array('characteristic', 'data_type_characteristic', 42, 'Validar formato SEARCH', 'SEARCH', 'Tipo de dato inválido', 'data_type_characteristic_format_KO'),
+    
+    // Pruebas de Category Characteristic
+    Array('characteristic', 'category_characteristic', 43, 'Validar formato ADD', 'ADD', 'Tipo de categoría inválida', 'category_characteristic_format_KO'),
+    Array('characteristic', 'category_characteristic', 44, 'Validar formato EDIT', 'EDIT', 'Tipo de categoría inválida', 'category_characteristic_format_KO'),
+    Array('characteristic', 'category_characteristic', 45, 'Validar formato SEARCH', 'SEARCH', 'Tipo de categoría inválida', 'category_characteristic_format_KO'),
 
     // Pruebas de Bibliographic Reference
-    Array('characteristic', 'bibref_characteristic', 19, 'Validar longitud mínima ADD', 'ADD', 'string', 'bibref_characteristic_min_size_KO'),
-    Array('characteristic', 'bibref_characteristic', 20, 'Validar longitud máxima ADD', 'ADD', 'string', 'bibref_characteristic_max_size_KO'),
-    Array('characteristic', 'bibref_characteristic', 21, 'Validar formato ADD', 'ADD', 'string', 'bibref_characteristic_format_KO'),
-    Array('characteristic', 'bibref_characteristic', 22, 'Validar longitud mínima EDIT', 'EDIT', 'string', 'bibref_characteristic_min_size_KO'),
-    Array('characteristic', 'bibref_characteristic', 23, 'Validar longitud máxima EDIT', 'EDIT', 'string', 'bibref_characteristic_max_size_KO'),
-    Array('characteristic', 'bibref_characteristic', 24, 'Validar formato EDIT', 'EDIT', 'string', 'bibref_characteristic_format_KO'),
-    Array('characteristic', 'bibref_characteristic', 25, 'Validar longitud máxima SEARCH', 'SEARCH', 'string', 'bibref_characteristic_max_size_KO'),
-    Array('characteristic', 'bibref_characteristic', 26, 'Validar formato SEARCH', 'SEARCH', 'string', 'bibref_characteristic_format_KO'),
-
+    Array('characteristic', 'bibref_characteristic', 19, 'Validar longitud mínima ADD', 'ADD', 'La referencia debe tener al menos 16 caracteres', 'bibref_characteristic_min_size_KO'),
+    Array('characteristic', 'bibref_characteristic', 20, 'Validar longitud máxima ADD', 'ADD', 'La referencia no puede tener más de 200 caracteres', 'bibref_characteristic_max_size_KO'),
+    Array('characteristic', 'bibref_characteristic', 21, 'Validar formato ADD', 'ADD', 'La referencia bibliográfica solo puede contener letras con acentos, ñ, espacios y signos de puntuación', 'bibref_characteristic_format_KO'),
+    Array('characteristic', 'bibref_characteristic', 22, 'Validar longitud mínima EDIT', 'EDIT', 'La referencia debe tener al menos 16 caracteres', 'bibref_characteristic_min_size_KO'),
+    Array('characteristic', 'bibref_characteristic', 23, 'Validar longitud máxima EDIT', 'EDIT', 'La referencia no puede tener más de 200 caracteres', 'bibref_characteristic_max_size_KO'),
+    Array('characteristic', 'bibref_characteristic', 24, 'Validar formato EDIT', 'EDIT', 'La referencia bibliográfica solo puede contener letras con acentos, ñ, espacios y signos de puntuación', 'bibref_characteristic_format_KO'),
+    Array('characteristic', 'bibref_characteristic', 25, 'Validar longitud máxima SEARCH', 'SEARCH', 'La referencia no puede tener más de 200 caracteres', 'bibref_characteristic_max_size_KO'),
+    Array('characteristic', 'bibref_characteristic', 26, 'Validar formato SEARCH', 'SEARCH', 'La referencia bibliográfica solo puede contener letras con acentos, ñ, espacios y signos de puntuación', 'bibref_characteristic_format_KO'),
+    
     // Pruebas de File
-    Array('characteristic', 'file_characteristic', 27, 'Validar longitud máxima SEARCH', 'SEARCH', 'string', 'file_characteristic_name_max_size_KO'),
-    Array('characteristic', 'file_characteristic', 28, 'Validar formato SEARCH', 'SEARCH', 'string', 'file_characteristic_name_format_KO'),
+    Array('characteristic', 'file_characteristic', 27, 'Validar longitud máxima SEARCH', 'SEARCH', 'El nombre del archivo no puede tener más de 100 caracteres', 'file_characteristic_name_max_size_KO'),
+    Array('characteristic', 'file_characteristic', 28, 'Validar formato SEARCH', 'SEARCH', 'El nombre del archivo solo puede contener letras y punto', 'file_characteristic_name_format_KO'),
 
     // Pruebas de Nuevo File
-    Array('characteristic', 'nuevo_file_characteristic', 29, 'Validar longitud mínima ADD', 'ADD', 'string', 'nuevo_file_characteristic_name_min_size_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 30, 'Validar longitud máxima ADD', 'ADD', 'string', 'nuevo_file_characteristic_name_max_size_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 31, 'Validar archivo requerido ADD', 'ADD', 'string', 'nuevo_file_characteristic_no_file_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 32, 'Validar tipo de archivo ADD', 'ADD', 'string', 'nuevo_file_characteristic_file_type_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 33, 'Validar tamaño de archivo ADD', 'ADD', 'string', 'nuevo_file_characteristic_max_size_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 34, 'Validar formato nombre archivo ADD', 'ADD', 'string', 'nuevo_file_characteristic_name_format_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 35, 'Validar longitud mínima EDIT', 'EDIT', 'string', 'nuevo_file_characteristic_name_min_size_KO'),    Array('characteristic', 'nuevo_file_characteristic', 36, 'Validar longitud máxima EDIT', 'EDIT', 'string', 'nuevo_file_characteristic_name_max_size_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 37, 'Validar tipo de archivo EDIT', 'EDIT', 'string', 'nuevo_file_characteristic_file_type_KO'),    Array('characteristic', 'nuevo_file_characteristic', 38, 'Validar tamaño de archivo EDIT', 'EDIT', 'string', 'nuevo_file_characteristic_max_size_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 39, 'Validar formato nombre archivo EDIT', 'EDIT', 'string', 'nuevo_file_characteristic_name_format_KO')
+    Array('characteristic', 'nuevo_file_characteristic', 29, 'Validar longitud mínima ADD', 'ADD', 'El nombre del archivo debe tener al menos 7 caracteres', 'nuevo_file_characteristic_name_min_size_KO'),
+    Array('characteristic', 'nuevo_file_characteristic', 30, 'Validar longitud máxima ADD', 'ADD', 'El nombre del archivo no puede tener más de 100 caracteres', 'nuevo_file_characteristic_name_max_size_KO'),
+    Array('characteristic', 'nuevo_file_characteristic', 31, 'Validar archivo requerido ADD', 'ADD', 'Debe seleccionar un archivo real', 'nuevo_file_characteristic_no_file_KO'),
+    Array('characteristic', 'nuevo_file_characteristic', 32, 'Validar tipo de archivo ADD', 'ADD', 'El archivo debe ser PDF o DOC/DOCX', 'nuevo_file_characteristic_file_type_KO'),
+    Array('characteristic', 'nuevo_file_characteristic', 33, 'Validar tamaño de archivo ADD', 'ADD', 'El archivo no puede superar los 2MB', 'nuevo_file_characteristic_max_size_KO'),
+    Array('characteristic', 'nuevo_file_characteristic', 34, 'Validar formato nombre archivo ADD', 'ADD', 'El nombre del archivo solo puede contener letras y punto', 'nuevo_file_characteristic_name_format_KO'),
+    Array('characteristic', 'nuevo_file_characteristic', 35, 'Validar longitud mínima EDIT', 'EDIT', 'El nombre del archivo debe tener al menos 7 caracteres', 'nuevo_file_characteristic_name_min_size_KO'),
+    Array('characteristic', 'nuevo_file_characteristic', 36, 'Validar longitud máxima EDIT', 'EDIT', 'El nombre del archivo no puede tener más de 100 caracteres', 'nuevo_file_characteristic_name_max_size_KO'),
+    Array('characteristic', 'nuevo_file_characteristic', 37, 'Validar tipo de archivo EDIT', 'EDIT', 'El archivo debe ser PDF o DOC/DOCX', 'nuevo_file_characteristic_file_type_KO'),
+    Array('characteristic', 'nuevo_file_characteristic', 38, 'Validar tamaño de archivo EDIT', 'EDIT', 'El archivo no puede superar los 2MB', 'nuevo_file_characteristic_max_size_KO'),
+    Array('characteristic', 'nuevo_file_characteristic', 39, 'Validar formato nombre archivo EDIT', 'EDIT', 'El nombre del archivo solo puede contener letras y punto', 'nuevo_file_characteristic_name_format_KO')
 );
 
 // Definiciones de tests para analysis_preparation 
 window.analysis_preparation_def_tests = Array(
     // Pruebas de ID Analysis Preparation
-    Array('analysis_preparation', 'id_analysis_preparation', 1, 'Validar formato SEARCH', 'SEARCH', 'string', 'id_analysis_preparation_format_KO'),
-    Array('analysis_preparation', 'id_analysis_preparation', 2, 'Validar tamaño máximo SEARCH', 'SEARCH', 'string', 'id_analysis_preparation_max_size_KO'),
+    Array('analysis_preparation', 'id_analysis_preparation', 1, 'Validar formato SEARCH', 'SEARCH', 'El ID debe ser numérico', 'id_analysis_preparation_format_KO'),
+    Array('analysis_preparation', 'id_analysis_preparation', 2, 'Validar tamaño máximo SEARCH', 'SEARCH', 'El ID no puede tener más de 11 dígitos', 'id_analysis_preparation_max_size_KO'),
 
     // Pruebas de Name Analysis Preparation
-    Array('analysis_preparation', 'name_analysis_preparation', 3, 'Validar longitud mínima ADD', 'ADD', 'string', 'name_analysis_preparation_min_size_KO'),
-    Array('analysis_preparation', 'name_analysis_preparation', 4, 'Validar longitud máxima ADD', 'ADD', 'string', 'name_analysis_preparation_max_size_KO'),
-    Array('analysis_preparation', 'name_analysis_preparation', 5, 'Validar formato ADD', 'ADD', 'string', 'name_analysis_preparation_format_KO'),
-    Array('analysis_preparation', 'name_analysis_preparation', 6, 'Validar longitud mínima EDIT', 'EDIT', 'string', 'name_analysis_preparation_min_size_KO'),
-    Array('analysis_preparation', 'name_analysis_preparation', 7, 'Validar longitud máxima EDIT', 'EDIT', 'string', 'name_analysis_preparation_max_size_KO'),
-    Array('analysis_preparation', 'name_analysis_preparation', 8, 'Validar formato EDIT', 'EDIT', 'string', 'name_analysis_preparation_format_KO'),
-    Array('analysis_preparation', 'name_analysis_preparation', 9, 'Validar longitud máxima SEARCH', 'SEARCH', 'string', 'name_analysis_preparation_max_size_KO'),
-    Array('analysis_preparation', 'name_analysis_preparation', 10, 'Validar formato SEARCH', 'SEARCH', 'string', 'name_analysis_preparation_format_KO'),
+    Array('analysis_preparation', 'name_analysis_preparation', 3, 'Validar longitud mínima ADD', 'ADD', 'El nombre debe tener al menos 8 caracteres', 'name_analysis_preparation_min_size_KO'),
+    Array('analysis_preparation', 'name_analysis_preparation', 4, 'Validar longitud máxima ADD', 'ADD', 'El nombre no puede tener más de 100 caracteres', 'name_analysis_preparation_max_size_KO'),
+    Array('analysis_preparation', 'name_analysis_preparation', 5, 'Validar formato ADD', 'ADD', 'El nombre solo puede contener letras y espacios', 'name_analysis_preparation_format_KO'),
+    Array('analysis_preparation', 'name_analysis_preparation', 6, 'Validar longitud mínima EDIT', 'EDIT', 'El nombre debe tener al menos 8 caracteres', 'name_analysis_preparation_min_size_KO'),
+    Array('analysis_preparation', 'name_analysis_preparation', 7, 'Validar longitud máxima EDIT', 'EDIT', 'El nombre no puede tener más de 100 caracteres', 'name_analysis_preparation_max_size_KO'),
+    Array('analysis_preparation', 'name_analysis_preparation', 8, 'Validar formato EDIT', 'EDIT', 'El nombre solo puede contener letras y espacios', 'name_analysis_preparation_format_KO'),
+    Array('analysis_preparation', 'name_analysis_preparation', 9, 'Validar longitud máxima SEARCH', 'SEARCH', 'El nombre no puede tener más de 100 caracteres', 'name_analysis_preparation_max_size_KO'),
+    Array('analysis_preparation', 'name_analysis_preparation', 10, 'Validar formato SEARCH', 'SEARCH', 'El nombre solo puede contener letras y espacios', 'name_analysis_preparation_format_KO'),
 
     // Pruebas de Description Analysis Preparation
-    Array('analysis_preparation', 'description_analysis_preparation', 11, 'Validar longitud mínima ADD', 'ADD', 'string', 'description_analysis_preparation_min_size_KO'),
-    Array('analysis_preparation', 'description_analysis_preparation', 12, 'Validar longitud máxima ADD', 'ADD', 'string', 'description_analysis_preparation_max_size_KO'),
-    Array('analysis_preparation', 'description_analysis_preparation', 13, 'Validar formato ADD', 'ADD', 'string', 'description_analysis_preparation_format_KO'),
-    Array('analysis_preparation', 'description_analysis_preparation', 14, 'Validar longitud mínima EDIT', 'EDIT', 'string', 'description_analysis_preparation_min_size_KO'),
-    Array('analysis_preparation', 'description_analysis_preparation', 15, 'Validar longitud máxima EDIT', 'EDIT', 'string', 'description_analysis_preparation_max_size_KO'),
-    Array('analysis_preparation', 'description_analysis_preparation', 16, 'Validar formato EDIT', 'EDIT', 'string', 'description_analysis_preparation_format_KO'),
-    Array('analysis_preparation', 'description_analysis_preparation', 17, 'Validar longitud máxima SEARCH', 'SEARCH', 'string', 'description_analysis_preparation_max_size_KO'),
-    Array('analysis_preparation', 'description_analysis_preparation', 18, 'Validar formato SEARCH', 'SEARCH', 'string', 'description_analysis_preparation_format_KO'),
+    Array('analysis_preparation', 'description_analysis_preparation', 11, 'Validar longitud mínima ADD', 'ADD', 'La descripción debe tener al menos 80 caracteres', 'description_analysis_preparation_min_size_KO'),
+    Array('analysis_preparation', 'description_analysis_preparation', 12, 'Validar longitud máxima ADD', 'ADD', 'La descripción no puede tener más de 5000 caracteres', 'description_analysis_preparation_max_size_KO'),
+    Array('analysis_preparation', 'description_analysis_preparation', 13, 'Validar formato ADD', 'ADD', 'La descripción contiene caracteres inválidos', 'description_analysis_preparation_format_KO'),
+    Array('analysis_preparation', 'description_analysis_preparation', 14, 'Validar longitud mínima EDIT', 'EDIT', 'La descripción debe tener al menos 80 caracteres', 'description_analysis_preparation_min_size_KO'),
+    Array('analysis_preparation', 'description_analysis_preparation', 15, 'Validar longitud máxima EDIT', 'EDIT', 'La descripción no puede tener más de 5000 caracteres', 'description_analysis_preparation_max_size_KO'),
+    Array('analysis_preparation', 'description_analysis_preparation', 16, 'Validar formato EDIT', 'EDIT', 'La descripción contiene caracteres inválidos', 'description_analysis_preparation_format_KO'),
+    Array('analysis_preparation', 'description_analysis_preparation', 17, 'Validar longitud máxima SEARCH', 'SEARCH', 'La descripción no puede tener más de 5000 caracteres', 'description_analysis_preparation_max_size_KO'),
+    Array('analysis_preparation', 'description_analysis_preparation', 18, 'Validar formato SEARCH', 'SEARCH', 'La descripción contiene caracteres inválidos', 'description_analysis_preparation_format_KO'),
 
     // Pruebas de Bibliographic Reference
-    Array('analysis_preparation', 'bib_analysis_preparation', 19, 'Validar longitud mínima ADD', 'ADD', 'string', 'bib_analysis_preparation_min_size_KO'),
-    Array('analysis_preparation', 'bib_analysis_preparation', 20, 'Validar longitud máxima ADD', 'ADD', 'string', 'bib_analysis_preparation_max_size_KO'),
-    Array('analysis_preparation', 'bib_analysis_preparation', 21, 'Validar formato ADD', 'ADD', 'string', 'bib_analysis_preparation_format_KO'),
-    Array('analysis_preparation', 'bib_analysis_preparation', 22, 'Validar longitud mínima EDIT', 'EDIT', 'string', 'bib_analysis_preparation_min_size_KO'),
-    Array('analysis_preparation', 'bib_analysis_preparation', 23, 'Validar longitud máxima EDIT', 'EDIT', 'string', 'bib_analysis_preparation_max_size_KO'),
-    Array('analysis_preparation', 'bib_analysis_preparation', 24, 'Validar formato EDIT', 'EDIT', 'string', 'bib_analysis_preparation_format_KO'),
-    Array('analysis_preparation', 'bib_analysis_preparation', 25, 'Validar longitud máxima SEARCH', 'SEARCH', 'string', 'bib_analysis_preparation_max_size_KO'),
-    Array('analysis_preparation', 'bib_analysis_preparation', 26, 'Validar formato SEARCH', 'SEARCH', 'string', 'bib_analysis_preparation_format_KO'),
+    Array('analysis_preparation', 'bib_analysis_preparation', 19, 'Validar longitud mínima ADD', 'ADD', 'La referencia debe tener al menos 6 caracteres', 'bib_analysis_preparation_min_size_KO'),
+    Array('analysis_preparation', 'bib_analysis_preparation', 20, 'Validar longitud máxima ADD', 'ADD', 'La referencia no puede tener más de 200 caracteres', 'bib_analysis_preparation_max_size_KO'),
+    Array('analysis_preparation', 'bib_analysis_preparation', 21, 'Validar formato ADD', 'ADD', 'La referencia bibliográfica contiene caracteres inválidos', 'bib_analysis_preparation_format_KO'),
+    Array('analysis_preparation', 'bib_analysis_preparation', 22, 'Validar longitud mínima EDIT', 'EDIT', 'La referencia debe tener al menos 6 caracteres', 'bib_analysis_preparation_min_size_KO'),
+    Array('analysis_preparation', 'bib_analysis_preparation', 23, 'Validar longitud máxima EDIT', 'EDIT', 'La referencia no puede tener más de 200 caracteres', 'bib_analysis_preparation_max_size_KO'),
+    Array('analysis_preparation', 'bib_analysis_preparation', 24, 'Validar formato EDIT', 'EDIT', 'La referencia bibliográfica contiene caracteres inválidos', 'bib_analysis_preparation_format_KO'),
+    Array('analysis_preparation', 'bib_analysis_preparation', 25, 'Validar longitud máxima SEARCH', 'SEARCH', 'La referencia no puede tener más de 200 caracteres', 'bib_analysis_preparation_max_size_KO'),
+    Array('analysis_preparation', 'bib_analysis_preparation', 26, 'Validar formato SEARCH', 'SEARCH', 'La referencia bibliográfica contiene caracteres inválidos', 'bib_analysis_preparation_format_KO'),
 
     // Pruebas de File
-    Array('analysis_preparation', 'file_analysis_preparation', 27, 'Validar longitud máxima SEARCH', 'SEARCH', 'string', 'file_analysis_preparation_name_max_size_KO'),
-    Array('analysis_preparation', 'file_analysis_preparation', 28, 'Validar formato SEARCH', 'SEARCH', 'string', 'file_analysis_preparation_name_format_KO'),
+    Array('analysis_preparation', 'file_analysis_preparation', 27, 'Validar longitud máxima SEARCH', 'SEARCH', 'El nombre del archivo no puede tener más de 100 caracteres', 'file_analysis_preparation_name_max_size_KO'),    Array('analysis_preparation', 'file_analysis_preparation', 28, 'Validar formato SEARCH', 'SEARCH', 'El nombre del archivo solo puede contener letras y punto', 'file_analysis_preparation_name_format_KO'),
 
     // Pruebas de Nuevo File
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 29, 'Validar longitud mínima ADD', 'ADD', 'string', 'nuevo_file_analysis_preparation_name_min_size_KO'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 30, 'Validar longitud máxima ADD', 'ADD', 'string', 'nuevo_file_analysis_preparation_name_max_size_KO'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 31, 'Validar archivo requerido ADD', 'ADD', 'string', 'nuevo_file_analysis_preparation_no_file_KO'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 32, 'Validar tipo de archivo ADD', 'ADD', 'string', 'nuevo_file_analysis_preparation_file_type_KO'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 33, 'Validar tamaño de archivo ADD', 'ADD', 'string', 'nuevo_file_analysis_preparation_max_size_KO'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 34, 'Validar formato nombre archivo ADD', 'ADD', 'string', 'nuevo_file_analysis_preparation_name_format_KO'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 35, 'Validar longitud mínima EDIT', 'EDIT', 'string', 'nuevo_file_analysis_preparation_name_min_size_KO'),    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 36, 'Validar longitud máxima EDIT', 'EDIT', 'string', 'nuevo_file_analysis_preparation_name_max_size_KO'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 37, 'Validar tipo de archivo EDIT', 'EDIT', 'string', 'nuevo_file_analysis_preparation_file_type_KO'),    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 38, 'Validar tamaño de archivo EDIT', 'EDIT', 'string', 'nuevo_file_analysis_preparation_max_size_KO'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 39, 'Validar formato nombre archivo EDIT', 'EDIT', 'string', 'nuevo_file_analysis_preparation_name_format_KO')
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 29, 'Validar longitud mínima ADD', 'ADD', 'El nombre del archivo debe tener al menos 7 caracteres', 'nuevo_file_analysis_preparation_name_min_size_KO'),
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 30, 'Validar longitud máxima ADD', 'ADD', 'El nombre del archivo no puede tener más de 100 caracteres', 'nuevo_file_analysis_preparation_name_max_size_KO'),
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 31, 'Validar archivo requerido ADD', 'ADD', 'Debe seleccionar un archivo real', 'nuevo_file_analysis_preparation_no_file_KO'),
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 32, 'Validar tipo de archivo ADD', 'ADD', 'El archivo debe ser PDF o DOC/DOCX', 'nuevo_file_analysis_preparation_file_type_KO'),
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 33, 'Validar tamaño de archivo ADD', 'ADD', 'El archivo no puede superar los 2MB', 'nuevo_file_analysis_preparation_max_size_KO'),
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 34, 'Validar formato nombre archivo ADD', 'ADD', 'El nombre del archivo solo puede contener letras y punto', 'nuevo_file_analysis_preparation_name_format_KO'),
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 35, 'Validar longitud mínima EDIT', 'EDIT', 'El nombre del archivo debe tener al menos 7 caracteres', 'nuevo_file_analysis_preparation_name_min_size_KO'),    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 36, 'Validar longitud máxima EDIT', 'EDIT', 'El nombre del archivo no puede tener más de 100 caracteres', 'nuevo_file_analysis_preparation_name_max_size_KO'),
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 37, 'Validar tipo de archivo EDIT', 'EDIT', 'El archivo debe ser PDF o DOC/DOCX', 'nuevo_file_analysis_preparation_file_type_KO'),    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 38, 'Validar tamaño de archivo EDIT', 'EDIT', 'El archivo no puede superar los 2MB', 'nuevo_file_analysis_preparation_max_size_KO'),    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 39, 'Validar formato nombre archivo EDIT', 'EDIT', 'El nombre del archivo solo puede contener letras y punto', 'nuevo_file_analysis_preparation_name_format_KO')
 );
 
 // Definiciones de tests para project
 window.project_def_tests = Array(
     // Pruebas de ID Project
-    Array('project', 'id_project', 1, 'Validar formato SEARCH', 'SEARCH', 'string', 'id_project_format_KO'),
-    Array('project', 'id_project', 2, 'Validar tamaño máximo SEARCH', 'SEARCH', 'string', 'id_project_max_size_KO'),
+    Array('project', 'id_project', 1, 'Validar formato SEARCH', 'SEARCH', 'El ID debe ser numérico', 'id_project_format_KO'),
+    Array('project', 'id_project', 2, 'Validar tamaño máximo SEARCH', 'SEARCH', 'El ID no puede tener más de 11 dígitos', 'id_project_max_size_KO'),
 
     // Pruebas de Name Project
-    Array('project', 'name_project', 3, 'Validar longitud mínima ADD', 'ADD', 'string', 'name_project_min_size_KO'),
-    Array('project', 'name_project', 4, 'Validar longitud máxima ADD', 'ADD', 'string', 'name_project_max_size_KO'),
-    Array('project', 'name_project', 5, 'Validar formato ADD', 'ADD', 'string', 'name_project_format_KO'),
-    Array('project', 'name_project', 6, 'Validar longitud mínima EDIT', 'EDIT', 'string', 'name_project_min_size_KO'),
-    Array('project', 'name_project', 7, 'Validar longitud máxima EDIT', 'EDIT', 'string', 'name_project_max_size_KO'),
-    Array('project', 'name_project', 8, 'Validar formato EDIT', 'EDIT', 'string', 'name_project_format_KO'),
-    Array('project', 'name_project', 9, 'Validar longitud máxima SEARCH', 'SEARCH', 'string', 'name_project_max_size_KO'),
-    Array('project', 'name_project', 10, 'Validar formato SEARCH', 'SEARCH', 'string', 'name_project_format_KO'),
+    Array('project', 'name_project', 3, 'Validar longitud mínima ADD', 'ADD', 'El nombre debe tener al menos 8 caracteres', 'name_project_min_size_KO'),
+    Array('project', 'name_project', 4, 'Validar longitud máxima ADD', 'ADD', 'El nombre no puede tener más de 100 caracteres', 'name_project_max_size_KO'),
+    Array('project', 'name_project', 5, 'Validar formato ADD', 'ADD', 'El nombre solo puede contener letras y espacios', 'name_project_format_KO'),
+    Array('project', 'name_project', 6, 'Validar longitud mínima EDIT', 'EDIT', 'El nombre debe tener al menos 8 caracteres', 'name_project_min_size_KO'),
+    Array('project', 'name_project', 7, 'Validar longitud máxima EDIT', 'EDIT', 'El nombre no puede tener más de 100 caracteres', 'name_project_max_size_KO'),
+    Array('project', 'name_project', 8, 'Validar formato EDIT', 'EDIT', 'El nombre solo puede contener letras y espacios', 'name_project_format_KO'),
+    Array('project', 'name_project', 9, 'Validar longitud máxima SEARCH', 'SEARCH', 'El nombre no puede tener más de 100 caracteres', 'name_project_max_size_KO'),
+    Array('project', 'name_project', 10, 'Validar formato SEARCH', 'SEARCH', 'El nombre solo puede contener letras y espacios', 'name_project_format_KO'),
 
     // Pruebas de Date Fields
-    Array('project', 'start_date_project', 11, 'Validar formato fecha ADD', 'ADD', 'string', 'start_date_project_format_KO'),
-    Array('project', 'start_date_project', 12, 'Validar fecha válida ADD', 'ADD', 'string', 'start_date_project_valid_KO'),
-    Array('project', 'start_date_project', 13, 'Validar formato fecha EDIT', 'EDIT', 'string', 'start_date_project_format_KO'),
-    Array('project', 'start_date_project', 14, 'Validar fecha válida EDIT', 'EDIT', 'string', 'start_date_project_valid_KO'),
-    Array('project', 'start_date_project', 15, 'Validar formato fecha SEARCH', 'SEARCH', 'string', 'start_date_project_format_KO'),
-    Array('project', 'start_date_project', 16, 'Validar fecha válida SEARCH', 'SEARCH', 'string', 'start_date_project_valid_KO'),
+    Array('project', 'start_date_project', 11, 'Validar formato fecha ADD', 'ADD', 'La fecha debe estar en formato dd/mm/aaaa (ej: 15/11/2010)', 'start_date_project_format_KO'),
+    Array('project', 'start_date_project', 12, 'Validar fecha válida ADD', 'ADD', 'La fecha debe ser válida', 'start_date_project_valid_KO'),
+    Array('project', 'start_date_project', 13, 'Validar formato fecha EDIT', 'EDIT', 'La fecha debe estar en formato dd/mm/aaaa (ej: 15/11/2010)', 'start_date_project_format_KO'),
+    Array('project', 'start_date_project', 14, 'Validar fecha válida EDIT', 'EDIT', 'La fecha debe ser válida', 'start_date_project_valid_KO'),
+    Array('project', 'start_date_project', 15, 'Validar formato fecha SEARCH', 'SEARCH', 'La fecha debe estar en formato dd/mm/aaaa (ej: 15/11/2010)', 'start_date_project_format_KO'),
+    Array('project', 'start_date_project', 16, 'Validar fecha válida SEARCH', 'SEARCH', 'La fecha debe ser válida', 'start_date_project_valid_KO'),
 
-    Array('project', 'end_date_project', 17, 'Validar formato fecha fin ADD', 'ADD', 'string', 'end_date_project_format_KO'),
-    Array('project', 'end_date_project', 18, 'Validar fecha fin válida ADD', 'ADD', 'string', 'end_date_project_valid_KO'),
-    Array('project', 'end_date_project', 19, 'Validar fecha fin mayor que inicio ADD', 'ADD', 'string', 'end_date_project_greater_than_start_KO'),
-    Array('project', 'end_date_project', 20, 'Validar formato fecha fin EDIT', 'EDIT', 'string', 'end_date_project_format_KO'),
-    Array('project', 'end_date_project', 21, 'Validar fecha fin válida EDIT', 'EDIT', 'string', 'end_date_project_valid_KO'),
-    Array('project', 'end_date_project', 22, 'Validar fecha fin mayor que inicio EDIT', 'EDIT', 'string', 'end_date_project_greater_than_start_KO'),
-    Array('project', 'end_date_project', 23, 'Validar formato fecha fin SEARCH', 'SEARCH', 'string', 'end_date_project_format_KO'),
-    Array('project', 'end_date_project', 24, 'Validar fecha fin válida SEARCH', 'SEARCH', 'string', 'end_date_project_valid_KO'),
+    Array('project', 'end_date_project', 17, 'Validar formato fecha fin ADD', 'ADD', 'La fecha debe estar en formato dd/mm/aaaa (ej: 15/12/2010)', 'end_date_project_format_KO'),
+    Array('project', 'end_date_project', 18, 'Validar fecha fin válida ADD', 'ADD', 'La fecha debe ser válida', 'end_date_project_valid_KO'),
+    Array('project', 'end_date_project', 19, 'Validar fecha fin mayor que inicio ADD', 'ADD', 'La fecha de fin debe ser posterior a la fecha de inicio', 'end_date_project_greater_than_start_KO'),
+    Array('project', 'end_date_project', 20, 'Validar formato fecha fin EDIT', 'EDIT', 'La fecha debe estar en formato dd/mm/aaaa (ej: 15/12/2010)', 'end_date_project_format_KO'),
+    Array('project', 'end_date_project', 21, 'Validar fecha fin válida EDIT', 'EDIT', 'La fecha debe ser válida', 'end_date_project_valid_KO'),
+    Array('project', 'end_date_project', 22, 'Validar fecha fin mayor que inicio EDIT', 'EDIT', 'La fecha de fin debe ser posterior a la fecha de inicio', 'end_date_project_greater_than_start_KO'),
+    Array('project', 'end_date_project', 23, 'Validar formato fecha fin SEARCH', 'SEARCH', 'La fecha debe estar en formato dd/mm/aaaa (ej: 15/12/2010)', 'end_date_project_format_KO'),
+    Array('project', 'end_date_project', 24, 'Validar fecha fin válida SEARCH', 'SEARCH', 'La fecha debe ser válida', 'end_date_project_valid_KO'),
 
     // Pruebas de Responsable Project
-    Array('project', 'responsable_project', 25, 'Validar longitud mínima ADD', 'ADD', 'string', 'responsable_project_min_size_KO'),
-    Array('project', 'responsable_project', 26, 'Validar longitud máxima ADD', 'ADD', 'string', 'responsable_project_max_size_KO'),
-    Array('project', 'responsable_project', 27, 'Validar formato ADD', 'ADD', 'string', 'responsable_project_format_KO'),
-    Array('project', 'responsable_project', 28, 'Validar longitud mínima EDIT', 'EDIT', 'string', 'responsable_project_min_size_KO'),
-    Array('project', 'responsable_project', 29, 'Validar longitud máxima EDIT', 'EDIT', 'string', 'responsable_project_max_size_KO'),
-    Array('project', 'responsable_project', 30, 'Validar formato EDIT', 'EDIT', 'string', 'responsable_project_format_KO'),
-    Array('project', 'responsable_project', 31, 'Validar longitud máxima SEARCH', 'SEARCH', 'string', 'responsable_project_max_size_KO'),
-    Array('project', 'responsable_project', 32, 'Validar formato SEARCH', 'SEARCH', 'string', 'responsable_project_format_KO'),
+    Array('project', 'responsable_project', 25, 'Validar longitud mínima ADD', 'ADD', 'El responsable debe tener al menos 6 caracteres', 'responsable_project_min_size_KO'),
+    Array('project', 'responsable_project', 26, 'Validar longitud máxima ADD', 'ADD', 'El responsable no puede tener más de 60 caracteres', 'responsable_project_max_size_KO'),
+    Array('project', 'responsable_project', 27, 'Validar formato ADD', 'ADD', 'El responsable solo puede contener letras, espacios, acentos y ñ', 'responsable_project_format_KO'),
+    Array('project', 'responsable_project', 28, 'Validar longitud mínima EDIT', 'EDIT', 'El responsable debe tener al menos 6 caracteres', 'responsable_project_min_size_KO'),
+    Array('project', 'responsable_project', 29, 'Validar longitud máxima EDIT', 'EDIT', 'El responsable no puede tener más de 60 caracteres', 'responsable_project_max_size_KO'),
+    Array('project', 'responsable_project', 30, 'Validar formato EDIT', 'EDIT', 'El responsable solo puede contener letras, espacios, acentos y ñ', 'responsable_project_format_KO'),
+    Array('project', 'responsable_project', 31, 'Validar longitud máxima SEARCH', 'SEARCH', 'El responsable no puede tener más de 60 caracteres', 'responsable_project_max_size_KO'),
+    Array('project', 'responsable_project', 32, 'Validar formato SEARCH', 'SEARCH', 'El responsable solo puede contener letras, espacios, acentos y ñ', 'responsable_project_format_KO'),
 
     // Pruebas de Organization Project
-    Array('project', 'organization_project', 33, 'Validar longitud mínima ADD', 'ADD', 'string', 'organization_project_min_size_KO'),
-    Array('project', 'organization_project', 34, 'Validar longitud máxima ADD', 'ADD', 'string', 'organization_project_max_size_KO'),
-    Array('project', 'organization_project', 35, 'Validar formato ADD', 'ADD', 'string', 'organization_project_format_KO'),
-    Array('project', 'organization_project', 36, 'Validar longitud mínima EDIT', 'EDIT', 'string', 'organization_project_min_size_KO'),
-    Array('project', 'organization_project', 37, 'Validar longitud máxima EDIT', 'EDIT', 'string', 'organization_project_max_size_KO'),
-    Array('project', 'organization_project', 38, 'Validar formato EDIT', 'EDIT', 'string', 'organization_project_format_KO'),
-    Array('project', 'organization_project', 39, 'Validar longitud máxima SEARCH', 'SEARCH', 'string', 'organization_project_max_size_KO'),
-    Array('project', 'organization_project', 40, 'Validar formato SEARCH', 'SEARCH', 'string', 'organization_project_format_KO'),
+    Array('project', 'organization_project', 33, 'Validar longitud mínima ADD', 'ADD', 'La organización debe tener al menos 6 caracteres', 'organization_project_min_size_KO'),
+    Array('project', 'organization_project', 34, 'Validar longitud máxima ADD', 'ADD', 'La organización no puede tener más de 100 caracteres', 'organization_project_max_size_KO'),
+    Array('project', 'organization_project', 35, 'Validar formato ADD', 'ADD', 'La organización solo puede contener letras, espacios, acentos y ñ', 'organization_project_format_KO'),
+    Array('project', 'organization_project', 36, 'Validar longitud mínima EDIT', 'EDIT', 'La organización debe tener al menos 6 caracteres', 'organization_project_min_size_KO'),
+    Array('project', 'organization_project', 37, 'Validar longitud máxima EDIT', 'EDIT', 'La organización no puede tener más de 100 caracteres', 'organization_project_max_size_KO'),
+    Array('project', 'organization_project', 38, 'Validar formato EDIT', 'EDIT', 'La organización solo puede contener letras, espacios, acentos y ñ', 'organization_project_format_KO'),
+    Array('project', 'organization_project', 39, 'Validar longitud máxima SEARCH', 'SEARCH', 'La organización no puede tener más de 100 caracteres', 'organization_project_max_size_KO'),
+    Array('project', 'organization_project', 40, 'Validar formato SEARCH', 'SEARCH', 'La organización solo puede contener letras, espacios, acentos y ñ', 'organization_project_format_KO'),
 
     // Pruebas de Description Project
-    Array('project', 'description_project', 41, 'Validar longitud mínima ADD', 'ADD', 'string', 'description_project_min_size_KO'),
-    Array('project', 'description_project', 42, 'Validar longitud máxima ADD', 'ADD', 'string', 'description_project_max_size_KO'),
-    Array('project', 'description_project', 43, 'Validar formato ADD', 'ADD', 'string', 'description_project_format_KO'),
-    Array('project', 'description_project', 44, 'Validar longitud mínima EDIT', 'EDIT', 'string', 'description_project_min_size_KO'),
-    Array('project', 'description_project', 45, 'Validar longitud máxima EDIT', 'EDIT', 'string', 'description_project_max_size_KO'),
-    Array('project', 'description_project', 46, 'Validar formato EDIT', 'EDIT', 'string', 'description_project_format_KO'),
-    Array('project', 'description_project', 47, 'Validar longitud máxima SEARCH', 'SEARCH', 'string', 'description_project_max_size_KO'),
-    Array('project', 'description_project', 48, 'Validar formato SEARCH', 'SEARCH', 'string', 'description_project_format_KO'),
-
+    Array('project', 'description_project', 41, 'Validar longitud mínima ADD', 'ADD', 'La descripción debe tener al menos 30 caracteres', 'description_project_min_size_KO'),
+    Array('project', 'description_project', 42, 'Validar longitud máxima ADD', 'ADD', 'La descripción no puede tener más de 500 caracteres', 'description_project_max_size_KO'),
+    Array('project', 'description_project', 43, 'Validar formato ADD', 'ADD', 'La descripción contiene caracteres inválidos (Solo admite ASCII)', 'description_project_format_KO'),
+    Array('project', 'description_project', 44, 'Validar longitud mínima EDIT', 'EDIT', 'La descripción debe tener al menos 30 caracteres', 'description_project_min_size_KO'),
+    Array('project', 'description_project', 45, 'Validar longitud máxima EDIT', 'EDIT', 'La descripción no puede tener más de 500 caracteres', 'description_project_max_size_KO'),
+    Array('project', 'description_project', 46, 'Validar formato EDIT', 'EDIT', 'La descripción contiene caracteres inválidos (Solo admite ASCII)', 'description_project_format_KO'),
+    Array('project', 'description_project', 47, 'Validar longitud máxima SEARCH', 'SEARCH', 'La descripción no puede tener más de 500 caracteres', 'description_project_max_size_KO'),
+    Array('project', 'description_project', 48, 'Validar formato SEARCH', 'SEARCH', 'La descripción contiene caracteres inválidos (Solo admite ASCII)', 'description_project_format_KO'),    
     // Pruebas de File Project
-    Array('project', 'nuevo_file_project', 49, 'Validar tamaño máximo archivo ADD', 'ADD', 'string', 'nuevo_file_project_max_size_KO'),
-    Array('project', 'nuevo_file_project', 50, 'Validar tipo archivo ADD', 'ADD', 'string', 'nuevo_file_project_file_type_KO'),
-    Array('project', 'nuevo_file_project', 51, 'Validar longitud mínima nombre ADD', 'ADD', 'string', 'nuevo_file_project_name_min_size_KO'),
-    Array('project', 'nuevo_file_project', 52, 'Validar longitud máxima nombre ADD', 'ADD', 'string', 'nuevo_file_project_name_max_size_KO')
+    Array('project', 'nuevo_file_project', 49, 'Validar tamaño máximo archivo ADD', 'ADD', 'El archivo no puede superar los 2MB', 'nuevo_file_project_max_size_KO'),
+    Array('project', 'nuevo_file_project', 50, 'Validar tipo archivo ADD', 'ADD', 'El archivo debe ser PDF o DOC/DOCX', 'nuevo_file_project_file_type_KO'),
+    Array('project', 'nuevo_file_project', 51, 'Validar longitud mínima nombre ADD', 'ADD', 'El nombre del archivo debe tener al menos 6 caracteres', 'nuevo_file_project_name_min_size_KO'),
+    Array('project', 'nuevo_file_project', 52, 'Validar longitud máxima nombre ADD', 'ADD', 'El nombre del archivo no puede tener más de 100 caracteres', 'nuevo_file_project_name_max_size_KO'),
+    Array('project', 'nuevo_file_project', 53, 'Validar formato nombre archivo ADD', 'ADD', 'El nombre del archivo solo puede contener letras y punto', 'nuevo_file_project_name_format_KO'),
+    Array('project', 'nuevo_file_project', 54, 'Validar archivo requerido ADD', 'ADD', 'Debe seleccionar un archivo real', 'nuevo_file_project_no_file_KO'),
+    Array('project', 'nuevo_file_project', 55, 'Validar longitud mínima nombre EDIT', 'EDIT', 'El nombre del archivo debe tener al menos 6 caracteres', 'nuevo_file_project_name_min_size_KO'),
+    Array('project', 'nuevo_file_project', 56, 'Validar longitud máxima nombre EDIT', 'EDIT', 'El nombre del archivo no puede tener más de 100 caracteres', 'nuevo_file_project_name_max_size_KO'),
+    Array('project', 'nuevo_file_project', 57, 'Validar tipo archivo EDIT', 'EDIT', 'El archivo debe ser PDF o DOC/DOCX', 'nuevo_file_project_file_type_KO'),
+    Array('project', 'nuevo_file_project', 58, 'Validar tamaño máximo archivo EDIT', 'EDIT', 'El archivo no puede superar los 2MB', 'nuevo_file_project_max_size_KO'),
+    Array('project', 'nuevo_file_project', 59, 'Validar formato nombre archivo EDIT', 'EDIT', 'El nombre del archivo solo puede contener letras y punto', 'nuevo_file_project_name_format_KO'),
+
+    // Pruebas de Code Project
+    Array('project', 'code_project', 60, 'Validar longitud mínima ADD', 'ADD', 'El código debe tener al menos 6 caracteres', 'code_project_min_size_KO'),
+    Array('project', 'code_project', 61, 'Validar longitud máxima ADD', 'ADD', 'El código no puede tener más de 50 caracteres', 'code_project_max_size_KO'),
+    Array('project', 'code_project', 62, 'Validar formato ADD', 'ADD', 'El código contiene caracteres inválidos', 'code_project_format_KO'),
+    Array('project', 'code_project', 63, 'Validar longitud mínima EDIT', 'EDIT', 'El código debe tener al menos 6 caracteres', 'code_project_min_size_KO'),
+    Array('project', 'code_project', 64, 'Validar longitud máxima EDIT', 'EDIT', 'El código no puede tener más de 50 caracteres', 'code_project_max_size_KO'),
+    Array('project', 'code_project', 65, 'Validar formato EDIT', 'EDIT', 'El código contiene caracteres inválidos', 'code_project_format_KO'),
+    Array('project', 'code_project', 66, 'Validar longitud máxima SEARCH', 'SEARCH', 'El código no puede tener más de 50 caracteres', 'code_project_max_size_KO'),
+    Array('project', 'code_project', 67, 'Validar formato SEARCH', 'SEARCH', 'El código contiene caracteres inválidos', 'code_project_format_KO'),
+
+    // Pruebas de Acronym Project
+    Array('project', 'acronym_project', 68, 'Validar longitud mínima ADD', 'ADD', 'El acrónimo debe tener al menos 6 caracteres', 'acronym_project_min_size_KO'),
+    Array('project', 'acronym_project', 69, 'Validar longitud máxima ADD', 'ADD', 'El acrónimo no puede tener más de 15 caracteres', 'acronym_project_max_size_KO'),
+    Array('project', 'acronym_project', 70, 'Validar formato ADD', 'ADD', 'El acrónimo contiene caracteres inválidos', 'acronym_project_format_KO'),
+    Array('project', 'acronym_project', 71, 'Validar longitud mínima EDIT', 'EDIT', 'El acrónimo debe tener al menos 6 caracteres', 'acronym_project_min_size_KO'),
+    Array('project', 'acronym_project', 72, 'Validar longitud máxima EDIT', 'EDIT', 'El acrónimo no puede tener más de 15 caracteres', 'acronym_project_max_size_KO'),
+    Array('project', 'acronym_project', 73, 'Validar formato EDIT', 'EDIT', 'El acrónimo contiene caracteres inválidos', 'acronym_project_format_KO'),
+    Array('project', 'acronym_project', 74, 'Validar longitud máxima SEARCH', 'SEARCH', 'El acrónimo no puede tener más de 15 caracteres', 'acronym_project_max_size_KO'),
+    Array('project', 'acronym_project', 75, 'Validar formato SEARCH', 'SEARCH', 'El acrónimo contiene caracteres inválidos', 'acronym_project_format_KO'),    // Pruebas de ID Sampling Methodology
+    Array('project', 'id_sampling_methodology', 76, 'Validar longitud mínima ADD', 'ADD', 'El ID de metodología debe tener al menos 1 dígito', 'id_sampling_methodology_min_size_KO'),
+    Array('project', 'id_sampling_methodology', 77, 'Validar longitud máxima ADD', 'ADD', 'El ID de metodología no puede tener más de 11 dígitos', 'id_sampling_methodology_max_size_KO'),
+    Array('project', 'id_sampling_methodology', 78, 'Validar formato ADD', 'ADD', 'El ID de metodología debe ser numérico', 'id_sampling_methodology_format_KO'),
+    Array('project', 'id_sampling_methodology', 79, 'Validar longitud mínima EDIT', 'EDIT', 'El ID de metodología debe tener al menos 1 dígito', 'id_sampling_methodology_min_size_KO'),
+    Array('project', 'id_sampling_methodology', 80, 'Validar longitud máxima EDIT', 'EDIT', 'El ID de metodología no puede tener más de 11 dígitos', 'id_sampling_methodology_max_size_KO'),
+    Array('project', 'id_sampling_methodology', 81, 'Validar formato EDIT', 'EDIT', 'El ID de metodología debe ser numérico', 'id_sampling_methodology_format_KO'),
+    Array('project', 'id_sampling_methodology', 82, 'Validar longitud máxima SEARCH', 'SEARCH', 'El ID de metodología no puede tener más de 11 dígitos', 'id_sampling_methodology_max_size_KO'),
+    Array('project', 'id_sampling_methodology', 83, 'Validar formato SEARCH', 'SEARCH', 'El ID de metodología debe ser numérico', 'id_sampling_methodology_format_KO')
 );
 
 /**
@@ -290,18 +333,73 @@ window.project_tests = Array(
     Array('project', 'description_project', 41, 82, 'ADD', 'This is a valid description with at least thirty characters long', '', 'OK'),
     Array('project', 'description_project', 42, 83, 'ADD', 'a'.repeat(501), '', 'description_project_max_size_KO'),
     Array('project', 'description_project', 42, 84, 'ADD', 'This is a valid description with at least thirty characters long', '', 'OK'),
-    Array('project', 'description_project', 43, 85, 'ADD', 'IIIIIIIIIIIIIInvalid@Description123', '', 'description_project_format_KO'),
+    Array('project', 'description_project', 43, 85, 'ADD', 'IIIIIIIIII€IIIInvalid@Description123', '', 'description_project_format_KO'),
     Array('project', 'description_project', 43, 86, 'ADD', 'This is a valid description with at least thirty characters long', '', 'OK'),
     Array('project', 'description_project', 44, 87, 'EDIT', 'short', '', 'description_project_min_size_KO'),
     Array('project', 'description_project', 44, 88, 'EDIT', 'This is a valid description with at least thirty characters long', '', 'OK'),
     Array('project', 'description_project', 45, 89, 'EDIT', 'a'.repeat(501), '', 'description_project_max_size_KO'),
     Array('project', 'description_project', 45, 90, 'EDIT', 'This is a valid description with at least thirty characters long', '', 'OK'),
-    Array('project', 'description_project', 46, 91, 'EDIT', 'IIIIIIIIIIIIIInvalidInvalid@Description123', '', 'description_project_format_KO'),
+    Array('project', 'description_project', 46, 91, 'EDIT', 'IIIIII€IIIIIIIInvalidInvalid@Description123', '', 'description_project_format_KO'),
     Array('project', 'description_project', 46, 92, 'EDIT', 'This is a valid description with at least thirty characters long', '', 'OK'),
     Array('project', 'description_project', 47, 93, 'SEARCH', 'a'.repeat(501), '', 'description_project_max_size_KO'),
-    Array('project', 'description_project', 47, 94, 'SEARCH', 'This is a valid description with at least thirty characters long', '', 'OK'),
-    Array('project', 'description_project', 48, 95, 'SEARCH', 'Invalid@Description123', '', 'description_project_format_KO'),
-    Array('project', 'description_project', 48, 96, 'SEARCH', 'This is a valid description with at least thirty characters long', '', 'OK')
+    Array('project', 'description_project', 47, 94, 'SEARCH', 'This is a valid description with at least thirty characters long', '', 'OK'),    
+    Array('project', 'description_project', 48, 95, 'SEARCH', 'Inval€id@Description123', '', 'description_project_format_KO'),
+    Array('project', 'description_project', 48, 96, 'SEARCH', 'This is a valid description with at least thirty characters long', '', 'OK'),
+    
+    // Pruebas Code Project
+    Array('project', 'code_project', 60, 97, 'ADD', 'short', '', 'code_project_min_size_KO'),
+    Array('project', 'code_project', 60, 98, 'ADD', 'Code123', '', 'OK'),
+    Array('project', 'code_project', 61, 99, 'ADD', 'a'.repeat(21), '', 'code_project_max_size_KO'),
+    Array('project', 'code_project', 61, 100, 'ADD', 'ValidCode', '', 'OK'),
+    Array('project', 'code_project', 62, 101, 'ADD', 'Invalid@Code', '', 'code_project_format_KO'),
+    Array('project', 'code_project', 62, 102, 'ADD', 'Valid-Code', '', 'OK'),
+    Array('project', 'code_project', 63, 103, 'EDIT', 'short', '', 'code_project_min_size_KO'),
+    Array('project', 'code_project', 63, 104, 'EDIT', 'Code123', '', 'OK'),
+    Array('project', 'code_project', 64, 105, 'EDIT', 'a'.repeat(21), '', 'code_project_max_size_KO'),
+    Array('project', 'code_project', 64, 106, 'EDIT', 'ValidCode', '', 'OK'),
+    Array('project', 'code_project', 65, 107, 'EDIT', 'Invalid@Code', '', 'code_project_format_KO'),
+    Array('project', 'code_project', 65, 108, 'EDIT', 'Valid-Code', '', 'OK'),
+    Array('project', 'code_project', 66, 109, 'SEARCH', 'a'.repeat(21), '', 'code_project_max_size_KO'),
+    Array('project', 'code_project', 66, 110, 'SEARCH', 'ValidCode', '', 'OK'),
+    Array('project', 'code_project', 67, 111, 'SEARCH', 'Invalid@Code', '', 'code_project_format_KO'),
+    Array('project', 'code_project', 67, 112, 'SEARCH', 'Valid-Code', '', 'OK'),
+
+    // Pruebas Acronym Project
+    Array('project', 'acronym_project', 68, 113, 'ADD', 'AB', '', 'acronym_project_min_size_KO'),
+    Array('project', 'acronym_project', 68, 114, 'ADD', 'ABCDEF', '', 'OK'),
+    Array('project', 'acronym_project', 69, 113,'ADD','El acrónimo no puede tener más de 15 caracteres','', 'acronym_project_max_size_KO'),
+    Array('project', 'acronym_project', 69, 116, 'ADD', 'ACRONYM', '', 'OK'),
+    Array('project', 'acronym_project', 70, 117, 'ADD', 'ACR123', '', 'acronym_project_format_KO'),
+    Array('project', 'acronym_project', 70, 118, 'ADD', 'ACRONYM', '', 'OK'),
+    Array('project', 'acronym_project', 71, 119, 'EDIT', 'AB', '', 'acronym_project_min_size_KO'),
+    Array('project', 'acronym_project', 71, 120, 'EDIT', 'ABCDEF', '', 'OK'),
+    Array('project', 'acronym_project', 72, 121, 'EDIT', 'a'.repeat(16), '', 'acronym_project_max_size_KO'),
+    Array('project', 'acronym_project', 72, 122, 'EDIT', 'ACRONYM', '', 'OK'),
+    Array('project', 'acronym_project', 73, 123, 'EDIT', 'ACR123', '', 'acronym_project_format_KO'),
+    Array('project', 'acronym_project', 73, 124, 'EDIT', 'ACRONYM', '', 'OK'),
+    Array('project', 'acronym_project', 74, 125, 'SEARCH', 'a'.repeat(16), '', 'acronym_project_max_size_KO'),
+    Array('project', 'acronym_project', 74, 126, 'SEARCH', 'ACRONYM', '', 'OK'),
+    Array('project', 'acronym_project', 75, 127, 'SEARCH', 'ACR123', '', 'acronym_project_format_KO'),
+    Array('project', 'acronym_project', 75, 128, 'SEARCH', 'ACRONYM', '', 'OK'),
+
+    // Pruebas ID Sampling Methodology
+    Array('project', 'id_sampling_methodology', 76, 129, 'ADD', '', '', 'id_sampling_methodology_min_size_KO'),
+    Array('project', 'id_sampling_methodology', 76, 130, 'ADD', '123', '', 'OK'),
+    Array('project', 'id_sampling_methodology', 77, 131, 'ADD', '123456789012', '', 'id_sampling_methodology_max_size_KO'),
+    Array('project', 'id_sampling_methodology', 77, 132, 'ADD', '12345', '', 'OK'),
+    Array('project', 'id_sampling_methodology', 78, 133, 'ADD', 'abc123', '', 'id_sampling_methodology_format_KO'),
+    Array('project', 'id_sampling_methodology', 78, 134, 'ADD', '123', '', 'OK'),
+    Array('project', 'id_sampling_methodology', 79, 135, 'EDIT', '', '', 'id_sampling_methodology_min_size_KO'),
+    Array('project', 'id_sampling_methodology', 79, 136, 'EDIT', '123', '', 'OK'),
+    Array('project', 'id_sampling_methodology', 80, 137, 'EDIT', '123456789012', '', 'id_sampling_methodology_max_size_KO'),
+    Array('project', 'id_sampling_methodology', 80, 138, 'EDIT', '12345', '', 'OK'),
+    Array('project', 'id_sampling_methodology', 81, 139, 'EDIT', 'abc123', '', 'id_sampling_methodology_format_KO'),
+    Array('project', 'id_sampling_methodology', 81, 140, 'EDIT', '123', '', 'OK'),
+    Array('project', 'id_sampling_methodology', 82, 141, 'SEARCH', '123456789012', '', 'id_sampling_methodology_max_size_KO'),
+    Array('project', 'id_sampling_methodology', 82, 142, 'SEARCH', '12345', '', 'OK'),
+    Array('project', 'id_sampling_methodology', 83, 143, 'SEARCH', 'abc123', '', 'id_sampling_methodology_format_KO'),
+    Array('project', 'id_sampling_methodology', 83, 144, 'SEARCH', '123', '', 'OK'),
+
 );
 
 /**
@@ -322,7 +420,27 @@ window.project_tests_files = Array(
     
     // Pruebas de nuevo_file_project - validación max_size (longitud del nombre de archivo)
     Array('project', 'nuevo_file_project', 52, 103, 'ADD', 'max_size', 'a'.repeat(101) + '.pdf', 'nuevo_file_project_name_max_size_KO'),
-    Array('project', 'nuevo_file_project', 52, 104, 'ADD', 'max_size', 'validfile.pdf', 'OK')
+    Array('project', 'nuevo_file_project', 52, 104, 'ADD', 'max_size', 'validfile.pdf', 'OK'),
+    
+    // Pruebas de nuevo_file_project - validación format_name_file
+    Array('project', 'nuevo_file_project', 53, 105, 'ADD', 'format_name_file', 'invalid@file.pdf', 'nuevo_file_project_name_format_KO'),
+    Array('project', 'nuevo_file_project', 53, 106, 'ADD', 'format_name_file', 'validfile.pdf', 'OK'),
+    
+    // Pruebas de nuevo_file_project - validación no_file
+    Array('project', 'nuevo_file_project', 54, 107, 'ADD', 'no_file', null, 'nuevo_file_project_no_file_KO'),
+    Array('project', 'nuevo_file_project', 54, 108, 'ADD', 'no_file', 'validfile.pdf', 'OK'),
+    
+    // Pruebas de nuevo_file_project - EDIT validaciones
+    Array('project', 'nuevo_file_project', 55, 109, 'EDIT', 'min_size', 5, 'nuevo_file_project_name_min_size_KO'),
+    Array('project', 'nuevo_file_project', 55, 110, 'EDIT', 'min_size', 10, 'OK'),
+    Array('project', 'nuevo_file_project', 56, 111, 'EDIT', 'max_size', 'a'.repeat(101) + '.pdf', 'nuevo_file_project_name_max_size_KO'),
+    Array('project', 'nuevo_file_project', 56, 112, 'EDIT', 'max_size', 'validfile.pdf', 'OK'),
+    Array('project', 'nuevo_file_project', 57, 113, 'EDIT', 'file_type', 'text/plain', 'nuevo_file_project_file_type_KO'),
+    Array('project', 'nuevo_file_project', 57, 114, 'EDIT', 'file_type', 'application/pdf', 'OK'),
+    Array('project', 'nuevo_file_project', 58, 115, 'EDIT', 'max_size_file', 3000001, 'nuevo_file_project_max_size_KO'),
+    Array('project', 'nuevo_file_project', 58, 116, 'EDIT', 'max_size_file', 1000000, 'OK'),
+    Array('project', 'nuevo_file_project', 59, 117, 'EDIT', 'format_name_file', 'invalid@file.pdf', 'nuevo_file_project_name_format_KO'),
+    Array('project', 'nuevo_file_project', 59, 118, 'EDIT', 'format_name_file', 'validfile.pdf', 'OK')
 );
 
 /**
@@ -378,7 +496,7 @@ window.characteristic_tests = Array(
     // Pruebas Bibliographic Reference
     Array('characteristic', 'bibref_characteristic', 19, 37, 'ADD', 'short', '', 'bibref_characteristic_min_size_KO'),
     Array('characteristic', 'bibref_characteristic', 19, 38, 'ADD', 'Valid Reference Test', '', 'OK'),
-    Array('characteristic', 'bibref_characteristic', 20, 39, 'ADD', 'a'.repeat(201), '', 'bibref_characteristic_max_size_KO'),
+    Array('characteristic', 'bibref_characteristic', 20, 39, 'ADD', 'a'.repeat(300),'', 'bibref_characteristic_max_size_KO'),
     Array('characteristic', 'bibref_characteristic', 20, 40, 'ADD', 'Valid Reference Test', '', 'OK'),
     Array('characteristic', 'bibref_characteristic', 21, 41, 'ADD', 'Invalid$Reference', '', 'bibref_characteristic_format_KO'),
     Array('characteristic', 'bibref_characteristic', 21, 42, 'ADD', 'Valid Reference Test', '', 'OK'),
@@ -390,14 +508,29 @@ window.characteristic_tests = Array(
     Array('characteristic', 'bibref_characteristic', 24, 48, 'EDIT', 'Valid Reference Test', '', 'OK'),
     Array('characteristic', 'bibref_characteristic', 25, 49, 'SEARCH', 'a'.repeat(201), '', 'bibref_characteristic_max_size_KO'),
     Array('characteristic', 'bibref_characteristic', 25, 50, 'SEARCH', 'Valid Reference Test', '', 'OK'),
-    Array('characteristic', 'bibref_characteristic', 26, 51, 'SEARCH', 'Invalid$Reference', '', 'bibref_characteristic_format_KO'),
-    Array('characteristic', 'bibref_characteristic', 26, 52, 'SEARCH', 'Valid Reference Test', '', 'OK'),
-
+    Array('characteristic', 'bibref_characteristic', 26, 51, 'SEARCH', 'Invalid$Reference', '', 'bibref_characteristic_format_KO'),    Array('characteristic', 'bibref_characteristic', 26, 52, 'SEARCH', 'Valid Reference, Study', '', 'OK'),
+    
     // Pruebas File Characteristic (campo de texto)
     Array('characteristic', 'file_characteristic', 27, 53, 'SEARCH', 'a'.repeat(101), '', 'file_characteristic_name_max_size_KO'),
     Array('characteristic', 'file_characteristic', 27, 54, 'SEARCH', 'valid.pdf', '', 'OK'),
     Array('characteristic', 'file_characteristic', 28, 55, 'SEARCH', 'invalid.txt', '', 'file_characteristic_name_format_KO'),
-    Array('characteristic', 'file_characteristic', 28, 56, 'SEARCH', 'valid.pdf', '', 'OK')
+    Array('characteristic', 'file_characteristic', 28, 56, 'SEARCH', 'valid.pdf', '', 'OK'),
+    
+    // Pruebas Data Type Characteristic
+    Array('characteristic', 'data_type_characteristic', 40, 57, 'ADD', 'invalid_type', '', 'data_type_characteristic_format_KO'),
+    Array('characteristic', 'data_type_characteristic', 40, 58, 'ADD', 'number', '', 'OK'),
+    Array('characteristic', 'data_type_characteristic', 41, 59, 'EDIT', 'invalid_type', '', 'data_type_characteristic_format_KO'),
+    Array('characteristic', 'data_type_characteristic', 41, 60, 'EDIT', 'text', '', 'OK'),
+    Array('characteristic', 'data_type_characteristic', 42, 61, 'SEARCH', 'invalid_type', '', 'data_type_characteristic_format_KO'),
+    Array('characteristic', 'data_type_characteristic', 42, 62, 'SEARCH', 'set', '', 'OK'),
+    
+    // Pruebas Category Characteristic
+    Array('characteristic', 'category_characteristic', 43, 63, 'ADD', 'invalid_category', '', 'category_characteristic_format_KO'),
+    Array('characteristic', 'category_characteristic', 43, 64, 'ADD', 'soil_site', '', 'OK'),
+    Array('characteristic', 'category_characteristic', 44, 65, 'EDIT', 'invalid_category', '', 'category_characteristic_format_KO'),
+    Array('characteristic', 'category_characteristic', 44, 66, 'EDIT', 'soil_chem', '', 'OK'),
+    Array('characteristic', 'category_characteristic', 45, 67, 'SEARCH', 'invalid_category', '', 'category_characteristic_format_KO'),
+    Array('characteristic', 'category_characteristic', 45, 68, 'SEARCH', 'soil_bio', '', 'OK')
 );
 
 /**
@@ -416,10 +549,13 @@ window.characteristic_tests_files = Array(
     Array('characteristic', 'nuevo_file_characteristic', 33, 65, 'ADD', 'max_size_file', 20000001, 'nuevo_file_characteristic_max_size_KO'),
     Array('characteristic', 'nuevo_file_characteristic', 33, 66, 'ADD', 'max_size_file', 1000000, 'OK'),
     Array('characteristic', 'nuevo_file_characteristic', 34, 67, 'ADD', 'format_name_file', 'invalid@file.pdf', 'nuevo_file_characteristic_name_format_KO'),
-    Array('characteristic', 'nuevo_file_characteristic', 34, 68, 'ADD', 'format_name_file', 'valid.pdf', 'OK'),    // Pruebas de Nuevo File Characteristic - EDIT
+    Array('characteristic', 'nuevo_file_characteristic', 34, 68, 'ADD', 'format_name_file', 'valid.pdf', 'OK'),
+    // Pruebas de Nuevo File Characteristic - EDIT
     Array('characteristic', 'nuevo_file_characteristic', 35, 69, 'EDIT', 'min_size', 'short', 'nuevo_file_characteristic_name_min_size_KO'),
     Array('characteristic', 'nuevo_file_characteristic', 35, 70, 'EDIT', 'min_size', 'validfile.pdf', 'OK'),
-    Array('characteristic', 'nuevo_file_characteristic', 36, 71, 'EDIT', 'max_size', 'a'.repeat(101), 'nuevo_file_characteristic_name_max_size_KO'),    Array('characteristic', 'nuevo_file_characteristic', 36, 72, 'EDIT', 'max_size', 'validfile.pdf', 'OK'),    Array('characteristic', 'nuevo_file_characteristic', 37, 75, 'EDIT', 'file_type', 'invalid.txt', 'nuevo_file_characteristic_file_type_KO'),
+    Array('characteristic', 'nuevo_file_characteristic', 36, 71, 'EDIT', 'max_size', 'a'.repeat(101), 'nuevo_file_characteristic_name_max_size_KO'),
+    Array('characteristic', 'nuevo_file_characteristic', 36, 72, 'EDIT', 'max_size', 'validfile.pdf', 'OK'),
+    Array('characteristic', 'nuevo_file_characteristic', 37, 75, 'EDIT', 'file_type', 'invalid.txt', 'nuevo_file_characteristic_file_type_KO'),
     Array('characteristic', 'nuevo_file_characteristic', 37, 76, 'EDIT', 'file_type', 'valid.pdf', 'OK'),
     Array('characteristic', 'nuevo_file_characteristic', 38, 77, 'EDIT', 'max_size_file', 2000001, 'nuevo_file_characteristic_max_size_KO'),
     Array('characteristic', 'nuevo_file_characteristic', 38, 78, 'EDIT', 'max_size_file', 1000000, 'OK'),
@@ -438,7 +574,7 @@ window.analysis_preparation_tests = Array(
     // Pruebas ID Analysis Preparation
     Array('analysis_preparation', 'id_analysis_preparation', 1, 1, 'SEARCH', 'abc123', '', 'id_analysis_preparation_format_KO'),
     Array('analysis_preparation', 'id_analysis_preparation', 1, 2, 'SEARCH', '123', '', 'OK'),
-    Array('analysis_preparation', 'id_analysis_preparation', 2, 3, 'SEARCH', '1234567890', '', 'id_analysis_preparation_max_size_KO'),
+    Array('analysis_preparation', 'id_analysis_preparation', 2, 3, 'SEARCH', '123456789000', '', 'id_analysis_preparation_max_size_KO'),
     Array('analysis_preparation', 'id_analysis_preparation', 2, 4, 'SEARCH', '12345', '', 'OK'),
 
     // Pruebas Name Analysis Preparation
@@ -521,8 +657,10 @@ window.analysis_preparation_tests_files = Array(
     Array('analysis_preparation', 'nuevo_file_analysis_preparation', 34, 68, 'ADD', 'format_name_file', 'validfile.pdf', 'OK'),
     Array('analysis_preparation', 'nuevo_file_analysis_preparation', 35, 69, 'EDIT', 'min_size', 'short', 'nuevo_file_analysis_preparation_name_min_size_KO'),
     Array('analysis_preparation', 'nuevo_file_analysis_preparation', 35, 70, 'EDIT', 'min_size', 'validfile.pdf', 'OK'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 36, 71, 'EDIT', 'max_size', 'a'.repeat(101), 'nuevo_file_analysis_preparation_name_max_size_KO'),    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 36, 72, 'EDIT', 'max_size', 'validfile.pdf', 'OK'),    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 37, 75, 'EDIT', 'file_type', 'invalid.txt', 'nuevo_file_analysis_preparation_file_type_KO'),
-    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 37, 76, 'EDIT', 'file_type', 'validfile.pdf', 'OK'),
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 36, 71, 'EDIT', 'max_size', 'a'.repeat(101), 'nuevo_file_analysis_preparation_name_max_size_KO'),
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 36, 72, 'EDIT', 'max_size', 'validfile.pdf', 'OK'),
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 37, 75, 'EDIT', 'file_type', 'invalid.txt', 'nuevo_file_analysis_preparation_file_type_KO'),
+    Array('analysis_preparation', 'nuevo_file_analysis_preparation', 37, 76, 'EDIT', 'file_type', 'valid.pdf', 'OK'),
     Array('analysis_preparation', 'nuevo_file_analysis_preparation', 38, 77, 'EDIT', 'max_size_file', 2000001, 'nuevo_file_analysis_preparation_max_size_KO'),
     Array('analysis_preparation', 'nuevo_file_analysis_preparation', 38, 78, 'EDIT', 'max_size_file', 1000000, 'OK'),
     Array('analysis_preparation', 'nuevo_file_analysis_preparation', 39, 79, 'EDIT', 'format_name_file', 'invalid@file.pdf', 'nuevo_file_analysis_preparation_name_format_KO'),

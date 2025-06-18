@@ -64,9 +64,10 @@ const Textos_ES = {
     'name_characteristic_min_size_KO': 'El nombre debe tener al menos 8 caracteres',
     'name_characteristic_max_size_KO': 'El nombre no puede tener más de 100 caracteres',
 
-    'description_characteristic_format_KO': 'La descripción contiene caracteres inválidos',
+    'description_characteristic_format_KO': 'La descripción solo puede contener letras sin acento y espacios.',
     'description_characteristic_min_size_KO': 'La descripción debe tener al menos 80 caracteres',
     'description_characteristic_max_size_KO': 'La descripción no puede tener más de 5000 caracteres',
+
 
     'data_type_characteristic_format_KO': 'Tipo de dato inválido',
 
@@ -74,7 +75,7 @@ const Textos_ES = {
     'category_characteristic_min_size_KO': 'La categoría debe tener al menos 6 caracteres',
     'category_characteristic_max_size_KO': 'La categoría no puede tener más de 50 caracteres',
 
-    'bibref_characteristic_format_KO': 'La referencia bibliográfica contiene caracteres inválidos',
+    'bibref_characteristic_format_KO': 'La referencia bibliográfica solo puede contener letras con acentos, ñ, espacios y signos de puntuación',
     'bibref_characteristic_min_size_KO': 'La referencia debe tener al menos 16 caracteres',
     'bibref_characteristic_max_size_KO': 'La referencia no puede tener más de 200 caracteres',
 
@@ -177,7 +178,7 @@ const Textos_ES = {
     'organization_project_min_size_KO': 'La organización debe tener al menos 6 caracteres',
     'organization_project_max_size_KO': 'La organización no puede tener más de 100 caracteres',
 
-    'description_project_format_KO': 'La descripción contiene caracteres inválidos',
+    'description_project_format_KO': 'La descripción contiene caracteres inválidos(Solo admite ASCII)',
     'description_project_min_size_KO': 'La descripción debe tener al menos 30 caracteres',
     'description_project_max_size_KO': 'La descripción no puede tener más de 500 caracteres',
 
@@ -216,7 +217,7 @@ const Textos_ES = {
     // Mensajes de error para Analysis Preparation
     'id_analysis_preparation_format_KO': 'El ID debe ser numérico',
     'id_analysis_preparation_min_size_KO': 'El ID debe tener al menos 1 dígito',
-    'id_analysis_preparation_max_size_KO': 'El ID no puede tener más de 9 dígitos',
+    'id_analysis_preparation_max_size_KO': 'El ID no puede tener más de 11 dígitos',
 
     'name_analysis_preparation_format_KO': 'El nombre solo puede contener letras y espacios',
     'name_analysis_preparation_min_size_KO': 'El nombre debe tener al menos 8 caracteres',

@@ -2,7 +2,8 @@ window.estructura_project = {
     attributes_list: ['id_project', 'name_project', 'start_date_project', 'end_date_project', 'responsable_project', 'organization_project', 'description_project', 'file_project','nuevo_file_project', 'code_project', 'acronym_project','id_sampling_methodology'],
     columnas_visibles_tabla : ['id_project', 'name_project','start_date_project','end_date_project', 'file_project'],
     columnas_modificadas_tabla: ['file_project', 'start_date_project', 'end_date_project'],
-    attributes: {        id_project: {
+    attributes: {        
+        id_project: {
             html: {
                 tag: 'input',
                 type: 'text',
@@ -25,7 +26,7 @@ window.estructura_project = {
             is_not_null: true,
             validation_rules: {
                 ADD:{
-                    min_size : [15, 'name_project_min_size_KO'],
+                    min_size : [8, 'name_project_min_size_KO'],
                     max_size: [100,'name_project_max_size_KO'],
                     reg_exp : ['^[A-Za-z\\s]+$', 'name_project_format_KO'],
                 },                EDIT:{
@@ -38,7 +39,8 @@ window.estructura_project = {
                     reg_exp : ['^[A-Za-z\\s]*$', 'name_project_format_KO'],
                 }
             }
-        },        start_date_project: {
+        },        
+        start_date_project: {
             html: {
                 tag: 'input',
                 type: 'text',
@@ -58,7 +60,8 @@ window.estructura_project = {
                     valid_date : "start_date_project_valid_KO"
                 }
             }
-        },        end_date_project: {
+        },        
+        end_date_project: {
             html: {
                 tag: 'input',
                 type: 'text',
@@ -137,16 +140,16 @@ window.estructura_project = {
                 ADD:{
                     min_size : [30, 'description_project_min_size_KO'],
                     max_size: [500,'description_project_max_size_KO'],
-                    reg_exp : ['^[A-Za-zÀ-ÿñÑ\\s]+$', 'description_project_format_KO'],
+                    reg_exp : ['^[\\x20-\\x7E]*$', 'description_project_format_KO'],
                 },
                 EDIT:{
                     min_size : [30, 'description_project_min_size_KO'],
                     max_size: [500,'description_project_max_size_KO'],
-                    reg_exp : ['^[A-Za-zÀ-ÿñÑ\\s]*$', 'description_project_format_KO'],
+                    reg_exp : ['^[\\x20-\\x7E]*$', 'description_project_format_KO'],
                 },
                 SEARCH:{
                     max_size: [500,'description_project_max_size_KO'],
-                    reg_exp : ['^[A-Za-zÀ-ÿñÑ\\s]*$', 'description_project_format_KO'],
+                    reg_exp : ['^[\\x20-\\x7E]*$', 'description_project_format_KO'],
                 }
             }
         },
@@ -169,17 +172,17 @@ window.estructura_project = {
                 tag: 'input',
                 type: 'file',
             },
-            is_not_null: true,
+            is_not_null: true,            
             validation_rules: {
                 ADD:{
+                    no_file: "nuevo_file_project_no_file_KO",
                     min_size : [6, 'nuevo_file_project_name_min_size_KO'],
                     max_size: [100,'nuevo_file_project_name_max_size_KO'],                    
-                    no_file: "nuevo_file_project_no_file_KO",
-                    file_type: [["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"],"nuevo_file_project_file_type_KO"],
+                        pe: [["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"],"nuevo_file_project_file_type_KO"],
                     max_size_file: [2097152, "nuevo_file_project_max_size_KO"],
                     format_name_file: ["^[A-Za-z]+$","nuevo_file_project_name_format_KO"],
                     
-                },               
+                },
                 EDIT:{
                     min_size : [6, 'nuevo_file_project_name_min_size_KO'],
                     max_size: [100,'nuevo_file_project_name_max_size_KO'],
@@ -218,7 +221,8 @@ window.estructura_project = {
                 type: 'text',
             },
             is_not_null: true,
-            validation_rules: {                ADD:{
+            validation_rules: {                
+                ADD:{
                     min_size : [3, 'acronym_project_min_size_KO'],
                     max_size: [15,'acronym_project_max_size_KO'],
                     reg_exp : ['^[A-Za-z]+$', 'acronym_project_format_KO'],

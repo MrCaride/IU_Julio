@@ -10,9 +10,10 @@ window.estructura_analysis_preparation = {
             },
             is_pk: true,
             is_not_null: true,
-            is_autoincrement: true,            validation_rules: {
+            is_autoincrement: true,            
+            validation_rules: {
                 SEARCH:{
-                    max_size: [9,'id_analysis_preparation_max_size_KO'],
+                    max_size: [11,'id_analysis_preparation_max_size_KO'],
                     reg_exp :  ['^[0-9]*$', 'id_analysis_preparation_format_KO'],
                 }
             }
@@ -104,16 +105,15 @@ window.estructura_analysis_preparation = {
                 tag: 'input',
                 type: 'file',
             },
-            is_not_null: true,
-            validation_rules: {
+            is_not_null: true,            validation_rules: {
                 ADD:{
+                    no_file: "nuevo_file_analysis_preparation_no_file_KO",
                     min_size : [7, 'nuevo_file_analysis_preparation_name_min_size_KO'],
                     max_size: [100,'nuevo_file_analysis_preparation_name_max_size_KO'],
-                    no_file: "nuevo_file_analysis_preparation_no_file_KO",
                     file_type :[["application/pdf", "application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document"],"nuevo_file_analysis_preparation_file_type_KO"],
                     max_size_file: [ 2000000, "nuevo_file_analysis_preparation_max_size_KO"],
                     format_name_file: ["^[A-Za-z.]+$","nuevo_file_analysis_preparation_name_format_KO"]
-                },                
+                },
                 EDIT:{
                     min_size : [7, 'nuevo_file_analysis_preparation_name_min_size_KO'],
                     max_size: [100,'nuevo_file_analysis_preparation_name_max_size_KO'],

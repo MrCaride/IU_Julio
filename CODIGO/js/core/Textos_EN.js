@@ -117,7 +117,8 @@ const Textos_EN = {
     'name_project_max_size_KO': 'Name exceeds maximum number of characters (100)',
     'name_project_format_KO': 'Name can only contain letters and spaces (no accents or ñ)',
 
-    // Description Project    
+    // Description Project
+    'description_project_format_KO': 'Description invalid (Only ASCII admited)',
     'description_project_min_size_KO': 'Description must have at least 30 characters',
     'description_project_max_size_KO': 'Description exceeds maximum number of characters (500)',
 
@@ -180,13 +181,13 @@ const Textos_EN = {
     // Error messages for Analysis Preparation
     'id_analysis_preparation_format_KO': 'ID must be numeric',
     'id_analysis_preparation_min_size_KO': 'ID must have at least 1 digit',
-    'id_analysis_preparation_max_size_KO': 'ID cannot have more than 9 digits',
+    'id_analysis_preparation_max_size_KO': 'ID cannot have more than 11 digits',
 
     'name_analysis_preparation_format_KO': 'Name can only contain letters and spaces',
     'name_analysis_preparation_min_size_KO': 'Name must be at least 8 characters',
     'name_analysis_preparation_max_size_KO': 'Name cannot be longer than 100 characters',
 
-    'description_analysis_preparation_format_KO': 'Description contains invalid characters',
+    'description_analysis_preparation_format_KO': 'Description can only include letters, ñ, spaces, and punctuation marks',
     'description_analysis_preparation_min_size_KO': 'Description must have at least 80 characters',
     'description_analysis_preparation_max_size_KO': 'Description cannot be longer than 5000 characters',
 
@@ -217,17 +218,16 @@ const Textos_EN = {
     'name_characteristic_min_size_KO': 'Name must be at least 8 characters',
     'name_characteristic_max_size_KO': 'Name cannot be longer than 100 characters',
 
-    'description_characteristic_format_KO': 'Description contains invalid characters',
+    'description_characteristic_format_KO': 'Description can only include unaccented letters and spaces',
     'description_characteristic_min_size_KO': 'Description must have at least 80 characters',
     'description_characteristic_max_size_KO': 'Description cannot be longer than 5000 characters',
 
     'data_type_characteristic_format_KO': 'Invalid data type',
 
-    'category_characteristic_format_KO': 'Category can only contain letters and spaces',
-    'category_characteristic_min_size_KO': 'Category must have at least 6 characters',
-    'category_characteristic_max_size_KO': 'Category cannot be longer than 50 characters',
+    'category_characteristic_format_KO': 'Invalid category',
 
-    'bibref_characteristic_format_KO': 'Bibliographic reference contains invalid characters',
+
+    'bibref_characteristic_format_KO': 'Bibliographic reference can only include accented letters, ñ, spaces, and punctuation marks.',
     'bibref_characteristic_min_size_KO': 'Reference must have at least 16 characters',
     'bibref_characteristic_max_size_KO': 'Reference cannot be longer than 200 characters',
 

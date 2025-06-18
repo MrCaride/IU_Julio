@@ -3,6 +3,7 @@ class DOM_validations extends DOM_class {
         super();
         this.validacionesatomicas = new Validaciones_Atomicas();
     }    
+    
     load_validations(accion) {
         let campos = document.forms['IU_form'].elements;
         
@@ -23,7 +24,9 @@ class DOM_validations extends DOM_class {
             // Agregar el evento
             campo.addEventListener(eventType, this._validateField);
         }
-    }      comprobarCampo(campo, accion) {
+    }      
+    
+    comprobarCampo(campo, accion) {
         const estructura = eval('estructura_' + this.entidad);
         
         if (!estructura || !estructura.attributes[campo]) {
