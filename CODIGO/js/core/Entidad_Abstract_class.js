@@ -68,7 +68,7 @@ class Entidad_Abstract_class extends DOM_class {
     change_value_IU(atributo, valor) {
         return valor;
     }    async SEARCH() {
-        await this.access_functions.peticionBackGeneral('IU_form', this.entidad, 'SEARCH')
+        await this.access_functions.back_request('IU_form', this.entidad, 'SEARCH')
         .then((respuesta) => {
             // Limpiar el formulario usando el método genérico
             this.cargar_formulario();
@@ -86,7 +86,7 @@ class Entidad_Abstract_class extends DOM_class {
             setLang();
         });
     }    async ADD() {
-        await this.access_functions.peticionBackGeneral('IU_form', this.entidad, 'ADD')
+        await this.access_functions.back_request('IU_form', this.entidad, 'ADD')
         .then((respuesta) => {
             if (respuesta['ok']) {
                 if (respuesta['datos']) {
@@ -105,7 +105,7 @@ class Entidad_Abstract_class extends DOM_class {
             setLang();
         });
     }async DELETE() {
-        await this.access_functions.peticionBackGeneral('IU_form', this.entidad, 'DELETE')
+        await this.access_functions.back_request('IU_form', this.entidad, 'DELETE')
         .then((respuesta) => {
             if (respuesta['ok']) {
                 this.cargar_formulario();
@@ -115,7 +115,7 @@ class Entidad_Abstract_class extends DOM_class {
             setLang();
         });
     }    async EDIT() {
-        await this.access_functions.peticionBackGeneral('IU_form', this.entidad, 'EDIT')
+        await this.access_functions.back_request('IU_form', this.entidad, 'EDIT')
         .then((respuesta) => {
             if (respuesta['ok']) {
                 if (respuesta['datos']) {

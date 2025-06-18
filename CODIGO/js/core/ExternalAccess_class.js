@@ -2,7 +2,7 @@ class ExternalAccess {
     constructor() {
     }    
     
-    peticionBackGeneral(formulario, controlador, action, datosextra = null) {
+    back_request(formulario, controlador, action, datosextra = null) {
         var datos;
         
         if (formulario === '') {
